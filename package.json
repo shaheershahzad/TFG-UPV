@@ -1,0 +1,27 @@
+{
+  "name": "tfg-upv",
+  "version": "1.0.0",
+  "description": "Software Engineering final year project 2020.",
+  "main": "app.js",
+  "scripts": {
+    "server": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaheershahzad/TFG-UPV.git"
+  },
+  "author": "Shaheer Shahzad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaheershahzad/TFG-UPV/issues"
+  },
+  "homepage": "https://github.com/shaheershahzad/TFG-UPV#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.13",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
