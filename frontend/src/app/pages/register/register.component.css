@@ -1,0 +1,9 @@
+body {
+    background-color: #ecf6f8;
+}
+
+#registerButton {
+    width: 50%;
+    background-color: #008dc9;
+    font-weight: bold;
+}
