@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { DataSharingService } from '../../services/data-sharing.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,9 @@ import { AuthService } from '../../services/auth.service';
 
 export class HomeComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private dataSharingService: DataSharingService) { }
+
+  public isLogged: boolean = false;
 
   ngOnInit(): void {
     /*document.addEventListener('DOMContentLoaded', function() {
@@ -17,7 +20,10 @@ export class HomeComponent implements OnInit {
       var instances = M.Carousel.init(elems);
     });*/
 
-    this.refreshNavbar();
+    //this.refreshNavbar();
+    this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
+      this.isLogged = isLogged;
+    });
   }
 
   refreshNavbar(): void {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserI } from '../../interfaces/user';
 import { Form } from '@angular/forms';
+import { DataSharingService } from '../../services/data-sharing.service'
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ import { Form } from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private dataSharingService: DataSharingService) { }
   
   public isLogged: boolean = false;
 
@@ -21,14 +22,16 @@ export class RegisterComponent implements OnInit {
       var instances = M.Datepicker.init(elems);
     });*/
     this.checkLoggedUser();
+    this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
+      this.isLogged = isLogged;
+    });
   }
 
   onRegister(form): void{
     console.log("Register: ", form.value);
     this.authService.register(form.value).subscribe(res => {
-      console.log("Exito");
-      //this.router.navigateByUrl("/");
-      //location.href = 
+      this.dataSharingService.changeLoggedUser(true);
+      this.router.navigateByUrl("/");
     }, err => {
       console.log("Error: ", err);
     });

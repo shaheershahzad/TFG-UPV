@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserI } from '../../interfaces/user';
 import { Form } from '@angular/forms';
+import { DataSharingService } from '../../services/data-sharing.service'
 
 @Component({
   selector: 'app-login',
@@ -11,19 +12,22 @@ import { Form } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private dataSharingService: DataSharingService) { }
 
   public isLogged: boolean = false;
 
   ngOnInit(): void {
     this.checkLoggedUser();
+    this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
+      this.isLogged = isLogged;
+    });
   }
 
   onLogin(form): void{
     console.log("Login: ", form.value);
     this.authService.login(form.value).subscribe(res => {
-      console.log("Exito");
       this.router.navigateByUrl("/");
+      this.dataSharingService.changeLoggedUser(true);
     }, err => {
       console.log("Error: ", err);
     });

@@ -19,6 +19,7 @@ import { MatSliderModule } from '@angular/material/slider';
 // Services
 import { AuthService } from '../app/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DataSharingService } from './services/data-sharing.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSliderModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    DataSharingService
   ],
   bootstrap: [AppComponent]
 })
