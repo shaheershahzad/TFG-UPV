@@ -1,10 +1,12 @@
 <nav style="background-color: #008dc9;padding: 0 1em;">
-    <div class="nav-wrapper">
-        <a href="/" class="brand-logo" style="height: 100%;"><img style="height: 100%;" src="https://www.who.int/ResourcePackages/WHO/assets/dist/images/logos/en/h-logo-white.svg" /></a>
+    <div class="nav-wrapper container">
+        <a href="/" class="brand-logo" style="height: 100%;font-size: 0;"><img style="height: 80%;vertical-align: middle;" src="https://www.who.int/ResourcePackages/WHO/assets/dist/images/logos/en/h-logo-white.svg" /></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="/">Home</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
+        <li><a href="/about">About us</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/login" *ngIf="!isLogged">Login</a></li>
+        <li><a href="/register" *ngIf="!isLogged">Register</a></li>
+        <li id="logoutButton" (click)="logout();" style="cursor: pointer;display: none;"><i class="material-icons">exit_to_app</i></li>
         </ul>
     </div>
 </nav>

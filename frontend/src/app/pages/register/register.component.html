@@ -44,36 +44,40 @@
 <div class="container center-align">
     <div class="row">
         <div class="col s6 push-s3">
-        <h2 class="header" style="color: #333;">Register</h2>
+        <h3 class="header" style="color: #333;">Create an account</h3>
         <div class="card-panel">
             <div class="row">
-                <form class="col s12">
+                <form class="col s12" #frmRegister="ngForm" (ngSubmit)="onRegister(frmRegister)">
                     <div class="row">
-                        <div class="input-field col s6">
-                          <input id="first_name" type="text" class="validate">
+                        <!--<div class="input-field col s6">
+                          <input id="first_name" type="text" class="validate" name="first_name" ngModel required>
                           <label for="first_name">First Name</label>
                         </div>
                         <div class="input-field col s6">
-                            <input id="last_name" type="text" class="validate">
+                            <input id="last_name" type="text" class="validate" name="last_name" ngModel required>
                             <label for="last_name">Last Name</label>
+                        </div>-->
+                        <div class="input-field col s12">
+                          <input id="name" type="text" class="validate" name="name" ngModel required>
+                          <label for="name">Full Name</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="register_email" type="text" class="validate" name="email" ngModel required>
+                            <label for="register_email">Email</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="login_email" type="text" class="validate">
-                            <label for="login_email">Email</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="password" type="password" class="validate">
+                            <input id="password" type="password" class="validate" name="password" ngModel required>
                             <label for="password">Password</label>
                         </div>
                     </div>
-                    <a id="registerButton" class="waves-effect waves-light btn s6">Register</a>
+                    <button id="registerButton" class="btn waves-effect waves-light s6" type="submit" name="action">Register</button>
                 </form>
             </div>
-            
+            <a href="/login">Already have an account?</a>
         </div>
         </div>
   </div>

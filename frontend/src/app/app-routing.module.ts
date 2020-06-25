@@ -6,11 +6,15 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 
+// Services
+import { AuthService } from '../app/services/auth.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent, canActivate : [AuthService] },
   { path: '**', pathMatch: 'full', redirectTo: 'login' }
 ];
 

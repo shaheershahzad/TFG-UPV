@@ -16,6 +16,8 @@ DB();
 const router = express.Router();
 //const { mongoose } = require("./config/database");
 
+app.use(cors());
+
 app.set("port", properties.PORT);
 
 app.use("/api", router);
@@ -36,7 +38,7 @@ app.use(router);
 // Middlewares -> Funciones para tratar los datos
 /*app.use(morgan("dev"));
 app.use(express.json());*/
-app.use(cors({origin: "http://localhost:4200"}));
+//app.use(cors({origin: "http://localhost:4200"}));
 
 // Routes -> Rutas de nuestro servidor
 //app.use("/api/employees", require("./routes/employee.routes"));
