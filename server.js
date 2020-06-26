@@ -1,7 +1,7 @@
 "use strict"
 const cors = require("cors");
 //Auth
-const authRoutes = require("./server/routes/auth.routes");
+const userRoutes = require("./server/routes/user.routes");
 const express = require("express");
 const app = express();
 //const morgan = require("morgan");
@@ -21,7 +21,7 @@ app.use(cors());
 app.set("port", properties.PORT);
 
 app.use("/api", router);
-authRoutes(router);
+userRoutes(router);
 router.get("/", (req, res) => {
     res.send("Hello from home");
 });

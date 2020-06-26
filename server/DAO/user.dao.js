@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const authSchema = require("../models/auth.model");
+const userSchema = require("../models/user.model");
 
-authSchema.statics = {
+userSchema.statics = {
     create: function(data, callback){
         const user = new this(data);
         user.save(callback);
@@ -11,5 +11,5 @@ authSchema.statics = {
     }
 }
 
-const authModel = mongoose.model("Users", authSchema);
-module.exports = authModel;
+const userModel = mongoose.model("Users", userSchema);
+module.exports = userModel;

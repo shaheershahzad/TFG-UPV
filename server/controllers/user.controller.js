@@ -1,4 +1,4 @@
-const authDAO = require("../DAO/auth.dao");
+const userDAO = require("../DAO/user.dao");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const SECRET_KEY = "secretkey123456";
@@ -10,7 +10,7 @@ exports.createUser = (req, res, next) => {
         password: bcrypt.hashSync(req.body.password)
     }
 
-    authDAO.create(newUser, (err, user) => {
+    userDAO.create(newUser, (err, user) => {
         
         if(err && err.code == 11000){
             return res.status(409).send("Email already exists");
@@ -44,7 +44,7 @@ exports.loginUser = (req, res, next) => {
         password: req.body.password
     }
 
-    authDAO.findOne({ email: userData.email }, (err, user) => {
+    userDAO.findOne({ email: userData.email }, (err, user) => {
         if(err){
             return res.status(500).send("Server error");
         }
