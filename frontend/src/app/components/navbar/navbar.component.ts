@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
   logout(){
     this.authService.logout();
     //this.router.navigateByUrl("/");
-    //window.location.reload();
+    window.location.reload();
     this.dataSharingService.changeLoggedUser(false);
   }
 
