@@ -1,51 +1,43 @@
-const projectDAO = require("../DAO/project.dao");
+const projectModel = require("../models/project.model");
+const projectController = {};
 
-exports.createProject = (req, res, next) => {
-    const newProject = {
+projectController.getProjects = async (req, res) => {
+    const projects = await projectModel.find();
+    res.json(projects);
+};
+
+projectController.createProject = async (req, res) => {
+    const project = new projectModel({
+        name: req.body.name,
+        description: req.body.description
+    });
+    await project.save();
+    res.json({
+        "status":"Project saved"
+    });
+};
+
+projectController.getProject = async (req, res) => {
+    const project = await projectModel.findById(req.params.id);
+    res.json(project);
+};
+
+projectController.updateProject = async (req, res) => {
+    const project = {
         name: req.body.name,
         description: req.body.description
     }
-
-    projectDAO.createProject(newProject, (err, project) => {
-        
-        if(err && err.code == 11000){
-            return res.status(409).send("Project name already exists");
-        }
-        
-        if(err){
-            return res.status(500).send("Server error");
-        }
-
-        const dataProject = {
-            name: project.name,
-            description: project.description
-        }
-
-        //response
-        res.send({ dataProject });
+    await projectModel.findByIdAndUpdate(req.params.id, {$set: project}, { new: true});
+    res.json({
+        "status":"Project updated"
     });
-}
+};
 
-exports.getProjects = (req, res, next) => {
-    const projectData = {
-        name: req.body.name
-    }
-
-    projectDAO.find((err, project) => {
-        if(err){
-            return res.status(500).send("Server error");
-        }
-
-        if(!project){
-            // No projects available
-            res.status(409).send("Something is wrong");
-        }else{
-            const dataProject = {
-                name: project.name,
-                description: project.description,
-            }
-
-            res.send({ dataProject });
-        }
+projectController.deleteProject = async (req, res) => {
+    await projectModel.findByIdAndRemove(req.params.id);
+    res.json({
+        "status":"Project deleted"
     });
-}
+};
+
+module.exports = projectController;

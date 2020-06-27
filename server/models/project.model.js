@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 mongoose.set("useCreateIndex", true);
+mongoose.set("useUnifiedTopology", true);
 
 const projectSchema = new Schema({
     name: {
@@ -19,4 +20,5 @@ const projectSchema = new Schema({
     timestamps: true
 });
 
-module.exports = projectSchema;
+const projectModel = mongoose.model("Projects", projectSchema);
+module.exports = projectModel;
