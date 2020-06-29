@@ -20,6 +20,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { AuthService } from '../app/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataSharingService } from './services/data-sharing.service';
+import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { DataSharingService } from './services/data-sharing.service';
     ContactComponent,
     LoginComponent,
     RegisterComponent,
-    FooterComponent
+    FooterComponent,
+    BackofficeComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@ const databaseURL = require("./properties").DB;
 //const URI = "mongodb://localhost/TFG-UPV";
 
 module.exports = () => {
-    mongoose.connect(databaseURL, {useNewUrlParser: true})
+    mongoose.connect(databaseURL, { useNewUrlParser: true, useFindAndModify: false })
     .then(db => console.log(`DB is connected ${databaseURL}`))
     .catch(err => console.log(err));
 
