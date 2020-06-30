@@ -21,17 +21,18 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.onCheckUser();
-    this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
+    this.onCheckUser();
+    /*this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
       this.isLogged = isLogged;
-    });
+    });*/
   }
 
   logout(){
     this.authService.logout();
     //this.router.navigateByUrl("/");
+    this.isLogged = false;
     window.location.reload();
-    this.dataSharingService.changeLoggedUser(false);
+    //this.dataSharingService.changeLoggedUser(false);
   }
 
   onCheckUser(): void {

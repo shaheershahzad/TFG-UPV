@@ -4,11 +4,14 @@ body {
 
 #registerButton {
     width: 50%;
-    background-color: #008dc9;
     font-weight: bold;
 }
 
-.datepicker-date-display .datepicker-table td.is-selected .datepicker-cancel .datepicker-clear .datepicker-today .datepicker-done {
+form > .row{
+    margin-bottom: 0;
+}
+
+/*.datepicker-date-display .datepicker-table td.is-selected .datepicker-cancel .datepicker-clear .datepicker-today .datepicker-done {
     color: #008dc9;
     background-color: #008dc9 !important;
-}
+}*/

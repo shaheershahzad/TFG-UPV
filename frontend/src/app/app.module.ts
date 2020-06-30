@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,13 +14,29 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 //Material
-import { MatSliderModule } from '@angular/material/slider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatBadgeModule } from '@angular/material/badge';
+
+//Materialize
 
 // Services
 import { AuthService } from '../app/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataSharingService } from './services/data-sharing.service';
 import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
+
+const MaterialComponents = [
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatIconModule,
+  MatProgressSpinnerModule,
+  MatToolbarModule,
+  MatBadgeModule
+]
 
 @NgModule({
   declarations: [
@@ -40,7 +56,8 @@ import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.co
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatSliderModule
+    ReactiveFormsModule,
+    MaterialComponents
   ],
   providers: [
     AuthService,

@@ -1,3 +1,11 @@
 #logoutButton {
     padding: 0 15px;
 }
+
+.navbar {
+    justify-content: space-between;
+}
+
+span {
+    padding-right: 1rem;
+}

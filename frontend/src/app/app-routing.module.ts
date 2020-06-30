@@ -15,8 +15,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'contact', component: ContactComponent, canActivate : [AuthService] },
-  { path: 'backoffice', component: BackofficeComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'backoffice', component: BackofficeComponent, canActivate : [AuthService] },
   { path: '**', pathMatch: 'full', redirectTo: 'login' }
 ];
 
