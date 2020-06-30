@@ -28,6 +28,7 @@ export class RegisterComponent implements OnInit {
       var instances = M.Datepicker.init(elems, options);
     });
     this.checkLoggedUser();
+    (<HTMLInputElement> document.getElementById("notifications")).checked = true;
     /*this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
       this.isLogged = isLogged;
     });*/
@@ -35,13 +36,14 @@ export class RegisterComponent implements OnInit {
 
   onRegister(form): void{
     console.log("Register: ", form.value);
-    this.authService.register(form.value).subscribe(res => {
+    //console.log((<HTMLInputElement> document.getElementById("notifications")).value);
+    /*this.authService.register(form.value).subscribe(res => {
       //this.dataSharingService.changeLoggedUser(true);
       //this.router.navigateByUrl("/");
       window.location.reload();
     }, err => {
       console.log("Error: ", err);
-    });
+    });*/
   }
 
   checkLoggedUser(): void {
