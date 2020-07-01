@@ -1,0 +1,17 @@
+body {
+    background-color: #ecf6f8;
+}
+
+#registerButton {
+    width: 50%;
+    font-weight: bold;
+}
+
+form > .row{
+    margin-bottom: 0;
+}
+
+/*.datepicker-date-display .datepicker-table td.is-selected .datepicker-cancel .datepicker-clear .datepicker-today .datepicker-done {
+    color: #008dc9;
+    background-color: #008dc9 !important;
+}*/

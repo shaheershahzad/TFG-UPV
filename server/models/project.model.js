@@ -1,0 +1,24 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+mongoose.set("useCreateIndex", true);
+mongoose.set("useUnifiedTopology", true);
+
+const projectSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
+    description: {
+        type: String,
+        required: true,
+        trim: true,
+    }
+},
+{
+    timestamps: true
+});
+
+const projectModel = mongoose.model("Projects", projectSchema);
+module.exports = projectModel;

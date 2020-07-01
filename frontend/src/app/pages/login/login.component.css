@@ -1,0 +1,12 @@
+body {
+    background-color: #ecf6f8;
+}
+
+form > .row{
+    margin-bottom: 0;
+}
+
+#loginButton {
+    width: 50%;
+    font-weight: bold;
+}

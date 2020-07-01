@@ -1,0 +1,50 @@
+<div class="container center-align">
+    <!--<form class="col-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <input type="text" placeholder="Email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Se necesita introducir un email</div>
+                <div *ngIf="f.email.errors.email">Email debe ser una dirección email</div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <input type="password" placeholder="Password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Se require introducir una contraseña</div>
+                    <div *ngIf="f.password.errors.minlength">La contraseña debe tener mínimo 6 caracteres</div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary mr-1">Iniciar sesión</button>
+        </div>
+    </form>-->
+    <div class="row">
+        <div class="col s6 push-s3">
+        <h3 class="header" style="color: #333;">Login</h3>
+        <div class="card-panel">
+            <div class="row">
+                <form class="col s12" #frmLogin="ngForm" (ngSubmit)="onLogin(frmLogin)">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="login_email" type="text" class="validate" name="email" ngModel required>
+                            <label for="login_email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" type="password" class="validate" name="password" ngModel required>
+                            <label for="password">Password</label>
+                        </div>
+                    </div>                    
+                    <button id="loginButton" class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">Login</button>
+                </form>
+            </div>
+            <a href="/register">Create and account here</a>
+            <br />
+            <a href="/reset-password">Forgot password?</a>
+        </div>
+        </div>
+  </div>
+</div>

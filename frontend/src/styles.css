@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #03a9f4 !important;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #03a9f4 !important;
+    box-shadow: 0 1px 0 0 #03a9f4 !important;
+}
+
+/* Datepicker colors */
+.datepicker-table td.is-today {
+    color: #ffffff;
+}
+
+.datepicker-cancel, .datepicker-clear, .datepicker-today, .datepicker-done, .dropdown-content li>a, .dropdown-content li>span {
+    color: #03a9f4 !important;
+}
+
+.datepicker-date-display {
+    background-color:#03a9f4 !important;
+  }
+.datepicker-weekday-display {
+    background-color:#03a9f4 !important;
+}
+.datepicker-day--selected, .datepicker-day--selected:hover, .datepicker--focused .datepicker-day--selected, .datepicker-table td.is-selected, .datepicker-table td.is-today {
+    background-color:#03a9f4 !important;
+}
+
+button:focus.month-next {
+    background-color:#03a9f4 !important;
+}
+
+button.btn-flat:focus {
+    color: #000 !important;
+}
+
+/* Sqitch button */
+.switch label input[type=checkbox]:checked+.lever, .switch label input[type=checkbox]:checked+.lever:after {
+    background-color:#03a9f4 !important;
+}
