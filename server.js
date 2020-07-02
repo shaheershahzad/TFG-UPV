@@ -16,16 +16,16 @@ const projectRoutes = require("./server/routes/project.routes");
 const cors = require("cors");
 const properties = require("./server/config/properties");
 
+// Middlewares -> Funciones para tratar los datos
+app.use(cors());
+app.use(express.json());
+
 //Arrancar mongo
 const DB = require("./server/config/database");
 DB();
 
 const router = express.Router();
 //const { mongoose } = require("./config/database");
-
-// Middlewares -> Funciones para tratar los datos
-app.use(cors());
-app.use(express.json());
 
 app.set("port", properties.PORT);
 

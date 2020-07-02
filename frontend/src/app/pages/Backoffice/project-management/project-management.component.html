@@ -1,1 +1,19 @@
-<p>project-management works!</p>
+<div class="container">
+    <h3 class="main-heading">Project Management</h3>
+    <table class="responsive-table stripped highlight centered">
+      <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <tr *ngFor="let project of projectService.projects">
+          <td>{{ project.name }}</td>
+          <td>{{ project.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

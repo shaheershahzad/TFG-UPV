@@ -20,6 +20,12 @@ const user2Schema = new Schema({
         required: true,
         trim: true
     },
+    role: {
+        type: String,
+        required: true,
+        default: "registered",
+        trim: true
+    },
     birthday: {
         type: String,
         required: true,

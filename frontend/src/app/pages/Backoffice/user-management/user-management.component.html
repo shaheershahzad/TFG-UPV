@@ -1,29 +1,24 @@
 <div class="container">
-    <table class="responsive-table stripped highlight">
-        <thead>
-          <tr>
-              <th>Name</th>
-              <th>Item Name</th>
-              <th>Item Price</th>
-          </tr>
-        </thead>
+  <h3 class="main-heading">User Managemenet</h3>
+  <table class="responsive-table stripped highlight centered">
+    <thead>
+      <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Birthday</th>
+          <th>Newsletter</th>
+      </tr>
+    </thead>
 
-        <tbody>
-          <tr>
-            <td>Alvin</td>
-            <td>Eclair</td>
-            <td>$0.87</td>
-          </tr>
-          <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-          </tr>
-          <tr>
-            <td>Jonathan</td>
-            <td>Lollipop</td>
-            <td>$7.00</td>
-          </tr>
-        </tbody>
-      </table>
+    <tbody>
+      <tr *ngFor="let user of userService.users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.birthday }}</td>
+        <td>{{ user.newsletter }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

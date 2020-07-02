@@ -8,6 +8,7 @@ exports.createUser = (req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password),
+        role: req.body.role,
         birthday: req.body.birthday,
         newsletter: req.body.newsletter
     }

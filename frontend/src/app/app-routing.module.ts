@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'backoffice', component: BackofficeComponent, canActivate : [AuthService] },
   { path: 'backoffice/users', component: UserManagementComponent, canActivate : [AuthService] },
-  { path: 'backoffice/projects-management', component: ProjectManagementComponent, canActivate : [AuthService] },
+  { path: 'backoffice/projects', component: ProjectManagementComponent, canActivate : [AuthService] },
   { path: '**', pathMatch: 'full', redirectTo: 'login' }
 ];
 
