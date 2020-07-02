@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 mongoose.set("useCreateIndex", true);
+mongoose.set("useUnifiedTopology", true);
 
-const userSchema = new Schema({
+const user2Schema = new Schema({
     name: {
         type: String,
         required: true,
@@ -35,4 +36,5 @@ const userSchema = new Schema({
     timestamps: true
 });
 
-module.exports = userSchema;
+const user2Model = mongoose.model("Users2", user2Schema);
+module.exports = user2Model;

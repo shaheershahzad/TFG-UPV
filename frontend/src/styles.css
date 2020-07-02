@@ -3,6 +3,13 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.main-heading {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: solid 1px #e8e8e8;
+    color: #3c4245;
+}
+
 /* label focus color */
 .input-field input[type=text]:focus + label {
     color: #03a9f4 !important;

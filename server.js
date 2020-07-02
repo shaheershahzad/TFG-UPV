@@ -7,6 +7,8 @@ const app = express();
 //Routes
 //User
 const userRoutes = require("./server/routes/user.routes");
+//User2
+const user2Routes = require("./server/routes/user2.routes");
 //Project
 const projectRoutes = require("./server/routes/project.routes");
 
@@ -23,16 +25,19 @@ const router = express.Router();
 
 // Middlewares -> Funciones para tratar los datos
 app.use(cors());
+app.use(express.json());
 
 app.set("port", properties.PORT);
 
 app.use("/api/users", router);
 userRoutes(router);
 
+app.use("/api/users2", router);
+user2Routes(router);
+
 app.use("/api/projects", router);
 projectRoutes(router);
 
-app.use(express.json());
 app.use(router);
 
 // Starting the server
