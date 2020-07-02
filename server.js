@@ -15,6 +15,7 @@ const projectRoutes = require("./server/routes/project.routes");
 // Settings -> Configuración del servidor
 const cors = require("cors");
 const properties = require("./server/config/properties");
+app.set("port", properties.PORT);
 
 // Middlewares -> Funciones para tratar los datos
 app.use(cors());
@@ -27,18 +28,23 @@ DB();
 const router = express.Router();
 //const { mongoose } = require("./config/database");
 
-app.set("port", properties.PORT);
-
 app.use("/api/users", router);
 userRoutes(router);
 
-app.use("/api/users2", router);
-user2Routes(router);
+/*app.use("/api/users2", router);
+user2Routes(router);*/
 
-app.use("/api/projects", router);
-projectRoutes(router);
+/*app.use("/api/projects", router);
+projectRoutes(router);*/
+
+app.get('/', (req, res) => {
+    res.send('MAIN!')
+});
 
 app.use(router);
+//app.use('/api/users', userRoutes);
+app.use('/api/users2', user2Routes);
+app.use('/api/projects', projectRoutes);
 
 // Starting the server
 app.listen(app.get("port"), () => {

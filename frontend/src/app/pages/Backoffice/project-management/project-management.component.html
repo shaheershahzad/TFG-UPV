@@ -5,6 +5,7 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Actions</th>
         </tr>
       </thead>
   
@@ -12,6 +13,7 @@
         <tr *ngFor="let project of projectService.projects">
           <td>{{ project.name }}</td>
           <td>{{ project.description }}</td>
+          <td><i class="material-icons small">edit</i> <i class="material-icons small">delete</i></td>
         </tr>
       </tbody>
     </table>
