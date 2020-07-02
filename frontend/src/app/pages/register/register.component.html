@@ -57,36 +57,42 @@
                             <label for="last_name">Last Name</label>
                         </div>-->
                         <div class="input-field col s12">
-                          <input id="name" type="text" class="validate" name="name" ngModel required>
+                          <input id="name" [(ngModel)]="user.name" type="text" class="validate" name="name" ngModel required>
                           <label for="name">Full Name</label>
                       </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="register_email" type="text" class="validate" name="email" ngModel required>
+                            <input id="register_email" [(ngModel)]="user.email" type="text" class="validate" name="email" ngModel required>
                             <label for="register_email">Email</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="password" type="password" class="validate" name="password" ngModel required>
+                            <input id="password" type="password" [(ngModel)]="user.password" class="validate" name="password" ngModel required>
                             <label for="password">Password</label>
                         </div>
                     </div>
                     <div class="row">
                       <div class="input-field col s12">
-                          <input id="birthday" type="text" class="datepicker validate" name="birthday" ngModel required>
+                          <input id="birthday" type="text" [(ngModel)]="user.birthday" class="datepicker validate" name="birthday" ngModel required>
                           <label for="birthday">Birthday</label>
                       </div>
                   </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                        <input id="role" type="text" [(ngModel)]="user.role" class="validate" name="role" ngModel required>
+                        <label for="role">Role</label>
+                    </div>
+                </div>
                   <div class="row" style="margin-bottom: 1rem;">
                     <label>Receive notifications?</label>
                     <div class="input-field col s12">
                       <div class="switch">
                         <label>
                           No
-                          <input id="notifications" type="checkbox" name="notifications" ngModel checked>
-                          <span class="lever"></span>
+                          <input id="notifications" [(ngModel)]="user.newsletter" type="checkbox" name="notifications" ngModel>
+                          <span class="lever" checked></span>
                           Yes
                         </label>
                       </div>
