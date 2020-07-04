@@ -1,4 +1,4 @@
-<footer class="page-footer light-blue">
+<footer class="page-footer light-blue darken-4">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -8,17 +8,17 @@
         <div class="col l4 offset-l2 s12">
           <h5 class="white-text">Páginas</h5>
           <ul>
-            <li><a class="grey-text text-lighten-3" href="/about">About us</a></li>
-            <li><a class="grey-text text-lighten-3" href="/contact">Contact</a></li>
-            <li><a class="grey-text text-lighten-3" href="/login">Login</a></li>
-            <li><a class="grey-text text-lighten-3" href="/register">Register</a></li>
+            <li><a class="grey-text text-lighten-3" href="/about">Sobre nosotros</a></li>
+            <li><a class="grey-text text-lighten-3" href="/contact">Contacto</a></li>
+            <li><a class="grey-text text-lighten-3" href="/login" *ngIf="!isLogged">Iniciar sesión</a></li>
+            <li><a class="grey-text text-lighten-3" href="/register" *ngIf="!isLogged">Crear cuenta</a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      © <span id="copyright-year"></span> All rights reserved
+      © <span id="copyright-year"></span> Todos los derechos reservados
       <a class="grey-text text-lighten-4 right" href="#!">Facebook</a>
       </div>
     </div>

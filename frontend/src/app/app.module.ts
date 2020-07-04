@@ -31,6 +31,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../app/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataSharingService } from './services/data-sharing.service';
+import { DonateComponent } from './pages/donate/donate.component';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -53,7 +54,8 @@ const MaterialComponents = [
     FooterComponent,
     BackofficeComponent,
     UserManagementComponent,
-    ProjectManagementComponent
+    ProjectManagementComponent,
+    DonateComponent
   ],
   imports: [
     BrowserModule,

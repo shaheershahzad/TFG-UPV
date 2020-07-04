@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from'../../services/auth.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,12 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  public isLogged: boolean;
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.onCheckUser();
     let date = new Date();
     let year = date.getFullYear();
     document.getElementById("copyright-year").innerHTML = year.toString();
+  }
+
+  onCheckUser(): void {
+    if(this.authService.loggedIn()){
+      this.isLogged = true;
+    }else{
+      this.isLogged = false;
+    }
   }
 
 }
