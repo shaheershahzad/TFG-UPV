@@ -33,9 +33,11 @@ export class ProjectManagementComponent implements OnInit {
   addProject(form): void{
     this.projectService.addProject(form.value).subscribe( res => {
       this.clearForm(form);
-      M.toast({html: "Proyecto guardado"});
+      M.toast({html: "Proyecto creado"});
       this.getProjects();
-    });
+    }, ( err => {
+      console.log("Error al crear el proyecto.");
+    }));
   }
 
   viewProjectDetails(form, project: Project) {
@@ -67,7 +69,9 @@ export class ProjectManagementComponent implements OnInit {
     this.projectService.deleteProject((<HTMLInputElement>document.querySelector('#projectID')).value).subscribe( res => {
       M.toast({html: "Proyecto borrado"});
       this.getProjects();
-    });
+    }, ( err => {
+      console.log("Error al borrar el proyecto.");
+    }));
   }
 
   clearForm(form) {
