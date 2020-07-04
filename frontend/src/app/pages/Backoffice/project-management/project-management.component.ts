@@ -17,14 +17,8 @@ export class ProjectManagementComponent implements OnInit {
   ngOnInit(): void {
 
     document.addEventListener('DOMContentLoaded', function() {
-      var options = {
-        onCloseEnd: function(){
-          (<HTMLInputElement>document.querySelector('#projectFormButton')).style.display = "block";
-          (<HTMLInputElement>document.querySelector('#projectFormButton')).innerText = "Añadir";
-        }
-      }
       var elems = document.querySelectorAll('.modal');
-      var instances = M.Modal.init(elems, options);
+      var instances = M.Modal.init(elems);
     });
 
     this.getProjects();
@@ -33,55 +27,58 @@ export class ProjectManagementComponent implements OnInit {
   getProjects(){
     this.projectService.getProjects().subscribe(res => {
       this.projectService.projects = res as Project[];
-      console.log(res);
     });
   }
 
   addProject(form): void{
-    console.log(form.value);
-    (<HTMLInputElement>document.querySelector('#modalTitle')).innerText = "Añadir Proyecto";
-    (<HTMLInputElement>document.querySelector('#projectFormButton')).innerText = "Añadir";
     this.projectService.addProject(form.value).subscribe( res => {
       this.clearForm(form);
-      M.toast({html: "Project saved"});
+      M.toast({html: "Proyecto guardado"});
       this.getProjects();
-      console.log(res);
     });
   }
 
   viewProjectDetails(form, project: Project) {
-    this.projectService.selectedProject = project;
-    //this.setFormValues(form, project);
-    (<HTMLInputElement>document.querySelector('#modalTitle')).innerText = "Detalles Proyecto";
-    (<HTMLInputElement>document.querySelector('#projectFormButton')).style.display = "none";
-    document.getElementById("addProjectAction").click();
+    //this.projectService.selectedProject = project;
+    this.setFormValues(form, project);
   }
 
-  editProject(project: Project) {
-    this.projectService.selectedProject = project;
-    (<HTMLInputElement>document.querySelector('#modalTitle')).innerText = "Actualizar Proyecto";
-    (<HTMLInputElement>document.querySelector('#projectFormButton')).innerText = "Actualizar";
-    document.getElementById("addProjectAction").click();
+  editProject(form, project: Project) {
+    this.setFormValues(form, project);
   }
 
-  showDeleteProjectConfirmation(id: String) {
+  updateProject(form) {
+    this.projectService.updateProject(form.value).subscribe( res => {
+      M.toast({html: "Proyecto actualizado"});
+      this.getProjects();
+    }, ( err => {
+      console.log("Error al actualizar los datos del proyecto.");
+    }));
+  }
+
+  showDeleteProjectConfirmation(id: string, name: string) {
+    (<HTMLInputElement>document.querySelector('#projectID')).value = id;
+    (<HTMLInputElement>document.querySelector('#projectNameDelete')).innerText = name;
     document.getElementById("deleteProjectAction").click();
   }
 
-  deleteProject(id: String) {
-    console.log(id);
+  deleteProject() {
+    console.log("Deleting project: "+(<HTMLInputElement>document.querySelector('#projectID')).value);
+    this.projectService.deleteProject((<HTMLInputElement>document.querySelector('#projectID')).value).subscribe( res => {
+      M.toast({html: "Proyecto borrado"});
+      this.getProjects();
+    });
   }
 
   clearForm(form) {
     form.reset();
     this.projectService.selectedProject = new Project();
-    (<HTMLInputElement>document.querySelector('#projectFormButton')).innerText = "Añadir";
-    (<HTMLInputElement>document.querySelector('#projectFormButton')).style.display = "block";
     this.getProjects();
   }
 
   setFormValues(form, project: Project){
     form.setValue({
+      _id: project._id,
       name: project.name,
       description: project.description
     });

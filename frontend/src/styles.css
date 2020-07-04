@@ -37,6 +37,11 @@ td i {
     cursor: pointer;
 }
 
+/* Links color: a */
+a {
+    color: #01579b;
+}
+
 /* label focus color */
 .input-field input[type=text]:focus + label {
     color: #03a9f4 !important;
