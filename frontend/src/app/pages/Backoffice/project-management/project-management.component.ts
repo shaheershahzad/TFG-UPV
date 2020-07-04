@@ -65,12 +65,11 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   showDeleteProjectConfirmation(id: String) {
-    console.log(id);
     document.getElementById("deleteProjectAction").click();
   }
 
   deleteProject(id: String) {
-
+    console.log(id);
   }
 
   clearForm(form) {
