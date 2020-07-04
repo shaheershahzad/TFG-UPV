@@ -17,8 +17,14 @@ export class ProjectManagementComponent implements OnInit {
   ngOnInit(): void {
 
     document.addEventListener('DOMContentLoaded', function() {
+      var options = {
+        onCloseEnd: function(){
+          (<HTMLInputElement>document.querySelector('#projectFormButton')).style.display = "block";
+          (<HTMLInputElement>document.querySelector('#projectFormButton')).innerText = "Añadir";
+        }
+      }
       var elems = document.querySelectorAll('.modal');
-      var instances = M.Modal.init(elems);
+      var instances = M.Modal.init(elems, options);
     });
 
     this.getProjects();
@@ -33,6 +39,8 @@ export class ProjectManagementComponent implements OnInit {
 
   addProject(form): void{
     console.log(form.value);
+    (<HTMLInputElement>document.querySelector('#modalTitle')).innerText = "Añadir Proyecto";
+    (<HTMLInputElement>document.querySelector('#projectFormButton')).innerText = "Añadir";
     this.projectService.addProject(form.value).subscribe( res => {
       this.clearForm(form);
       M.toast({html: "Project saved"});
@@ -44,22 +52,33 @@ export class ProjectManagementComponent implements OnInit {
   viewProjectDetails(form, project: Project) {
     this.projectService.selectedProject = project;
     //this.setFormValues(form, project);
+    (<HTMLInputElement>document.querySelector('#modalTitle')).innerText = "Detalles Proyecto";
+    (<HTMLInputElement>document.querySelector('#projectFormButton')).style.display = "none";
     document.getElementById("addProjectAction").click();
   }
 
   editProject(project: Project) {
     this.projectService.selectedProject = project;
-    (<HTMLInputElement>document.querySelector('#addProjectButton')).innerText = "Actualizar";
+    (<HTMLInputElement>document.querySelector('#modalTitle')).innerText = "Actualizar Proyecto";
+    (<HTMLInputElement>document.querySelector('#projectFormButton')).innerText = "Actualizar";
     document.getElementById("addProjectAction").click();
   }
 
-  deleteProject(id: String) {
+  showDeleteProjectConfirmation(id: String) {
     console.log(id);
+    document.getElementById("deleteProjectAction").click();
+  }
+
+  deleteProject(id: String) {
+
   }
 
   clearForm(form) {
     form.reset();
     this.projectService.selectedProject = new Project();
+    (<HTMLInputElement>document.querySelector('#projectFormButton')).innerText = "Añadir";
+    (<HTMLInputElement>document.querySelector('#projectFormButton')).style.display = "block";
+    this.getProjects();
   }
 
   setFormValues(form, project: Project){

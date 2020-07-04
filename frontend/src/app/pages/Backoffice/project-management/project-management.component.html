@@ -1,6 +1,7 @@
 <div class="container">
     <h3 class="main-heading">Project Management</h3>
     <a id="addProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#projectForm"><i class="material-icons">add</i></a>
+    <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
     <table class="responsive-table stripped highlight centered">
       <thead>
         <tr>
@@ -16,33 +17,45 @@
           <td class="hidden">{{ project._id }}</td>
           <td>{{ project.name }}</td>
           <td>{{ project.description }}</td>
-          <td><i class="material-icons" (click)="viewProjectDetails(frmAddProject, project)">content_paste</i><i class="material-icons" (click)="editProject(project)">edit</i><i class="material-icons" (click)="deleteProject(project._id)">delete</i></td>
+          <td><i class="material-icons" (click)="viewProjectDetails(frmProject, project)">content_paste</i><i class="material-icons" (click)="editProject(project)">edit</i><i class="material-icons" (click)="showDeleteProjectConfirmation(project._id)">delete</i></td>
         </tr>
       </tbody>
     </table>
 
-    <!-- Modals -->
+    <!-- Project Form Modals -->
     <div id="projectForm" class="modal">
       <div class="modal-content">
-        <h4 class="main-heading">Añadir Proyecto</h4>
+        <h4 class="main-heading" id="modalTitle">Añadir Proyecto</h4>
           <div class="row">
-            <form class="col s12" #frmAddProject="ngForm">
+            <form class="col s12" #frmProject="ngForm">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
-                    <label for="name">Nombre</label>
+                    <input id="name" placeholder="Name" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
+                    <!--<label for="name">Nombre</label>-->
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description"  type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
-                      <label for="description">Descripción</label>
+                      <input id="description" placeholder="Description" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
+                      <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
-              <button style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddProject)">Cancelar</button> 
-              <button id="addProjectButton" class="btn waves-effect waves-light light-blue darken-4 s6 right modal-close" (click)="addProject(frmAddProject)" name="action">Añadir</button>
+              <button id="closeModalButton" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmProject)">Cancelar</button> 
+              <button id="projectFormButton" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addProject(frmProject)" name="action">Añadir</button>
           </form>
         </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div id="deleteProjectModal" class="modal">
+      <div class="modal-content">
+        <h5>¿Seguro que quiere borrar el proyecto?</h5>
+        <p>El proyecto se borrará permanentemente.</p>
+      </div>
+      <div class="modal-footer">
+        <button style="margin-right: 0.2rem;" class="btn btn-neutral modal-close">Cancelar</button>
+        <button class="btn waves-effect waves-light red darken-4 right modal-close">Borrar</button>
       </div>
     </div>
   </div>
