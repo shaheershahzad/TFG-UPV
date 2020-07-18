@@ -27,4 +27,13 @@ export class FooterComponent implements OnInit {
     }
   }
 
+  subscribeEmail(){
+    let email = "";
+    email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
+    if(email.length > 0 && email.indexOf("@") > 0){
+      console.log(email);
+    }else{
+      console.log("Correo incorrecto");
+    }
+  }
 }

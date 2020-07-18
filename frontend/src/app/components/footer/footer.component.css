@@ -1,3 +1,29 @@
 .page-footer {
-    margin-top: 2rem;
+    /*margin-top: 2rem;*/
+}
+
+#newsletterSection {
+    padding: 0.5rem 0;
+}
+
+#newsletterSection .row {
+    padding: 1rem 0;
+}
+
+#newsletterSection .container {
+    border-bottom: solid 1px #e8e8e8;
+}
+
+#newsletterSection .container i, #newsletterSection .container label {
+    color: white;
+}
+
+#newsletterSection .container input {
+    border-bottom: 1px solid white;
+}
+
+#subscribeNewsletter {
+    background-color: #ffd60c;
+    color: black;
+    font-weight: bold;
 }
