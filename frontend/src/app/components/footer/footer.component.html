@@ -2,12 +2,15 @@
   <div class="container">
     <h5 class="white-text brand-logo center">SUSCRÍBETE A NUESTRO BOLETÍN</h5>
     <div class="row">
+      <form #frmNewsletter="ngForm" (ngSubmit)="addSubscriber(frmNewsletter)">
       <div class="input-field col s8 offset-s2">
         <i class="material-icons prefix">email</i>
-        <input id="newsletterEmailInput" type="text" class="validate">
+        <input id="newsletterEmailInput" name="email" #email="ngModel" [(ngModel)]="newsletterService.selectedSubscriber.email" type="text" class="validate" required>
         <label for="newsletterEmailInput">Correo Electrónico</label>
       </div>
-      <a id="subscribeNewsletter" class="waves-effect waves-light btn col s4 offset-s4" (click)="addSubscriber()">SUSCRIBIRSE</a>
+      <!--<a id="subscribeNewsletter" class="waves-effect waves-light btn col s4 offset-s4" (click)="addSubscriber(frmNewsletter)">SUSCRIBIRSE</a>-->
+      <button id="subscribeNewsletter" class="btn waves-effect waves-light col s4 offset-s4" type="submit" name="action">SUSCRIBIRSE</button>
+    </form>
     </div>
   </div>
 </div>

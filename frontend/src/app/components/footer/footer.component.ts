@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from'../../services/auth.service';
 import { NewsletterService } from'../../services/newsletter.service';
 import { Newsletter } from 'src/app/models/newsletter';
-import { FormBuilder } from '@angular/forms';
+
+declare const M: any;
 
 @Component({
   selector: 'app-footer',
@@ -30,25 +31,16 @@ export class FooterComponent implements OnInit {
     }
   }
 
-  addSubscriber(){
+  addSubscriber(form){
     let email = "";
-    email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
-    if(email.length > 0 && email.indexOf("@") > 0){
-      let subscriber = {
-        email: email
-      }
 
-      let formBuilder = new FormBuilder();
-      formBuilder.group({
-        email: email
-      });
-      console.log(formBuilder.control["email"].value);
-      
-      /*this.newsletterService.addSubscriber(formBuilder.control["email"].value).subscribe( res => {
-        console.log(email);
+    email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
+    if(email.length > 0 && email.indexOf("@") > 0){      
+      this.newsletterService.addSubscriber(form.value).subscribe( res => {
+        M.toast({html: "Se ha suscrito correctamente"});
       }, err => {
         console.log("Error al añadir suscriptor");
-      });*/
+      });
     }else{
       console.log("Correo incorrecto");
     }
