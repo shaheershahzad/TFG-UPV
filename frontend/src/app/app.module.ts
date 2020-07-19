@@ -32,6 +32,7 @@ import { AuthService } from '../app/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataSharingService } from './services/data-sharing.service';
 import { DonateComponent } from './pages/donate/donate.component';
+import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -55,7 +56,8 @@ const MaterialComponents = [
     BackofficeComponent,
     UserManagementComponent,
     ProjectManagementComponent,
-    DonateComponent
+    DonateComponent,
+    NewsletterManagementComponent
   ],
   imports: [
     BrowserModule,

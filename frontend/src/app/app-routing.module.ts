@@ -9,6 +9,7 @@ import { DonateComponent } from './pages/donate/donate.component';
 import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
 import { UserManagementComponent } from './pages/Backoffice/user-management/user-management.component';
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
+import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
 
 // Services
 import { AuthService } from '../app/services/auth.service';
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'backoffice', component: BackofficeComponent, canActivate : [AuthService] },
   { path: 'backoffice/users', component: UserManagementComponent, canActivate : [AuthService] },
   { path: 'backoffice/projects', component: ProjectManagementComponent, canActivate : [AuthService] },
+  { path: 'backoffice/newsletter', component: NewsletterManagementComponent, canActivate : [AuthService] },
   { path: '**', pathMatch: 'full', redirectTo: 'login' }
 ];
 
