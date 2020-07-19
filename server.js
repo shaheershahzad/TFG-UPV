@@ -11,6 +11,8 @@ const userRoutes = require("./server/routes/user.routes");
 const user2Routes = require("./server/routes/user2.routes");
 //Project
 const projectRoutes = require("./server/routes/project.routes");
+//Newsletter
+const newsletterRoutes = require("./server/routes/newsletter.routes");
 
 // Settings -> Configuración del servidor
 const cors = require("cors");
@@ -45,6 +47,7 @@ app.use(router);
 //app.use('/api/users', userRoutes);
 app.use('/api/users2', user2Routes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 // Starting the server
 app.listen(app.get("port"), () => {

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from'../../services/auth.service';
+import { NewsletterService } from'../../services/newsletter.service';
+import { Newsletter } from 'src/app/models/newsletter';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-footer',
@@ -10,7 +13,7 @@ export class FooterComponent implements OnInit {
 
   public isLogged: boolean;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public newsletterService: NewsletterService) { }
 
   ngOnInit(): void {
     this.onCheckUser();
@@ -27,11 +30,25 @@ export class FooterComponent implements OnInit {
     }
   }
 
-  subscribeEmail(){
+  addSubscriber(){
     let email = "";
     email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
     if(email.length > 0 && email.indexOf("@") > 0){
-      console.log(email);
+      let subscriber = {
+        email: email
+      }
+
+      let formBuilder = new FormBuilder();
+      formBuilder.group({
+        email: email
+      });
+      console.log(formBuilder.control["email"].value);
+      
+      /*this.newsletterService.addSubscriber(formBuilder.control["email"].value).subscribe( res => {
+        console.log(email);
+      }, err => {
+        console.log("Error al añadir suscriptor");
+      });*/
     }else{
       console.log("Correo incorrecto");
     }
