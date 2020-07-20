@@ -24,6 +24,10 @@ export class ProjectManagementComponent implements OnInit {
     this.getProjects();
   }
 
+  handleFileInput(files: FileList) {
+    console.log(files);
+  }
+
   getProjects(){
     this.projectService.getProjects().subscribe(res => {
       this.projectService.projects = res as Project[];
@@ -31,13 +35,14 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   addProject(form): void{
-    this.projectService.addProject(form.value).subscribe( res => {
+    console.log(form.value);
+    /*this.projectService.addProject(form.value).subscribe( res => {
       this.clearForm(form);
       M.toast({html: "Proyecto creado"});
       this.getProjects();
     }, ( err => {
       console.log("Error al crear el proyecto.");
-    }));
+    }));*/
   }
 
   viewProjectDetails(form, project: Project) {

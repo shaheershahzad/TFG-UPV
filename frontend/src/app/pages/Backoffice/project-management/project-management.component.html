@@ -47,7 +47,7 @@
               <div class="file-field input-field">
                 <div class="btn">
                   <span>Ficheros</span>
-                  <input type="file" multiple>
+                  <input id="files" type="file" multiple (change)="handleFileInput($event.target.files)" name="files" >
                 </div>
                 <div class="file-path-wrapper">
                   <input class="file-path validate" type="text" placeholder="Sube los ficheros del proyecto">
