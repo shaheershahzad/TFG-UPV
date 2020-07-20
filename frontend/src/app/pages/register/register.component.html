@@ -38,9 +38,18 @@
                       </div>
                   </div>
                   <div class="row">
-                    <div class="input-field col s12">
+                    <!--<div class="input-field col s12">
                         <input id="role" type="text" [(ngModel)]="user.role" class="validate" name="role" ngModel required>
                         <label for="role">Tipo de usuario</label>
+                    </div>-->
+                    <div class="input-field col s12">
+                      <select id="roleSelect" [(ngModel)]="user.role" class="validate" name="role" ngModel required>
+                        <option value="superadmin">Superadmin</option>
+                        <option value="admin">Admin</option>
+                        <option value="doner">Doner</option>
+                        <option value="registered" selected>Registered</option>
+                      </select>
+                      <label>Tipo de usuario</label>
                     </div>
                 </div>
                   <div class="row" style="margin-bottom: 1rem;">

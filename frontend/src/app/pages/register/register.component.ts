@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     document.addEventListener('DOMContentLoaded', function() {
-
       var date = new Date();
       var year = date.getFullYear();
       var month = date.getMonth();
@@ -48,6 +47,12 @@ export class RegisterComponent implements OnInit {
       }
       var instances = M.Datepicker.init(elems, options);
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems);
+    });
+
     this.checkLoggedUser();
     (<HTMLInputElement> document.getElementById("notifications")).checked = true;
     /*this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
@@ -57,6 +62,7 @@ export class RegisterComponent implements OnInit {
 
   onRegister(form): void{
     this.user.birthday = (<HTMLInputElement> document.getElementById("birthday")).value;
+    this.user.role = (<HTMLInputElement> document.getElementById("roleSelect")).value;
     form.setValue({
       name: this.user.name,
       email: this.user.email,
@@ -65,13 +71,14 @@ export class RegisterComponent implements OnInit {
       role: this.user.role,
       notifications: this.user.newsletter
     });
-    this.authService.register(form.value).subscribe(res => {
+    /*this.authService.register(form.value).subscribe(res => {
       //this.dataSharingService.changeLoggedUser(true);
       //this.router.navigateByUrl("/");
       window.location.reload();
     }, err => {
       console.log("Error: ", err);
-    });
+    });*/
+    console.log(form.value);
   }
 
   checkLoggedUser(): void {
@@ -79,6 +86,10 @@ export class RegisterComponent implements OnInit {
       this.isLogged = true;
       this.router.navigateByUrl("/");
     }
+  }
+
+  registerFormValidation(){
+    
   }
 
 }
