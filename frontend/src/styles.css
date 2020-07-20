@@ -8,6 +8,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: none;
 }
 
+.btn {
+    background-color: #01579b;
+}
+
+.btn:hover {
+    background-color: #4fc3f7;
+}
+
 /* Neutral button style */
 .btn-neutral {
     background-color: white;
@@ -21,6 +29,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .btn-neutral:hover {
     background-color: #eceff1;
+}
+
+/* Progress bar */
+.progress {
+    background-color: #e1f5fe;
+}
+
+.progress .indeterminate {
+    background-color: #01579b;
 }
 
 /* Main heading style */

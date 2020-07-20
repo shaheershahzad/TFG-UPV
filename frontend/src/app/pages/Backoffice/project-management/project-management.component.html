@@ -34,18 +34,32 @@
             <form class="col s12" #frmAddProject="ngForm">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Name" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
+                    <input id="name" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
                     <!--<label for="name">Nombre</label>-->
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Description" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
+                      <input id="description" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
                       <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
-              <button id="closeAddProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddProject)">Cancelar</button> 
-              <button id="addProjectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addProject(frmAddProject)" name="action">Añadir</button>
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span>Ficheros</span>
+                  <input type="file" multiple>
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Sube los ficheros del proyecto">
+                </div>
+                <div class="progress">
+                  <div class="indeterminate"></div>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 3rem;">
+                <button id="closeAddProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddProject)">Cancelar</button> 
+                <button id="addProjectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addProject(frmAddProject)" name="action">Añadir</button>
+              </div>
           </form>
         </div>
       </div>
@@ -60,18 +74,20 @@
               <input id="id" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Name" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
+                    <input id="name" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
                     <!--<label for="name">Nombre</label>-->
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Description" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
+                      <input id="description" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
                       <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
-              <button id="closeEditProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditProject)">Cancelar</button> 
-              <button id="editPprojectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateProject(frmEditProject)" name="action">Actualizar</button>
+              <div class="row">
+                <button id="closeEditProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditProject)">Cancelar</button> 
+                <button id="editPprojectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateProject(frmEditProject)" name="action">Actualizar</button>
+              </div>
           </form>
         </div>
       </div>
@@ -86,13 +102,13 @@
               <input id="id" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Name" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
+                    <input id="name" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
                     <label for="name">Nombre</label>
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Description" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
+                      <input id="description" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
                       <label for="description">Descripción</label>
                   </div>
               </div>
