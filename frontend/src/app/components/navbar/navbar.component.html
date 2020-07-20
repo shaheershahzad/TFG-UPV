@@ -17,7 +17,7 @@
         <!--<li><a href="/backoffice">Backoffice</a></li>-->
         <li><a href="/login" *ngIf="!isLogged">Iniciar sesión</a></li>
         <!--<li><a href="/register" *ngIf="!isLogged">Register</a></li>-->
-        <li><a href="/backoffice"><i class="material-icons small">settings</i></a></li>
+        <li><a href="/backoffice" *ngIf="isSuperadmin || isAdmin"><i class="material-icons small">settings</i></a></li>
         <li id="logoutButton" (click)="logout();" style="cursor: pointer;" *ngIf="isLogged"><i class="material-icons">exit_to_app</i></li>
         </ul>
     </div>

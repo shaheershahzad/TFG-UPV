@@ -33,7 +33,8 @@ exports.createUser = (req, res, next) => {
             name: user.name,
             email: user.email,
             accessToken: accessToken,
-            expiresIn: expiresIn
+            expiresIn: expiresIn,
+            role: user.role
         }
 
         //response
@@ -65,7 +66,8 @@ exports.loginUser = (req, res, next) => {
                     name: user.name,
                     email: user.email,
                     accessToken: accessToken,
-                    expiresIn: expiresIn
+                    expiresIn: expiresIn,
+                    role: user.role
                 }
 
                 res.send({ dataUser });

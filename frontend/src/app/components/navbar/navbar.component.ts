@@ -12,6 +12,9 @@ export class NavbarComponent implements OnInit {
 
   public isUserLoggedIn: boolean;
   public isLogged: boolean;
+  public isSuperadmin: boolean = false;
+  public isAdmin: boolean = false;
+  public isRegistered: boolean = false;
 
   constructor(private authService: AuthService, private router: Router, private dataSharingService: DataSharingService) {
     /*this.dataSharingService.isUserLoggedIn.subscribe( value => {
@@ -41,6 +44,15 @@ export class NavbarComponent implements OnInit {
     }else{
       this.isLogged = false;
     }
+
+    if(this.authService.isSuperadmin()){
+      this.isSuperadmin = true;
+    }else if(this.authService.isAdmin()){
+      this.isAdmin = true;
+    }else if(this.authService.isRegistered()){
+      this.isRegistered = true;
+    }
+
   }
 
 }

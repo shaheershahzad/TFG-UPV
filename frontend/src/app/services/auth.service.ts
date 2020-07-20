@@ -23,7 +23,7 @@ export class AuthService implements CanActivate {
         (res: JwtResponseI) => {
           if(res){
             //guardar token
-            this.saveToken(res.dataUser.accessToken, res.dataUser.expiresIn);
+            this.saveToken(res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
           }
         }
       )
@@ -37,7 +37,7 @@ export class AuthService implements CanActivate {
         (res: JwtResponseI) => {
           if(res){
             //guardar token
-            this.saveToken(res.dataUser.accessToken, res.dataUser.expiresIn);
+            this.saveToken(res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
           }
         }
       )
@@ -48,11 +48,13 @@ export class AuthService implements CanActivate {
     this.token = "";
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("EXPIRES_IN");
+    localStorage.removeItem("ROLE");
   }
 
-  private saveToken(token: string, expiresIn: string): void {
+  private saveToken(token: string, expiresIn: string, role: string): void {
     localStorage.setItem("ACCESS_TOKEN", token);
     localStorage.setItem("EXPIRES_IN", expiresIn);
+    localStorage.setItem("ROLE", role);
     this.token = token;
   }
 
@@ -77,6 +79,38 @@ export class AuthService implements CanActivate {
       return false;
     }
     return true;
+  }
+
+  isSuperadmin(): boolean {
+    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "superadmin"){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  isAdmin(): boolean {
+    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "admin"){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  isRegistered(): boolean {
+    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "registered"){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  isDoner(): boolean {
+    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "doner"){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 }
