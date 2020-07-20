@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+/*const mongoose = require("mongoose");
 const projectSchema = require("../models/project.model");
 
 projectSchema.statics = {
@@ -12,4 +12,4 @@ projectSchema.statics = {
 }
 
 const projectModel = mongoose.model("Projects", projectSchema);
-module.exports = projectModel;
+module.exports = projectModel;*/

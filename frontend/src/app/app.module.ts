@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+//Components
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -12,6 +13,9 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
+import { UserManagementComponent } from './pages/Backoffice/user-management/user-management.component';
+import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
 
 //Material
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +31,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../app/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataSharingService } from './services/data-sharing.service';
-import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
+import { DonateComponent } from './pages/donate/donate.component';
+import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -48,7 +53,11 @@ const MaterialComponents = [
     LoginComponent,
     RegisterComponent,
     FooterComponent,
-    BackofficeComponent
+    BackofficeComponent,
+    UserManagementComponent,
+    ProjectManagementComponent,
+    DonateComponent,
+    NewsletterManagementComponent
   ],
   imports: [
     BrowserModule,

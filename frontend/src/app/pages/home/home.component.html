@@ -1,3 +1,10 @@
+<div>
+  <img style="width: 100%;" src="https://elmiralldelamarina.es/wp-content/uploads/2015/01/9ba7531f-2d47-44d9-b11f-bc42bc34c8c2.jpg" alt="">
+  <div id="mainHomeBanner">
+    <h4>Queremos ayudar a las personas más desfavorecidas</h4>
+    <p>Colabora con nosotros para lograrlo y forma parte de nuestra iniciativa.</p>
+  </div>
+</div>
 <div class="container">
   <div class="carousel" style="display: none;">
     <a class="carousel-item" href="#one!"><img src="https://materializecss.com/images/sample-1.jpg"></a>
@@ -6,49 +13,25 @@
     <a class="carousel-item" href="#four!"><img src="https://materializecss.com/images/sample-1.jpg"></a>
     <a class="carousel-item" href="#five!"><img src="https://materializecss.com/images/sample-1.jpg"></a>
   </div>
-  <h3 style="text-align: center;padding-bottom: 10px;border-bottom: solid 1px #e8e8e8;color: #3c4245;">Nuestros Proyectos</h3>
+  <h3 class="main-heading">Nuestros Proyectos</h3>
   <div class="row">
-    <div class="col s4">
-        <div class="card">
-            <div class="card-image">
-              <img src="https://materializecss.com/images/sample-1.jpg">
-              <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Proyecto 1</span>
-              <p>Descripción del proyecto</p>
-            </div>
-          </div>
-    </div>
-    <div class="col s4">
+    <div class="col s4" *ngFor="let project of projectService.projects">
       <div class="card">
-          <div class="card-image">
-            <img src="https://materializecss.com/images/sample-1.jpg">
-            <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-          </div>
-          <div class="card-content">
-            <span class="card-title">Proyecto 2</span>
-            <p>Descripción del proyecto</p>
-          </div>
+        <div class="card-image">
+          <img src="https://materializecss.com/images/sample-1.jpg">
+          <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
         </div>
-    </div>
-    <div class="col s4">
-      <div class="card">
-          <div class="card-image">
-            <img src="https://materializecss.com/images/sample-1.jpg">
-            <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-          </div>
-          <div class="card-content">
-            <span class="card-title">Proyecto 3</span>
-            <p>Descripción del proyecto</p>
-          </div>
+        <div class="card-content">
+          <span class="card-title">{{ project.name }}</span>
+          <p>{{ project.description }}</p>
         </div>
+      </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col s12 m12">
-      <h3 style="text-align: center;padding-bottom: 10px;border-bottom: solid 1px #e8e8e8;color: #3c4245;">Noticias</h3>
+      <h3 class="main-heading">Noticias</h3>
         <div class="card">
             <div class="card-image">
               <img src="../../../assets/noticias.png">
@@ -64,7 +47,7 @@
   
   <div class="row">
     <div class="col s6">
-      <h3 style="text-align: center;padding-bottom: 10px;border-bottom: solid 1px #e8e8e8;color: #3c4245;">Eventos</h3>
+      <h3 class="main-heading">Eventos</h3>
         <div class="card">
             <div class="card-image">
               <img src="../../../assets/eventos.png">
@@ -77,7 +60,7 @@
           </div>
     </div>
     <div class="col s6">
-      <h3 style="text-align: center;padding-bottom: 10px;border-bottom: solid 1px #e8e8e8;color: #3c4245;">Equipo</h3>
+      <h3 class="main-heading">Equipo</h3>
         <div class="card">
             <div class="card-image">
               <img src="../../../assets/equipo.png">

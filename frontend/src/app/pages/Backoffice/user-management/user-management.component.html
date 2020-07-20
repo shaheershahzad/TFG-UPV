@@ -1,0 +1,26 @@
+<div class="container">
+  <h3 class="main-heading">Gestión de usuarios</h3>
+  <table class="responsive-table stripped highlight centered">
+    <thead>
+      <tr>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Tipo</th>
+          <th>Fecha de nacimiento</th>
+          <th>Boletín</th>
+          <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let user of userService.users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.birthday }}</td>
+        <td>{{ user.newsletter }}</td>
+        <td><i class="material-icons">content_paste</i><i class="material-icons">edit</i><i class="material-icons">delete</i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

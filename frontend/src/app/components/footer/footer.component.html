@@ -1,4 +1,20 @@
-<footer class="page-footer light-blue">
+<div id="newsletterSection" class="light-blue darken-4">
+  <div class="container">
+    <h5 class="white-text brand-logo center">SUSCRÍBETE A NUESTRO BOLETÍN</h5>
+    <div class="row">
+      <form #frmNewsletter="ngForm" (ngSubmit)="addSubscriber(frmNewsletter)">
+      <div class="input-field col s8 offset-s2">
+        <i class="material-icons prefix">email</i>
+        <input id="newsletterEmailInput" name="email" #email="ngModel" [(ngModel)]="newsletterService.selectedSubscriber.email" type="text" class="validate" required>
+        <label for="newsletterEmailInput">Correo Electrónico</label>
+      </div>
+      <!--<a id="subscribeNewsletter" class="waves-effect waves-light btn col s4 offset-s4" (click)="addSubscriber(frmNewsletter)">SUSCRIBIRSE</a>-->
+      <button id="subscribeNewsletter" class="btn waves-effect waves-light col s4 offset-s4" type="submit" name="action">SUSCRIBIRSE</button>
+    </form>
+    </div>
+  </div>
+</div>
+<footer class="page-footer light-blue darken-4">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -8,17 +24,17 @@
         <div class="col l4 offset-l2 s12">
           <h5 class="white-text">Páginas</h5>
           <ul>
-            <li><a class="grey-text text-lighten-3" href="/about">About us</a></li>
-            <li><a class="grey-text text-lighten-3" href="/contact">Contact</a></li>
-            <li><a class="grey-text text-lighten-3" href="/login">Login</a></li>
-            <li><a class="grey-text text-lighten-3" href="/register">Register</a></li>
+            <li><a class="grey-text text-lighten-3" href="/about">Sobre nosotros</a></li>
+            <li><a class="grey-text text-lighten-3" href="/contact">Contacto</a></li>
+            <li><a class="grey-text text-lighten-3" href="/login" *ngIf="!isLogged">Iniciar sesión</a></li>
+            <li><a class="grey-text text-lighten-3" href="/register" *ngIf="!isLogged">Crear cuenta</a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      © <span id="copyright-year"></span> All rights reserved
+      © <span id="copyright-year"></span> Todos los derechos reservados
       <a class="grey-text text-lighten-4 right" href="#!">Facebook</a>
       </div>
     </div>

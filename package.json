@@ -4,7 +4,8 @@
   "description": "Software Engineering final year project 2020.",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

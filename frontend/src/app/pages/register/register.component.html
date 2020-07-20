@@ -1,49 +1,7 @@
-<!--<div class="row">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s6">
-          <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-          <label for="first_name">First Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Last Name</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input disabled value="I am not editable" id="disabled" type="text" class="validate">
-          <label for="disabled">Disabled</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="password" type="password" class="validate">
-          <label for="password">Password</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="email" type="email" class="validate">
-          <label for="email">Email</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12">
-          This is an inline input field:
-          <div class="input-field inline">
-            <input id="email_inline" type="email" class="validate">
-            <label for="email_inline">Email</label>
-            <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
-          </div>
-        </div>
-      </div>
-    </form>
-</div>-->
 <div class="container center-align">
     <div class="row">
         <div class="col s6 push-s3">
-        <h3 class="header" style="color: #333;">Create an account</h3>
+        <h3 class="header" style="color: #333;">Crear una cuenta</h3>
         <div class="card-panel">
             <div class="row">
                 <form class="col s12" #frmRegister="ngForm" (ngSubmit)="onRegister(frmRegister)">
@@ -57,45 +15,51 @@
                             <label for="last_name">Last Name</label>
                         </div>-->
                         <div class="input-field col s12">
-                          <input id="name" type="text" class="validate" name="name" ngModel required>
-                          <label for="name">Full Name</label>
+                          <input id="name" [(ngModel)]="user.name" type="text" class="validate" name="name" ngModel required>
+                          <label for="name">Nombre y apellidos</label>
                       </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="register_email" type="text" class="validate" name="email" ngModel required>
-                            <label for="register_email">Email</label>
+                            <input id="register_email" [(ngModel)]="user.email" type="text" class="validate" name="email" ngModel required>
+                            <label for="register_email">Correo electrónico</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="password" type="password" class="validate" name="password" ngModel required>
-                            <label for="password">Password</label>
+                            <input id="password" type="password" [(ngModel)]="user.password" class="validate" name="password" ngModel required>
+                            <label for="password">Contraseña</label>
                         </div>
                     </div>
                     <div class="row">
                       <div class="input-field col s12">
-                          <input id="birthday" type="text" class="datepicker validate" name="birthday" ngModel required>
-                          <label for="birthday">Birthday</label>
+                          <input id="birthday" type="text" [(ngModel)]="user.birthday" class="datepicker validate" name="birthday" ngModel required>
+                          <label for="birthday">Fecha de nacimiento</label>
                       </div>
                   </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                        <input id="role" type="text" [(ngModel)]="user.role" class="validate" name="role" ngModel required>
+                        <label for="role">Tipo de usuario</label>
+                    </div>
+                </div>
                   <div class="row" style="margin-bottom: 1rem;">
-                    <label>Receive notifications?</label>
+                    <label>¿Quiere recibir novedades?</label>
                     <div class="input-field col s12">
                       <div class="switch">
                         <label>
                           No
-                          <input id="notifications" type="checkbox" name="notifications" ngModel>
-                          <span class="lever"></span>
+                          <input id="notifications" [(ngModel)]="user.newsletter" type="checkbox" name="notifications" ngModel>
+                          <span class="lever" checked></span>
                           Yes
                         </label>
                       </div>
                     </div>
                   </div>
-                  <button id="registerButton" class="btn waves-effect waves-light light-blue darken-4 s6" type="submit" name="action">Register</button>
+                  <button id="registerButton" class="btn waves-effect waves-light light-blue darken-4 s6" type="submit" name="action">Crear cuenta</button>
                 </form>
             </div>
-            <a href="/login">Already have an account?</a>
+            <a href="/login">¿Ya tienes una cuenta?</a>
         </div>
         </div>
   </div>

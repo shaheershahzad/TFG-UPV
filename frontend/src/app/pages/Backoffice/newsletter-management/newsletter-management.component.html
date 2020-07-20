@@ -1,0 +1,37 @@
+<div class="container">
+    <h3 class="main-heading">Gestión de newsletter</h3>
+    <a id="deleteSubscriberAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteSubscriberModal" style="display: none;"><i class="material-icons">delete</i></a>
+    <table class="responsive-table stripped highlight">
+      <thead>
+        <tr>
+            <th class="hidden">ID</th>
+            <th>Correo electrónico</th>
+            <th>Acciones</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <tr *ngFor="let subscriber of newsletterService.subscribers">
+          <td class="hidden">{{ subscriber._id }}</td>
+          <td>{{ subscriber.email }}</td>
+          <td>
+            <a class="modal-trigger" href="#deleteSubscriberModal"><i class="material-icons" (click)="showDeleteSubscriberConfirmation(subscriber._id, subscriber.email)">delete</i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Delete Confirmation -->
+    <div id="deleteSubscriberModal" class="modal">
+      <div class="modal-content">
+        <input id="subscriberID" type="hidden">
+        <input id="subscriberEmail" type="hidden">
+        <h5>¿Seguro que quiere borrar del boletín el correo '<span id="subscriberEmailDelete"></span>'?</h5>
+        <p>El usuario dejará de recibir novedades por correo electrónico.</p>
+      </div>
+      <div class="modal-footer">
+        <button style="margin-right: 0.5rem;" class="btn btn-neutral modal-close">Cancelar</button>
+        <button id="deleteSubscriberModalButton" class="btn waves-effect waves-light red darken-4 right modal-close" (click)="deleteSubscriber()">Borrar</button>
+      </div>
+    </div>
+  </div>

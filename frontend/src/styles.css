@@ -3,6 +3,45 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* Hide elements class */
+.hidden {
+    display: none;
+}
+
+/* Neutral button style */
+.btn-neutral {
+    background-color: white;
+    color: #01579b;
+    font-weight: 500;
+}
+
+.btn-neutral:focus {
+    background-color: #cfd8dc;
+}
+
+.btn-neutral:hover {
+    background-color: #eceff1;
+}
+
+/* Main heading style */
+.main-heading {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: solid 1px #e8e8e8;
+    color: #3c4245;
+}
+
+/* Iconos dentro de las tablas */
+td i {
+    margin-right: 0.7rem;
+    cursor: pointer;
+}
+
+/* Links color: a */
+a {
+    color: #01579b;
+}
+
 /* label focus color */
 .input-field input[type=text]:focus + label {
     color: #03a9f4 !important;

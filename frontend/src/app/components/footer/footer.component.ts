@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from'../../services/auth.service';
+import { NewsletterService } from'../../services/newsletter.service';
+import { Newsletter } from 'src/app/models/newsletter';
+
+declare const M: any;
 
 @Component({
   selector: 'app-footer',
@@ -7,12 +12,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  public isLogged: boolean;
+
+  constructor(private authService: AuthService, public newsletterService: NewsletterService) { }
 
   ngOnInit(): void {
+    this.onCheckUser();
     let date = new Date();
     let year = date.getFullYear();
     document.getElementById("copyright-year").innerHTML = year.toString();
   }
 
+  onCheckUser(): void {
+    if(this.authService.loggedIn()){
+      this.isLogged = true;
+    }else{
+      this.isLogged = false;
+    }
+  }
+
+  addSubscriber(form){
+    let email = "";
+
+    email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
+    if(email.length > 0 && email.indexOf("@") > 0){      
+      this.newsletterService.addSubscriber(form.value).subscribe( res => {
+        M.toast({html: "Se ha suscrito correctamente"});
+      }, err => {
+        console.log("Error al añadir suscriptor");
+      });
+    }else{
+      console.log("Correo incorrecto");
+    }
+  }
 }

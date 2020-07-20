@@ -6,17 +6,18 @@
         <span>Login</span>
     </div>
 </mat-toolbar>-->
-<nav class="light-blue" style="padding: 0 1em;">
+<nav class="light-blue darken-4" style="padding: 0 1em;">
     <div class="nav-wrapper container">
         <!--<a href="/" class="brand-logo" style="height: 100%;font-size: 0;"><img style="height: 80%;vertical-align: middle;" src="../../../assets/logo.png" /></a>-->
         <a href="#" class="brand-logo">Vicente Berenguer</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="/about">About us</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="/about">Sobre nosotros</a></li>
+        <li><a href="/contact">Contacto</a></li>
+        <li style="background-color: #ffd60c;"><a href="/donate" style="color: #3c4245;font-weight: bold;">Donar</a></li>
         <!--<li><a href="/backoffice">Backoffice</a></li>-->
-        <li><a href="/login" *ngIf="!isLogged">Login</a></li>
+        <li><a href="/login" *ngIf="!isLogged">Iniciar sesión</a></li>
         <!--<li><a href="/register" *ngIf="!isLogged">Register</a></li>-->
-        <li><a href="/backoffice"><i class="material-icons small">settings</i></a></li>
+        <li><a href="/backoffice" *ngIf="isSuperadmin || isAdmin"><i class="material-icons small">settings</i></a></li>
         <li id="logoutButton" (click)="logout();" style="cursor: pointer;" *ngIf="isLogged"><i class="material-icons">exit_to_app</i></li>
         </ul>
     </div>

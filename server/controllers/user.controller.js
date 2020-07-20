@@ -7,7 +7,10 @@ exports.createUser = (req, res, next) => {
     const newUser = {
         name: req.body.name,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password)
+        password: bcrypt.hashSync(req.body.password),
+        role: req.body.role,
+        birthday: req.body.birthday,
+        newsletter: req.body.newsletter
     }
 
     userDAO.create(newUser, (err, user) => {
@@ -30,7 +33,8 @@ exports.createUser = (req, res, next) => {
             name: user.name,
             email: user.email,
             accessToken: accessToken,
-            expiresIn: expiresIn
+            expiresIn: expiresIn,
+            role: user.role
         }
 
         //response
@@ -62,7 +66,8 @@ exports.loginUser = (req, res, next) => {
                     name: user.name,
                     email: user.email,
                     accessToken: accessToken,
-                    expiresIn: expiresIn
+                    expiresIn: expiresIn,
+                    role: user.role
                 }
 
                 res.send({ dataUser });
