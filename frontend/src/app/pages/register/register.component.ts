@@ -61,24 +61,36 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister(form): void{
-    this.user.birthday = (<HTMLInputElement> document.getElementById("birthday")).value;
-    this.user.role = (<HTMLInputElement> document.getElementById("roleSelect")).value;
-    form.setValue({
-      name: this.user.name,
-      email: this.user.email,
-      password: this.user.password,
-      birthday: this.user.birthday,
-      role: this.user.role,
-      notifications: this.user.newsletter
-    });
-    /*this.authService.register(form.value).subscribe(res => {
-      //this.dataSharingService.changeLoggedUser(true);
-      //this.router.navigateByUrl("/");
-      window.location.reload();
-    }, err => {
-      console.log("Error: ", err);
-    });*/
-    console.log(form.value);
+
+    let formMessage = this.registerFormValidation();
+
+    if(formMessage == "OK"){
+
+      this.user.birthday = (<HTMLInputElement> document.getElementById("birthday")).value;
+      this.user.role = (<HTMLInputElement> document.getElementById("roleSelect")).value;
+      
+      form.setValue({
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password,
+        birthday: this.user.birthday,
+        role: this.user.role,
+        notifications: this.user.newsletter
+      });
+      /*this.authService.register(form.value).subscribe(res => {
+        //this.dataSharingService.changeLoggedUser(true);
+        //this.router.navigateByUrl("/");
+        window.location.reload();
+      }, err => {
+        console.log("Error: ", err);
+      });*/
+      console.log(form.value);
+
+    }else{
+
+      M.toast({html: formMessage});
+
+    }
   }
 
   checkLoggedUser(): void {
@@ -88,8 +100,29 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  registerFormValidation(){
-    
+  registerFormValidation(): string{
+
+    let name = (<HTMLInputElement> document.getElementById("name")).value.trim();
+    let email = (<HTMLInputElement> document.getElementById("register_email")).value.trim();
+    let password = (<HTMLInputElement> document.getElementById("password")).value.trim();
+    let birthday = (<HTMLInputElement> document.getElementById("birthday")).value.trim();
+    let role = (<HTMLInputElement> document.getElementById("roleSelect")).value.trim();
+    //let notifications = (<HTMLInputElement> document.getElementById("notifications")).checked;
+
+    if(name.length <= 1){
+      return "Nombre incorrecto";
+    }else if(email.length <= 3 || email.indexOf("@") <= 0){
+      return "Correo incorrecto";
+    }else if(password.length < 6){
+      return "Contraseña incorrecta";
+    }else if(birthday.length < 10){
+      return "Fecha de nacimiento incorrecta";
+    }else if(role.length <= 0){
+      return "Tipo de usuario incorrecto";
+    }
+
+    return "OK";
+
   }
 
 }

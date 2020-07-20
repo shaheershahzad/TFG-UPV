@@ -32,17 +32,30 @@ export class FooterComponent implements OnInit {
   }
 
   addSubscriber(form){
-    let email = "";
+    
+    let email = this.validateEmail();
 
-    email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
-    if(email.length > 0 && email.indexOf("@") > 0){      
+    if(email == "OK"){      
       this.newsletterService.addSubscriber(form.value).subscribe( res => {
         M.toast({html: "Se ha suscrito correctamente"});
       }, err => {
         console.log("Error al añadir suscriptor");
       });
     }else{
-      console.log("Correo incorrecto");
+      M.toast({html: email});
     }
   }
+
+  validateEmail(): string{
+    
+    let email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
+
+    if(email.length > 0 && email.indexOf("@") > 0){
+      return "OK";
+    }else{
+      return "Correo incorrecto";
+    }
+
+  }
+
 }
