@@ -11,7 +11,8 @@ import { Router, CanActivate } from '@angular/router';
 })
 
 export class AuthService implements CanActivate {
-  AUTH_SERVER: string = "http://localhost:3000";
+  //AUTH_SERVER: string = "http://localhost:3000";
+  AUTH_SERVER: string = "";
   authSubject = new BehaviorSubject(false);
   private token: string;
   constructor(private httpClient: HttpClient, private router: Router) { }

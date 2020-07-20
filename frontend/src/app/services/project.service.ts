@@ -8,7 +8,8 @@ import { Project } from '../models/project';
 
 export class ProjectService {
 
-  readonly projectAPI = "http://localhost:3000/api/projects";
+  //readonly projectAPI = "http://localhost:3000/api/projects";
+  readonly projectAPI = "/api/projects";
   selectedProject: Project;
   projects: Project[];
 
