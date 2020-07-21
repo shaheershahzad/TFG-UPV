@@ -2,6 +2,7 @@
 
 const express = require("express");
 const app = express();
+const path = require("path");
 //const morgan = require("morgan");
 
 //Routes
@@ -22,6 +23,9 @@ app.set("port", properties.PORT);
 // Middlewares -> Funciones para tratar los datos
 app.use(cors());
 app.use(express.json());
+
+//For deployment
+app.use(express.static(path.join(__dirname, "./frontend/dist/frontend")));
 
 //Arrancar mongo
 const DB = require("./server/config/database");
@@ -48,6 +52,10 @@ app.use(router);
 app.use('/api/users2', user2Routes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+
+app.get("*", (req, res) => {
+    return res.sendFile(path.join(__dirname, "./frontend/dist/frontend/index.html"));
+});
 
 // Starting the server
 app.listen(app.get("port"), () => {
