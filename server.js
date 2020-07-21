@@ -40,7 +40,7 @@ user2Routes(router);*/
 projectRoutes(router);*/
 
 app.get('/', (req, res) => {
-    res.send('MAIN!')
+    res.send('MAIN SERVER!')
 });
 
 app.use(router);
