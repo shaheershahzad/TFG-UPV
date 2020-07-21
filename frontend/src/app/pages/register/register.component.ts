@@ -77,14 +77,15 @@ export class RegisterComponent implements OnInit {
         role: this.user.role,
         notifications: this.user.newsletter
       });
-      /*this.authService.register(form.value).subscribe(res => {
+      this.authService.register(form.value).subscribe(res => {
         //this.dataSharingService.changeLoggedUser(true);
         //this.router.navigateByUrl("/");
         window.location.reload();
       }, err => {
         console.log("Error: ", err);
-      });*/
-      console.log(form.value);
+      });
+
+      //console.log(form.value);
 
     }else{
 

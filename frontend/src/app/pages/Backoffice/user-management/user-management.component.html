@@ -1,6 +1,6 @@
 <div class="container">
   <h3 class="main-heading">Gestión de usuarios</h3>
-  <table class="responsive-table stripped highlight centered">
+  <table class="responsive-table stripped highlight centered" *ngIf="!noData">
     <thead>
       <tr>
           <th>Nombre</th>
@@ -23,4 +23,5 @@
       </tr>
     </tbody>
   </table>
+  <p *ngIf="noData">No hay usuarios disponibles</p>
 </div>

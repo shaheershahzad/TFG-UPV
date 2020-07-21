@@ -6,6 +6,7 @@ const path = require("path");
 //const morgan = require("morgan");
 
 //Routes
+
 //User
 const userRoutes = require("./server/routes/user.routes");
 //User2
@@ -14,6 +15,8 @@ const user2Routes = require("./server/routes/user2.routes");
 const projectRoutes = require("./server/routes/project.routes");
 //Newsletter
 const newsletterRoutes = require("./server/routes/newsletter.routes");
+//File
+const fileRoutes = require("./server/routes/file.routes");
 
 // Settings -> Configuración del servidor
 const cors = require("cors");
@@ -52,6 +55,7 @@ app.use(router);
 app.use('/api/users2', user2Routes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/files', fileRoutes);
 
 app.get("*", (req, res) => {
     return res.sendFile(path.join(__dirname, "./frontend/dist/frontend/index.html"));

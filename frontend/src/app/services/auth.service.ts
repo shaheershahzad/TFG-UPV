@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserI } from '../interfaces/user';
+import { User } from '../models/user';
 import { JwtResponseI } from '../interfaces/jwt-response';
 import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router, CanActivate } from '@angular/router';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,23 +17,28 @@ export class AuthService implements CanActivate {
   //AUTH_SERVER: string = "";
   authSubject = new BehaviorSubject(false);
   private token: string;
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient, private router: Router, private userService: UserService) { }
 
-  register(user:UserI): Observable<JwtResponseI> {
+  register(user:User): Observable<JwtResponseI> {
     return this.httpClient.post<JwtResponseI>(`${this.AUTH_SERVER}/register`, user)
     .pipe(
       tap(
         (res: JwtResponseI) => {
           if(res){
             //guardar token
-            this.saveToken(res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
+            this.userService.addUser(user).subscribe( res2 => {
+              this.saveToken(res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
+              console.log("Usuario creado completamente");
+            }, err => {
+              console.log("Error al crear el usuario en la segunda BBDD!");
+            });
           }
         }
       )
     );
   }
 
-  login(user:UserI): Observable<JwtResponseI> {
+  login(user:User): Observable<JwtResponseI> {
     return this.httpClient.post<JwtResponseI>(`${this.AUTH_SERVER}/login`, user)
     .pipe(
       tap(
