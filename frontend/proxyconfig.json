@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target": "https://test1-tfg-mean.herokuapp.com/",
+        "target": "https://test1-tfg-mean.herokuapp.com/api",
         "secure": false,
         "changeOrigin": true
     }
