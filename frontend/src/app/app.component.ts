@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from'./services/auth.service';
+import{ GlobalConstants } from './common/global-variables';
+import { Title }     from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +9,9 @@ import { AuthService } from'./services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'frontend';
+  title = GlobalConstants.siteTitle;
 
-  constructor(private authService: AuthService) { }
+  constructor(private titleService: Title, private authService: AuthService) { }
 
   ngOnInit(): void {
     if(location.href.indexOf("/backoffice") > 0){
@@ -17,5 +19,7 @@ export class AppComponent implements OnInit {
         location.href = "/";
       }
     }
+
+    this.titleService.setTitle(this.title);
   }
 }
