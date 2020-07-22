@@ -37,8 +37,10 @@ export class FooterComponent implements OnInit {
 
     if(email == "OK"){      
       this.newsletterService.addSubscriber(form.value).subscribe( res => {
-        M.toast({html: "Se ha suscrito correctamente"});
+        M.toast({html: "Correo registrado correctamente"});
+        form.resetForm();
       }, err => {
+        M.toast({html: "El correo ya está registrado"})
         console.log("Error al añadir suscriptor");
       });
     }else{
@@ -55,6 +57,10 @@ export class FooterComponent implements OnInit {
     }else{
       return "Correo incorrecto";
     }
+
+  }
+
+  resetForm(){
 
   }
 
