@@ -14,7 +14,10 @@ declare const M: any;
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router, private dataSharingService: DataSharingService, private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, 
+    private router: Router, 
+    private dataSharingService: DataSharingService, 
+    private formBuilder: FormBuilder) { }
 
   public isLogged: boolean = false;
   loginForm: FormGroup;

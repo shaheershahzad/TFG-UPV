@@ -12,12 +12,14 @@ declare const M: any;
 })
 export class FooterComponent implements OnInit {
 
-  public isLogged: boolean;
+  public isLogged: boolean = false;
+  public subscriber: boolean = false;
 
   constructor(private authService: AuthService, public newsletterService: NewsletterService) { }
 
   ngOnInit(): void {
     this.onCheckUser();
+    this.checkNewsletter();
     let date = new Date();
     let year = date.getFullYear();
     document.getElementById("copyright-year").innerHTML = year.toString();
@@ -28,6 +30,12 @@ export class FooterComponent implements OnInit {
       this.isLogged = true;
     }else{
       this.isLogged = false;
+    }
+  }
+
+  checkNewsletter(){
+    if(this.isLogged){
+      
     }
   }
 

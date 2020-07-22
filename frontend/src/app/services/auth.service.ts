@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router, CanActivate } from '@angular/router';
 import { UserService } from './user.service';
+import { GlobalConstants } from '../common/global-variables';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,11 @@ export class AuthService implements CanActivate {
           if(res){
             //guardar token
             this.userService.addUser(user).subscribe( res2 => {
-              this.saveToken(res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
+              
+              this.setUID(res.dataUser.id);
+              this.saveToken(res.dataUser.id, res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
               console.log("Usuario creado completamente");
+
             }, err => {
               console.log("Error al crear el usuario en la segunda BBDD!");
             });
@@ -45,7 +49,8 @@ export class AuthService implements CanActivate {
         (res: JwtResponseI) => {
           if(res){
             //guardar token
-            this.saveToken(res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
+            this.setUID(res.dataUser.id);
+            this.saveToken(res.dataUser.id, res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
           }
         }
       )
@@ -54,12 +59,18 @@ export class AuthService implements CanActivate {
 
   logout(): void{
     this.token = "";
+    localStorage.removeItem("UID");
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("EXPIRES_IN");
     localStorage.removeItem("ROLE");
   }
 
-  private saveToken(token: string, expiresIn: string, role: string): void {
+  private setUID(uid: number){
+    GlobalConstants.UID = uid.toString();
+  }
+
+  private saveToken(uid: number, token: string, expiresIn: string, role: string): void {
+    //localStorage.setItem("UID", uid.toString());
     localStorage.setItem("ACCESS_TOKEN", token);
     localStorage.setItem("EXPIRES_IN", expiresIn);
     localStorage.setItem("ROLE", role);
@@ -71,6 +82,10 @@ export class AuthService implements CanActivate {
       this.token = localStorage.getItem("ACCESS_TOKEN");
     }
     return this.token;
+  }
+
+  private getUID(): string{
+    return this.token = localStorage.getItem("UID");
   }
 
   loggedIn(): boolean{
