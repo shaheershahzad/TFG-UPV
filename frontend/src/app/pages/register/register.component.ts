@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { NewsletterService } from '../../services/newsletter.service';
 import { UserI } from '../../interfaces/user';
 import { Form } from '@angular/forms';
 import { DataSharingService } from '../../services/data-sharing.service';
@@ -25,7 +26,10 @@ export class RegisterComponent implements OnInit {
     newsletter: true
   }
 
-  constructor(private authService: AuthService, private router: Router, private dataSharingService: DataSharingService) { }
+  constructor(private authService: AuthService, 
+    private router: Router, 
+    private dataSharingService: DataSharingService,
+    private newsletterService: NewsletterService) { }
   
   public isLogged: boolean = false;
 
@@ -77,10 +81,17 @@ export class RegisterComponent implements OnInit {
         role: this.user.role,
         notifications: this.user.newsletter
       });
+
       this.authService.register(form.value).subscribe(res => {
         //this.dataSharingService.changeLoggedUser(true);
         //this.router.navigateByUrl("/");
-        window.location.reload();
+
+        if(form.value.notifications){
+          this.newsletterService.addSubscriber(form.value.email).subscribe( res => {
+            window.location.reload();
+          });
+        }
+
       }, err => {
         console.log("Error: ", err);
       });

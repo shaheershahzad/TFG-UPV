@@ -7,7 +7,6 @@ import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router, CanActivate } from '@angular/router';
 import { UserService } from './user.service';
-import { GlobalConstants } from '../common/global-variables';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class AuthService implements CanActivate {
   //AUTH_SERVER: string = "";
   authSubject = new BehaviorSubject(false);
   private token: string;
-  constructor(private httpClient: HttpClient, private router: Router, private userService: UserService) { }
+  constructor(private httpClient: HttpClient, private router: Router, private userService: UserService, private globals: Globals) { }
 
   register(user:User): Observable<JwtResponseI> {
     return this.httpClient.post<JwtResponseI>(`${this.AUTH_SERVER}/register`, user)
@@ -29,7 +28,6 @@ export class AuthService implements CanActivate {
             //guardar token
             this.userService.addUser(user).subscribe( res2 => {
               
-              this.setUID(res.dataUser.id);
               this.saveToken(res.dataUser.id, res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
               console.log("Usuario creado completamente");
 
@@ -49,7 +47,6 @@ export class AuthService implements CanActivate {
         (res: JwtResponseI) => {
           if(res){
             //guardar token
-            this.setUID(res.dataUser.id);
             this.saveToken(res.dataUser.id, res.dataUser.accessToken, res.dataUser.expiresIn, res.dataUser.role);
           }
         }
@@ -65,12 +62,8 @@ export class AuthService implements CanActivate {
     localStorage.removeItem("ROLE");
   }
 
-  private setUID(uid: number){
-    GlobalConstants.UID = uid.toString();
-  }
-
   private saveToken(uid: number, token: string, expiresIn: string, role: string): void {
-    //localStorage.setItem("UID", uid.toString());
+    localStorage.setItem("UID", uid.toString());
     localStorage.setItem("ACCESS_TOKEN", token);
     localStorage.setItem("EXPIRES_IN", expiresIn);
     localStorage.setItem("ROLE", role);
