@@ -20,6 +20,10 @@ export class FileService {
     return this.httpClient.get(this.fileAPI);
   }
 
+  getProjectFiles(_id: String){
+    return this.httpClient.get(this.fileAPI + `/project/${_id}`);
+  }
+
   addFile(file: FileModel){
     return this.httpClient.post(this.fileAPI, file);
   }

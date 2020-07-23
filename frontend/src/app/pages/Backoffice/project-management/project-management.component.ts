@@ -37,7 +37,6 @@ export class ProjectManagementComponent implements OnInit {
     });
 
     this.getProjects();
-    this.getFiles();
   }
 
   getProjects(){
@@ -46,8 +45,8 @@ export class ProjectManagementComponent implements OnInit {
     });
   }
 
-  getFiles(){
-    this.fileService.getFiles().subscribe( res => {
+  getProjectFiles(id: String){
+    this.fileService.getProjectFiles(id).subscribe( res => {
       this.fileService.files = res as FileModel[];
       
       if(this.fileService.files.length > 0){
@@ -135,6 +134,7 @@ export class ProjectManagementComponent implements OnInit {
 
   viewProjectDetails(form, project: Project) {
     //this.projectService.selectedProject = project;
+    this.getProjectFiles(project._id);
     this.setFormValues(form, project);
   }
 

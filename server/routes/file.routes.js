@@ -9,6 +9,7 @@ const fileController = require("../controllers/file.controller");
     router.get("/", fileController.getFiles);
     router.post("/", fileController.createFiles);
     router.get("/:id", fileController.getFile);
+    router.get("/project/:id", fileController.getProjectFiles);
     router.put("/:id", fileController.updateFile);
     router.delete("/:id", fileController.deleteFile);
 //};

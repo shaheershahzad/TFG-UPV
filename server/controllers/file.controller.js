@@ -26,7 +26,6 @@ fileController.createFiles = async (req, res) => {
 
         if (err) {
             console.log(err);
-            // terminate request/response cycle
             return res.send('Error saving');
         }
     
@@ -39,6 +38,11 @@ fileController.createFiles = async (req, res) => {
 fileController.getFile = async (req, res) => {
     const file = await fileModel.findById(req.params.id);
     res.json(file);
+};
+
+fileController.getProjectFiles = async (req, res) => {
+    const files = await fileModel.find({ "projectId": req.params.id });
+    res.json(files);
 };
 
 fileController.updateFile = async (req, res) => {
