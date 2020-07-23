@@ -1,6 +1,6 @@
 <div class="container">
     <h3 class="main-heading">Gestión de proyectos</h3>
-    <a id="addProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#addProjectForm"><i class="material-icons">add</i></a>
+    <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm"><i class="material-icons">add</i></a>
     <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
     <table class="responsive-table stripped highlight">
       <thead>
@@ -85,6 +85,23 @@
                   </div>
               </div>
               <div class="row">
+                <ul class="collapsible">
+                  <li *ngIf="hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div class="collapsible-body" *ngFor="let file of fileService.files">
+                      <span><strong>Nombre:</strong> {{ file.name }}</span><br>
+                      <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
+                      <span><strong>Tipo:</strong> {{ file.type }}</span>
+                      <span class="right"><i class="material-icons">delete</i></span>
+                    </div>
+                  </li>
+                  <li *ngIf="!hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div class="collapsible-body"><span>No hay documentos subidos</span></div>
+                  </li>
+                </ul>
+              </div>
+              <div class="row">
                 <button id="closeEditProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditProject)">Cancelar</button> 
                 <button id="editPprojectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateProject(frmEditProject)" name="action">Actualizar</button>
               </div>
@@ -117,11 +134,14 @@
                   <li *ngIf="hasDocuments">
                     <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
                     <div class="collapsible-body" *ngFor="let file of fileService.files">
-                      <span>{{ file.name }}</span>
+                      <span><strong>Nombre:</strong> {{ file.name }}</span><br>
+                      <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
+                      <span><strong>Tipo:</strong> {{ file.type }}</span>
                     </div>
                   </li>
                   <li *ngIf="!hasDocuments">
-                    <div class="collapsible-header"><i class="material-icons">not_interested</i>No hay documentos subidos</div>
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div class="collapsible-body"><span>No hay documentos subidos</span></div>
                   </li>
                 </ul>
               </div>
