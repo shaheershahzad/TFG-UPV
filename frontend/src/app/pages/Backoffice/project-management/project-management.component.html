@@ -112,6 +112,19 @@
                       <label for="description">Descripción</label>
                   </div>
               </div>
+              <div class="row">
+                <ul class="collapsible">
+                  <li *ngIf="hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div class="collapsible-body" *ngFor="let file of fileService.files">
+                      <span>{{ file.name }}</span>
+                    </div>
+                  </li>
+                  <li *ngIf="!hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">not_interested</i>No hay documentos subidos.</div>
+                  </li>
+                </ul>
+              </div>
               <button id="closeProjectDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
           </form>
         </div>

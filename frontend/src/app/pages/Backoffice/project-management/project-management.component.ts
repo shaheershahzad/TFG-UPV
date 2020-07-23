@@ -18,22 +18,41 @@ declare const M: any;
 export class ProjectManagementComponent implements OnInit {
 
   uploadedFiles: Array<File>;
+  public hasDocuments: boolean = false;
 
-  constructor(public projectService: ProjectService, public uploadService: UploadService, private authService: AuthService, private fileService: FileService) { }
+  constructor(public projectService: ProjectService, public uploadService: UploadService, private authService: AuthService, public fileService: FileService) { }
 
   ngOnInit(): void {
 
+    //Modals
     document.addEventListener('DOMContentLoaded', function() {
       var elems = document.querySelectorAll('.modal');
       var instances = M.Modal.init(elems);
     });
 
+    //Desplegable documentos
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.collapsible');
+      var instances = M.Collapsible.init(elems);
+    });
+
     this.getProjects();
+    this.getFiles();
   }
 
   getProjects(){
-    this.projectService.getProjects().subscribe(res => {
+    this.projectService.getProjects().subscribe( res => {
       this.projectService.projects = res as Project[];
+    });
+  }
+
+  getFiles(){
+    this.fileService.getFiles().subscribe( res => {
+      this.fileService.files = res as FileModel[];
+      
+      if(this.fileService.files.length > 0){
+        this.hasDocuments = true;
+      }
     });
   }
 
