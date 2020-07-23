@@ -1,4 +1,5 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,6 +18,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
 import { UserManagementComponent } from './pages/Backoffice/user-management/user-management.component';
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
+import { DonateComponent } from './pages/donate/donate.component';
+import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
 
 //Material
 import { MatButtonModule } from '@angular/material/button';
@@ -30,10 +33,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 
 // Services
 import { AuthService } from '../app/services/auth.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataSharingService } from './services/data-sharing.service';
-import { DonateComponent } from './pages/donate/donate.component';
-import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
+import { UploadService } from './services/upload.service';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -72,7 +73,8 @@ const MaterialComponents = [
   providers: [
     AuthService,
     DataSharingService,
-    Title
+    Title,
+    UploadService
   ],
   bootstrap: [AppComponent]
 })

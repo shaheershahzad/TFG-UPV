@@ -1,4 +1,18 @@
 <div>
+  <div class="btn">
+    <span id="btnUpload" (click)="onUpload()">Upload</span>
+  </div>
+  <form action="#" enctype="multipart/form-data">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>File</span>
+        <input type="file" (change)="onFileChange($event)">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+  </form>
   <img style="width: 100%;" src="https://elmiralldelamarina.es/wp-content/uploads/2015/01/9ba7531f-2d47-44d9-b11f-bc42bc34c8c2.jpg" alt="">
   <div id="mainHomeBanner">
     <h4>Queremos ayudar a las personas más desfavorecidas</h4>

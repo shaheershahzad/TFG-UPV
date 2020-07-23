@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { DataSharingService } from '../../services/data-sharing.service';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project';
+import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,9 @@ import { Project } from '../../models/project';
 
 export class HomeComponent implements OnInit {
 
-  constructor(private authService: AuthService, private dataSharingService: DataSharingService, public projectService: ProjectService) { }
+  uploadedFiles: Array<File>;
+
+  constructor(private authService: AuthService, private dataSharingService: DataSharingService, public projectService: ProjectService, private uploadService: UploadService) { }
 
   public isLogged: boolean = false;
 
@@ -43,6 +46,25 @@ export class HomeComponent implements OnInit {
     }else{
       document.getElementById("logoutButton").style.display = "none";
     }
+  }
+
+  onUpload() {
+    let formData = new FormData();
+
+    for(let i=0; i<this.uploadedFiles.length; i++){
+      formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
+    }
+
+    this.uploadService.uploadFile(formData).subscribe( res => {
+      console.log("Fichero subido");
+    }, err => {
+      console.log("Error al subir fichero");
+    });
+  }
+
+  onFileChange(e) {
+    this.uploadedFiles = e.target.files;
+    console.log(e.target.files);
   }
 
 }

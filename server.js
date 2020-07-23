@@ -2,6 +2,7 @@
 
 const express = require("express");
 const app = express();
+const multipart = require("connect-multiparty");
 const path = require("path");
 //const morgan = require("morgan");
 
@@ -26,6 +27,9 @@ app.set("port", properties.PORT);
 // Middlewares -> Funciones para tratar los datos
 app.use(cors());
 app.use(express.json());
+const multipartMiddleware = multipart({
+    uploadDir: "./server/uploads"
+});
 
 //For deployment
 app.use(express.static(path.join(__dirname, "./frontend/dist/frontend")));
@@ -36,6 +40,14 @@ DB();
 
 const router = express.Router();
 //const { mongoose } = require("./config/database");
+
+//File uploader
+app.post("/api/files/upload", multipartMiddleware, (req, res) => {
+    res.json({
+        "message": "Fichero subido correctamente!"
+    })
+})
+
 
 app.use("/api/users", router);
 userRoutes(router);
