@@ -9,6 +9,7 @@ import { ObjectUnsubscribedError } from 'rxjs';
 import { Newsletter } from 'src/app/models/newsletter';
 //import * as M from 'materialize-css/dist/js/materialize';
 import { ObjectID } from 'bson';
+import { User } from 'src/app/models/user';
 
 declare const M: any;
 
@@ -84,13 +85,16 @@ export class RegisterComponent implements OnInit {
         notifications: this.user.newsletter
       });
 
-      let _id = new ObjectID().toString();
-      let newSubscriber = new Newsletter(_id, this.user.email);
+      let _idUser = new ObjectID().toString();
+      let user = new User(_idUser, form.value.name, form.value.email, form.value.password, form.value.role, form.value.birthday, form.value.notifications);
+
+      let _idSubscriber = new ObjectID().toString();
+      let newSubscriber = new Newsletter(_idSubscriber, this.user.email);
 
       console.log(newSubscriber);
-      console.log(form.value);
+      console.log(user);
 
-      this.authService.register(form.value).subscribe(res => {
+      this.authService.register(user).subscribe(res => {
         //this.dataSharingService.changeLoggedUser(true);
         //this.router.navigateByUrl("/");
 
@@ -101,6 +105,8 @@ export class RegisterComponent implements OnInit {
           }, err => {
             console.log("Error al suscribir el correo: ", err);
           });
+        }else{
+          window.location.reload();
         }
 
       }, err => {

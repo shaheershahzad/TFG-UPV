@@ -20,8 +20,8 @@ export class UserService {
     return this.httpClient.get(this.userAPI);
   }
 
-  addUser(User: User){
-    return this.httpClient.post(this.userAPI, User);
+  addUser(user: User){
+    return this.httpClient.post(this.userAPI, user);
   }
 
   updateUser(user: User){
