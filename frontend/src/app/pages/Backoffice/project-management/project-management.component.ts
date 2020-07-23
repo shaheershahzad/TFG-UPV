@@ -139,6 +139,7 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   editProject(form, project: Project) {
+    this.getProjectFiles(project._id);
     this.setFormValues(form, project);
   }
 
@@ -165,6 +166,11 @@ export class ProjectManagementComponent implements OnInit {
     }, ( err => {
       console.log("Error al borrar el proyecto.");
     }));
+  }
+
+  deleteFile(e){
+    let fileId = e.target.id;
+    (<HTMLInputElement> document.getElementById(fileId)).remove();
   }
 
   clearForm(form) {

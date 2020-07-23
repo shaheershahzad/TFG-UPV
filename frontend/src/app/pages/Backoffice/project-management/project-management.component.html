@@ -92,7 +92,7 @@
                       <span><strong>Nombre:</strong> {{ file.name }}</span><br>
                       <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
                       <span><strong>Tipo:</strong> {{ file.type }}</span>
-                      <span class="right"><i class="material-icons">delete</i></span>
+                      <span class="right" style="cursor: pointer;"><i id="{{file._id}}" class="material-icons" (click)="deleteFile($event)">delete</i></span>
                     </div>
                   </li>
                   <li *ngIf="!hasDocuments">
