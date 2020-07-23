@@ -20,6 +20,22 @@ fileController.createFile = async (req, res) => {
     });
 };
 
+fileController.createFiles = async (req, res) => {
+    console.log(req.body);
+    fileModel.create(req.body, function (err, temps) {
+
+        if (err) {
+            console.log(err);
+            // terminate request/response cycle
+            return res.send('Error saving');
+        }
+    
+    });
+    res.json({
+        "status":"Files saved"
+    });
+};
+
 fileController.getFile = async (req, res) => {
     const file = await fileModel.findById(req.params.id);
     res.json(file);

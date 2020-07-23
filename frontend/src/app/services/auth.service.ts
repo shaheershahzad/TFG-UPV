@@ -78,7 +78,7 @@ export class AuthService implements CanActivate {
     return this.token;
   }
 
-  private getUID(): string{
+  public getUID(): string{
     return this.token = localStorage.getItem("UID");
   }
 

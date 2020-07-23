@@ -68,8 +68,4 @@ export class FooterComponent implements OnInit {
 
   }
 
-  resetForm(){
-
-  }
-
 }

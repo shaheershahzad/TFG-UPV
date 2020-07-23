@@ -43,11 +43,8 @@ const router = express.Router();
 
 //File uploader
 app.post("/api/files/upload", multipartMiddleware, (req, res) => {
-    res.json({
-        "message": "Fichero subido correctamente!"
-    })
+    res.json(req.files.uploads);
 })
-
 
 app.use("/api/users", router);
 userRoutes(router);

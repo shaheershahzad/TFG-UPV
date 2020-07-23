@@ -9,6 +9,11 @@ const fileSchema = new Schema({
         required: true,
         trim: true
     },
+    path: {
+        type: String,
+        required: true,
+        trim: true
+    },
     size: {
         type: Number,
         required: true,

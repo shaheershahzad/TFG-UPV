@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../services/project.service';
 import { Project } from '../../../models/project';
+import { UploadService } from '../../../services/upload.service';
+import { AuthService } from '../../../services/auth.service';
+import { FileService } from '../../../services/file.service';
+import { FileModel } from '../../../models/file';
+import { ObjectID } from 'bson';
 
 declare const M: any;
 
@@ -12,7 +17,9 @@ declare const M: any;
 })
 export class ProjectManagementComponent implements OnInit {
 
-  constructor(public projectService: ProjectService) { }
+  uploadedFiles: Array<File>;
+
+  constructor(public projectService: ProjectService, public uploadService: UploadService, private authService: AuthService, private fileService: FileService) { }
 
   ngOnInit(): void {
 
@@ -24,10 +31,6 @@ export class ProjectManagementComponent implements OnInit {
     this.getProjects();
   }
 
-  handleFileInput(files: FileList) {
-    console.log(files);
-  }
-
   getProjects(){
     this.projectService.getProjects().subscribe(res => {
       this.projectService.projects = res as Project[];
@@ -35,14 +38,80 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   addProject(form): void{
-    console.log(form.value);
-    /*this.projectService.addProject(form.value).subscribe( res => {
-      this.clearForm(form);
-      M.toast({html: "Proyecto creado"});
-      this.getProjects();
+    (<HTMLInputElement> document.getElementById("progressBar")).style.display = "block";
+    this.projectService.addProject(form.value).subscribe( res => {
+
+      if(this.uploadedFiles.length > 0){
+
+        let savedProjectId = JSON.parse(JSON.stringify(res)).id;
+        let uid = this.authService.getUID();
+
+        let formData = new FormData();
+
+        for(let i=0; i<this.uploadedFiles.length; i++){
+          formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
+        }
+
+        this.uploadService.uploadFile(formData).subscribe( res => {
+
+          let filesUploaded = JSON.parse(JSON.stringify(res));
+          let tmpFiles: Array<FileModel> = new Array<FileModel>();
+
+          filesUploaded.forEach(file => {
+            let fileId = new ObjectID().toString();
+            let fileToAdd = new FileModel(fileId, file.name, file.path, file.size, file.type, savedProjectId, uid);
+            tmpFiles.push(fileToAdd);
+          });
+
+          this.fileService.addFiles(tmpFiles).subscribe( res => {
+
+            this.clearForm(form);
+            (<HTMLInputElement> document.getElementById("progressBar")).style.display = "none";
+            M.toast({html: "Proyecto creado"});
+            this.getProjects();
+            console.log("Ficheros subidos");
+
+          }, err => {
+            console.log("Error al guardar la información de ficheros");
+          });
+
+
+        }, err => {
+          console.log("Error al subir fichero");
+        });
+
+      }else{
+
+        this.clearForm(form);
+        (<HTMLInputElement> document.getElementById("progressBar")).style.display = "none";
+        M.toast({html: "Proyecto creado"});
+        this.getProjects();
+
+      }
+
     }, ( err => {
       console.log("Error al crear el proyecto.");
-    }));*/
+    }));
+  }
+
+
+  handleFileInput(e) {
+    this.uploadedFiles = e.target.files;
+    console.log(this.uploadedFiles);
+  }
+
+  uploadFiles() {
+    let formData = new FormData();
+
+    for(let i=0; i<this.uploadedFiles.length; i++){
+      formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
+    }
+
+    this.uploadService.uploadFile(formData).subscribe( res => {
+      console.log("Fichero subido");
+    }, err => {
+      console.log("Error al subir fichero");
+    });
   }
 
   viewProjectDetails(form, project: Project) {

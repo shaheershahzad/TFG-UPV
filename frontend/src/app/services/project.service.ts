@@ -21,8 +21,8 @@ export class ProjectService {
     return this.httpClient.get(this.projectAPI);
   }
 
-  addProject(Project: Project){
-    return this.httpClient.post(this.projectAPI, Project);
+  addProject(project: Project){
+    return this.httpClient.post(this.projectAPI, project);
   }
 
   updateProject(project: Project){

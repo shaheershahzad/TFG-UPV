@@ -7,14 +7,20 @@ projectController.getProjects = async (req, res) => {
 };
 
 projectController.createProject = async (req, res) => {
-    const project = new projectModel({
-        name: req.body.name,
-        description: req.body.description
-    });
-    await project.save();
-    res.json({
-        "status":"Project saved"
-    });
+    try {
+        const project = new projectModel({
+            name: req.body.name,
+            description: req.body.description
+        });
+        let p = await project.save();
+        res.json({
+            "status":"Project saved",
+            "id": p._id
+        });
+    } catch (error) {
+        console.log('err' + error);
+        res.status(500).send(error);
+    }
 };
 
 projectController.getProject = async (req, res) => {

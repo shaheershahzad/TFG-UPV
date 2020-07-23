@@ -48,23 +48,4 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onUpload() {
-    let formData = new FormData();
-
-    for(let i=0; i<this.uploadedFiles.length; i++){
-      formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
-    }
-
-    this.uploadService.uploadFile(formData).subscribe( res => {
-      console.log("Fichero subido");
-    }, err => {
-      console.log("Error al subir fichero");
-    });
-  }
-
-  onFileChange(e) {
-    this.uploadedFiles = e.target.files;
-    console.log(e.target.files);
-  }
-
 }
