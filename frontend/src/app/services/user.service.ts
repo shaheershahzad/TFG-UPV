@@ -13,7 +13,7 @@ export class UserService {
   users: User[];
 
   constructor(private httpClient: HttpClient) {
-    this.selectedUser = new User();
+    this.selectedUser = new User("","","","","","",false);
   }
 
   getUsers(){

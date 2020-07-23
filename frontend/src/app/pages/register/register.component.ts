@@ -6,7 +6,9 @@ import { UserI } from '../../interfaces/user';
 import { Form } from '@angular/forms';
 import { DataSharingService } from '../../services/data-sharing.service';
 import { ObjectUnsubscribedError } from 'rxjs';
+import { Newsletter } from 'src/app/models/newsletter';
 //import * as M from 'materialize-css/dist/js/materialize';
+import { ObjectID } from 'bson';
 
 declare const M: any;
 
@@ -82,18 +84,27 @@ export class RegisterComponent implements OnInit {
         notifications: this.user.newsletter
       });
 
+      let _id = new ObjectID().toString();
+      let newSubscriber = new Newsletter(_id, this.user.email);
+
+      console.log(newSubscriber);
+      console.log(form.value);
+
       this.authService.register(form.value).subscribe(res => {
         //this.dataSharingService.changeLoggedUser(true);
         //this.router.navigateByUrl("/");
 
         if(form.value.notifications){
-          this.newsletterService.addSubscriber(form.value.email).subscribe( res => {
+          this.newsletterService.addSubscriber(newSubscriber).subscribe( res => {
+            console.log("Registered completed with all");
             window.location.reload();
+          }, err => {
+            console.log("Error al suscribir el correo: ", err);
           });
         }
 
       }, err => {
-        console.log("Error: ", err);
+        console.log("Error al registrar: ", err);
       });
 
       //console.log(form.value);

@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router, CanActivate } from '@angular/router';
 import { UserService } from './user.service';
+import { NewsletterService } from './newsletter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthService implements CanActivate {
   //AUTH_SERVER: string = "";
   authSubject = new BehaviorSubject(false);
   private token: string;
-  constructor(private httpClient: HttpClient, private router: Router, private userService: UserService, private globals: Globals) { }
+  constructor(private httpClient: HttpClient, private router: Router, private userService: UserService, private newsletterService: NewsletterService) { }
 
   register(user:User): Observable<JwtResponseI> {
     return this.httpClient.post<JwtResponseI>(`${this.AUTH_SERVER}/register`, user)

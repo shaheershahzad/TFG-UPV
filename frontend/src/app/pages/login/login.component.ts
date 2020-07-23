@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(form.value).subscribe(res => {
         //this.router.navigateByUrl("/");
         //this.dataSharingService.changeLoggedUser(true);
-        //window.location.reload();
+        window.location.reload();
       }, err => {
         console.log("Error: ", err);
       });

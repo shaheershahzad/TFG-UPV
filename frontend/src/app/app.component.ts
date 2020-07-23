@@ -10,7 +10,7 @@ import { Title }     from '@angular/platform-browser';
 export class AppComponent implements OnInit {
   title = "Frontend";
 
-  constructor(private titleService: Title, private authService: AuthService, private globals: Globals) { }
+  constructor(private titleService: Title, private authService: AuthService) { }
 
   ngOnInit(): void {
     if(location.href.indexOf("/backoffice") > 0){
@@ -18,7 +18,5 @@ export class AppComponent implements OnInit {
         location.href = "/";
       }
     }
-
-    this.title = this.globals.siteTitle;
   }
 }
