@@ -1,41 +1,48 @@
 "use strict"
 
+//Para leer las variables del fichero .env si estamos en desarrollo
+if(process.env.NODE_ENV !== "production"){
+    require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
 const multipart = require("connect-multiparty");
 const path = require("path");
-//const morgan = require("morgan");
+const morgan = require("morgan");
 
 //Routes
 
 //User
-const userRoutes = require("./server/routes/user.routes");
+const userRoutes = require("./routes/user.routes");
 //User2
-const user2Routes = require("./server/routes/user2.routes");
+const user2Routes = require("./routes/user2.routes");
 //Project
-const projectRoutes = require("./server/routes/project.routes");
+const projectRoutes = require("./routes/project.routes");
 //Newsletter
-const newsletterRoutes = require("./server/routes/newsletter.routes");
+const newsletterRoutes = require("./routes/newsletter.routes");
 //File
-const fileRoutes = require("./server/routes/file.routes");
+const fileRoutes = require("./routes/file.routes");
 
 // Settings -> Configuración del servidor
 const cors = require("cors");
-const properties = require("./server/config/properties");
+const properties = require("./config/properties");
 app.set("port", properties.PORT);
 
 // Middlewares -> Funciones para tratar los datos
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 const multipartMiddleware = multipart({
-    uploadDir: "./server/uploads"
+    uploadDir: path.join(__dirname, "./public/uploads")
 });
 
 //For deployment
-app.use(express.static(path.join(__dirname, "./frontend/dist/frontend")));
+//app.use(express.static(path.join(__dirname, "../frontend/dist/frontend")));
+app.use(express.static(path.join(__dirname, "public")));
 
 //Arrancar mongo
-const DB = require("./server/config/database");
+const DB = require("./config/database");
 DB();
 
 const router = express.Router();
@@ -71,7 +78,7 @@ app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/files', fileRoutes);
 
 app.get("*", (req, res) => {
-    return res.sendFile(path.join(__dirname, "./frontend/dist/frontend/index.html"));
+    return res.sendFile(path.join(__dirname, "../frontend/dist/frontend/index.html"));
 });
 
 // Starting the server
