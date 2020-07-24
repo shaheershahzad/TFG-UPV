@@ -59,6 +59,10 @@ app.get('/', (req, res) => {
     res.send('MAIN SERVER!')
 });
 
+app.get('/info', (req, res) => {
+    res.send('INFORMATION PAGE!')
+});
+
 app.use(router);
 //app.use('/api/users', userRoutes);
 app.use('/api/users2', user2Routes);
