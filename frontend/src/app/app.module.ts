@@ -22,12 +22,12 @@ import { DonateComponent } from './pages/donate/donate.component';
 import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
 
 //Material
-import { MatButtonModule } from '@angular/material/button';
+/*import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatBadgeModule } from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';*/
 
 //Materialize
 
@@ -36,14 +36,14 @@ import { AuthService } from '../app/services/auth.service';
 import { DataSharingService } from './services/data-sharing.service';
 import { UploadService } from './services/upload.service';
 
-const MaterialComponents = [
+/*const MaterialComponents = [
   MatButtonModule,
   MatButtonToggleModule,
   MatIconModule,
   MatProgressSpinnerModule,
   MatToolbarModule,
   MatBadgeModule
-]
+]*/
 
 @NgModule({
   declarations: [
@@ -67,8 +67,7 @@ const MaterialComponents = [
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MaterialComponents
+    ReactiveFormsModule
   ],
   providers: [
     AuthService,
