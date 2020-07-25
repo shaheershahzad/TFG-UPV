@@ -2,7 +2,7 @@
   "name": "tfg-upv",
   "version": "1.0.0",
   "description": "Software Engineering final year project 2020.",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
     "ng": "cd frontend && ng",
     "start": "cross-env NODE_ENV=production node server/server.js",
