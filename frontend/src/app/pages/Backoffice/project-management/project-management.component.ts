@@ -31,9 +31,12 @@ export class ProjectManagementComponent implements OnInit {
     });
 
     //Desplegable documentos
+    let options = {
+      onCloseEnd: this.hasDocuments = false
+    }
     document.addEventListener('DOMContentLoaded', function() {
       var elems = document.querySelectorAll('.collapsible');
-      var instances = M.Collapsible.init(elems);
+      var instances = M.Collapsible.init(elems, options);
     });
 
     this.getProjects();
@@ -56,7 +59,7 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   addProject(form): void{
-    (<HTMLInputElement> document.getElementById("progressBar")).style.display = "block";
+    (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "block";
     this.projectService.addProject(form.value).subscribe( res => {
 
       if(this.uploadedFiles.length > 0){
@@ -84,7 +87,7 @@ export class ProjectManagementComponent implements OnInit {
           this.fileService.addFiles(tmpFiles).subscribe( res => {
 
             this.clearForm(form);
-            (<HTMLInputElement> document.getElementById("progressBar")).style.display = "none";
+            (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
             M.toast({html: "Proyecto creado"});
             this.getProjects();
             console.log("Ficheros subidos");
@@ -101,7 +104,7 @@ export class ProjectManagementComponent implements OnInit {
       }else{
 
         this.clearForm(form);
-        (<HTMLInputElement> document.getElementById("progressBar")).style.display = "none";
+        (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
         M.toast({html: "Proyecto creado"});
         this.getProjects();
 
@@ -134,6 +137,7 @@ export class ProjectManagementComponent implements OnInit {
 
   viewProjectDetails(form, project: Project) {
     //this.projectService.selectedProject = project;
+    this.hasDocuments = false;
     this.getProjectFiles(project._id);
     this.setFormValues(form, project);
   }
@@ -159,18 +163,35 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   deleteProject() {
-    console.log("Deleting project: "+(<HTMLInputElement>document.querySelector('#projectID')).value);
+
     this.projectService.deleteProject((<HTMLInputElement>document.querySelector('#projectID')).value).subscribe( res => {
-      M.toast({html: "Proyecto borrado"});
-      this.getProjects();
+      if((<HTMLInputElement>document.querySelector('#filesConservationOption')).checked){
+        M.toast({html: "Proyecto borrado"});
+        this.getProjects();
+      }else{
+
+        this.fileService.deleteFile
+
+      }      
     }, ( err => {
       console.log("Error al borrar el proyecto.");
     }));
+
   }
 
   deleteFile(e){
-    let fileId = e.target.id;
-    (<HTMLInputElement> document.getElementById(fileId)).remove();
+    
+    if(e.target.id !== null){
+      let fileId = e.target.id;
+
+      this.fileService.deleteFile(fileId).subscribe( res => {
+        (<HTMLInputElement>document.querySelector('._'+fileId)).remove();
+        M.toast({html: "Fichero borrado"});
+      }, err => {
+        console.log("Error al borrar el fichero.");
+      });
+    }
+    
   }
 
   clearForm(form) {

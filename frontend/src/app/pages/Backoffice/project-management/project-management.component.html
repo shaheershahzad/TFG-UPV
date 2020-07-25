@@ -34,25 +34,25 @@
             <form class="col s12" #frmAddProject="ngForm">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
+                    <input id="nameAdd" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
                     <!--<label for="name">Nombre</label>-->
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
+                      <input id="descriptionAdd" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
                       <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
               <div class="file-field input-field">
                 <div class="btn">
                   <span>Ficheros</span>
-                  <input id="files" type="file" multiple (change)="handleFileInput($event)" name="files" >
+                  <input id="filesAdd" type="file" multiple (change)="handleFileInput($event)" name="files" >
                 </div>
                 <div class="file-path-wrapper">
                   <input class="file-path validate" type="text" placeholder="Sube los ficheros del proyecto">
                 </div>
-                <div id="progressBar" class="progress" style="display: none;">
+                <div id="progressBarAdd" class="progress" style="display: none;">
                   <div class="indeterminate"></div>
                 </div>
               </div>
@@ -71,16 +71,16 @@
         <h4 class="main-heading" id="modalTitle">Actualizar proyecto</h4>
           <div class="row">
             <form class="col s12" #frmEditProject="ngForm">
-              <input id="id" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
+              <input id="idEdit" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
+                    <input id="nameEdit" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
                     <!--<label for="name">Nombre</label>-->
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
+                      <input id="descriptionEdit" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
                       <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
@@ -88,7 +88,7 @@
                 <ul class="collapsible">
                   <li *ngIf="hasDocuments">
                     <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
-                    <div class="collapsible-body" *ngFor="let file of fileService.files">
+                    <div *ngFor="let file of fileService.files" class="collapsible-body _{{file._id}}">
                       <span><strong>Nombre:</strong> {{ file.name }}</span><br>
                       <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
                       <span><strong>Tipo:</strong> {{ file.type }}</span>
@@ -116,16 +116,16 @@
         <h4 class="main-heading" id="modalTitle">Información del proyecto</h4>
           <div class="row">
             <form class="col s12" #frmProjectDetails="ngForm">
-              <input id="id" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
+              <input id="idDelete" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
+                    <input id="nameDelete" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
                     <label for="name">Nombre</label>
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
+                      <input id="descriptionDelete" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
                       <label for="description">Descripción</label>
                   </div>
               </div>
@@ -158,6 +158,12 @@
         <input id="projectName" type="hidden">
         <h5>¿Seguro que quiere borrar el proyecto '<span id="projectNameDelete"></span>'?</h5>
         <p>El proyecto se borrará permanentemente.</p>
+        <p>
+          <label>
+            <input id="filesConservationOption" type="checkbox" class="filled-in" />
+            <span>Quiero conservar los ficheros del proyecto.</span>
+          </label>
+        </p>
       </div>
       <div class="modal-footer">
         <button style="margin-right: 0.5rem;" class="btn btn-neutral modal-close">Cancelar</button>

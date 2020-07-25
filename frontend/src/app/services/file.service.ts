@@ -7,8 +7,8 @@ import { FileModel } from '../models/file';
 })
 export class FileService {
 
-  //readonly fileAPI = "http://localhost:3000/api/files";
-  readonly fileAPI = "/api/files";
+  readonly fileAPI = "http://localhost:3000/api/files";
+  //readonly fileAPI = "/api/files";
   selectedFile: FileModel;
   files: FileModel[];
 

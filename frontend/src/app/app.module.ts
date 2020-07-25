@@ -35,6 +35,7 @@ import { MatBadgeModule } from '@angular/material/badge';*/
 import { AuthService } from '../app/services/auth.service';
 import { DataSharingService } from './services/data-sharing.service';
 import { UploadService } from './services/upload.service';
+import { FileDeleteConfirmationComponent } from './components/Modals/file-delete-confirmation/file-delete-confirmation.component';
 
 /*const MaterialComponents = [
   MatButtonModule,
@@ -59,7 +60,8 @@ import { UploadService } from './services/upload.service';
     UserManagementComponent,
     ProjectManagementComponent,
     DonateComponent,
-    NewsletterManagementComponent
+    NewsletterManagementComponent,
+    FileDeleteConfirmationComponent
   ],
   imports: [
     BrowserModule,
