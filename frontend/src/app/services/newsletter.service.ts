@@ -8,8 +8,8 @@ import { Newsletter } from '../models/newsletter';
 
 export class NewsletterService {
 
-  readonly newsletterAPI = "http://localhost:3000/api/newsletter";
-  //readonly newsletterAPI = "/api/newsletter";
+  //readonly newsletterAPI = "http://localhost:3000/api/newsletter";
+  readonly newsletterAPI = "/api/newsletter";
   selectedSubscriber: Newsletter;
   subscribers: Newsletter[];
 

@@ -7,8 +7,8 @@ import { User } from '../models/user';
 })
 export class UserService {
 
-  readonly userAPI = "http://localhost:3000/api/users2";
-  //readonly userAPI = "/api/users2";
+  //readonly userAPI = "http://localhost:3000/api/users2";
+  readonly userAPI = "/api/users2";
   selectedUser: User;
   users: User[];
 

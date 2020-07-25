@@ -14,8 +14,8 @@ import { NewsletterService } from './newsletter.service';
 })
 
 export class AuthService implements CanActivate {
-  AUTH_SERVER: string = "http://localhost:3000";
-  //AUTH_SERVER: string = "";
+  //AUTH_SERVER: string = "http://localhost:3000";
+  AUTH_SERVER: string = "/";
   authSubject = new BehaviorSubject(false);
   private token: string;
   constructor(private httpClient: HttpClient, private router: Router, private userService: UserService, private newsletterService: NewsletterService) { }

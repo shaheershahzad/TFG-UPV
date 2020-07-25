@@ -78,7 +78,7 @@ app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/files', fileRoutes);
 
 app.get("*", (req, res) => {
-    return res.sendFile(path.join(__dirname, "../frontend/dist/frontend/index.html"));
+    return res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
 // Starting the server
