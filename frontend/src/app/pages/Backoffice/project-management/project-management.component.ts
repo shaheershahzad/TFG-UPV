@@ -8,6 +8,7 @@ import { FileModel } from '../../../models/file';
 import { ObjectID } from 'bson';
 
 declare const M: any;
+declare const L: any;
 
 @Component({
   selector: 'app-project-management',
@@ -24,6 +25,7 @@ export class ProjectManagementComponent implements OnInit {
 
   ngOnInit(): void {
 
+    var ubicacion = "Valencia";
     //Modals
     document.addEventListener('DOMContentLoaded', function() {
       var elems = document.querySelectorAll('.modal');
@@ -40,6 +42,60 @@ export class ProjectManagementComponent implements OnInit {
     });
 
     this.getProjects();
+
+    var mymap = L.map('map', {
+      center: [39.46975, -0.37739],
+      zoom: 13
+    });
+
+    var marker = L.marker([39.46975, -0.37739], { title: "Valencia" }).addTo(mymap);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: ''
+    }).addTo(mymap);
+
+    // Código para ocultar las atribuciones
+    (<HTMLInputElement> document.querySelector(".leaflet-control-attribution.leaflet-control")).style.display = "none";
+
+    // Este listener es para renderizar correctamente el mapa al abrir un modal
+    document.addEventListener("click", function(){
+      mymap.invalidateSize();
+    });
+
+    mymap.on('click', function(e) {        
+      var popLocation= e.latlng;
+      (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML = popLocation.lat+","+popLocation.lng;
+      
+      mymap.removeLayer(marker);
+      marker = L.marker(popLocation).addTo(mymap);
+      
+      const Http = new XMLHttpRequest();
+      const url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+popLocation.lat+"&lon="+popLocation.lng;
+      Http.open("GET", url);
+      Http.send();
+
+      Http.onreadystatechange = (e) => {
+        if (Http.readyState == 4) {
+          let coordData = JSON.parse(Http.responseText);
+          if(coordData.address.village != undefined){
+            ubicacion = coordData.address.village;
+          }else if(coordData.address.county != undefined){
+            ubicacion = coordData.address.county;
+          }else if(coordData.address.city != undefined){
+            ubicacion = coordData.address.city;
+          }else if(coordData.address.country != undefined){
+            ubicacion = coordData.address.country;
+          }else{
+            ubicacion = "No localizable";
+          }
+
+          var popup = L.popup()
+          .setLatLng(popLocation)
+          .setContent('<p>'+ ubicacion +'</p>')
+          .openOn(mymap);
+        }
+      }
+    });
   }
 
   getProjects(){

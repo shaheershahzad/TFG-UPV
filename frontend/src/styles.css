@@ -3,6 +3,12 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* Map */
+#map { 
+    height: 20rem; 
+    width: 100%;
+}
+
 /* Hide elements class */
 .hidden {
     display: none;
