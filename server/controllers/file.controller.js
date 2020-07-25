@@ -57,9 +57,19 @@ fileController.getFile = async (req, res) => {
 };*/
 
 fileController.deleteFile = async (req, res) => {
-    await fileModel.findByIdAndRemove(req.params.id);
-    res.json({
-        "status":"File deleted"
+    const file = [await fileModel.findByIdAndRemove(req.params.id)];
+    
+    //Borrar los ficheros del servidor
+    deleteServerFiles(file, function(err, res1) {
+        if (err) {
+            console.log(err);
+            return res1.status(500).send('Error al borrar los documentos del servidor');
+        } else {
+            console.log("Todos los ficheros han sido borrados correctamente");
+            res.send({
+                "status":"File deleted"
+            });
+        }
     });
 };
 
@@ -113,13 +123,13 @@ fileController.deleteProjectFiles = async (req, res) => {
         }
     });
 
-    console.log("#############################################\n#############################################");
-    console.log(files);
-    deleteServerFiles(files, function(err) {
+    //Borrar los ficheros del servidor
+    deleteServerFiles(files, function(err, res) {
         if (err) {
             console.log(err);
+            return res.status(500).send('Error al borrar los documentos del servidor');
         } else {
-            console.log('All files removed from server');
+            console.log("Todos los ficheros han sido borrados correctamente");
         }
     });
 };
