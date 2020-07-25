@@ -104,12 +104,12 @@
                       <span><strong>Nombre:</strong> {{ file.name }}</span><br>
                       <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
                       <span><strong>Tipo:</strong> {{ file.type }}</span>
-                      <span class="right" style="cursor: pointer;"><i id="{{file._id}}" class="material-icons" (click)="deleteFile($event)">delete</i></span>
+                      <span class="right" style="cursor: pointer;"><i id="{{file._id}}" class="material-icons delete" (click)="deleteFile($event)">delete</i></span>
                     </div>
                   </li>
                   <li *ngIf="!hasDocuments">
                     <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
-                    <div class="collapsible-body"><span>No hay documentos subidos</span></div>
+                    <div class="collapsible-body"><i class="material-icons" style="vertical-align: bottom;margin-right: 1rem;">do_not_disturb_alt</i>No hay documentos subidos</div>
                   </li>
                 </ul>
               </div>
@@ -153,7 +153,7 @@
                   </li>
                   <li *ngIf="!hasDocuments">
                     <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
-                    <div class="collapsible-body"><span>No hay documentos subidos</span></div>
+                    <div class="collapsible-body"><i class="material-icons" style="vertical-align: bottom;margin-right: 1rem;">do_not_disturb_alt</i>No hay documentos subidos</div>
                   </li>
                 </ul>
               </div>

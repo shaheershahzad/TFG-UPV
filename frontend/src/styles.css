@@ -70,6 +70,11 @@ a.delete {
     color: #B71C1C;
 }
 
+/* Delete icon in red */
+i.delete {
+    color: #B71C1C;
+}
+
 /* label focus color */
 .input-field input[type=text]:focus + label {
     color: #03a9f4 !important;
