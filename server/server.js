@@ -34,7 +34,8 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 const multipartMiddleware = multipart({
-    uploadDir: path.join(__dirname, "./public/uploads")
+    //uploadDir: path.join(__dirname, "./public/uploads")
+    uploadDir: path.join(__dirname, "./uploads")
 });
 
 //For deployment

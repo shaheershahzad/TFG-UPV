@@ -40,11 +40,6 @@ fileController.getFile = async (req, res) => {
     res.json(file);
 };
 
-fileController.getProjectFiles = async (req, res) => {
-    const files = await fileModel.find({ "projectId": req.params.id });
-    res.json(files);
-};
-
 fileController.updateFile = async (req, res) => {
     const file = {
         name: req.body.name,
@@ -63,6 +58,41 @@ fileController.deleteFile = async (req, res) => {
     await fileModel.findByIdAndRemove(req.params.id);
     res.json({
         "status":"File deleted"
+    });
+};
+
+fileController.getProjectFiles = async (req, res) => {
+    let filter = {
+        "projectId": req.params.id
+    }
+
+    const files = await fileModel.find(filter);
+    res.json(files);
+};
+
+fileController.deleteProjectFiles = async (req, res) => {
+    let filter = {
+        "projectId": req.params.id
+    }
+    const files = await fileModel.find(filter, function(err, res1) {
+        if(err){
+            console.log(err);
+            return res1.status(500).send('Error al buscar documentos a borrar');
+        }else{
+            fileModel.deleteMany(filter, function(err, res2){
+                if(err){
+                    console.log(err);
+                    return res2.status(500).send({
+                        "message": "Error al borrar los documentos"
+                    });
+                }else{
+                    console.log("Documentos borrados");
+                    res.send({
+                        "message": "Documentos borrados"
+                    });
+                }
+            });
+        }
     });
 };
 

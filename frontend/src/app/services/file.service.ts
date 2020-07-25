@@ -39,4 +39,8 @@ export class FileService {
   deleteFile(_id: String){
     return this.httpClient.delete(this.fileAPI + `/${_id}`);
   }
+
+  deleteProjectFiles(_id: String){
+    return this.httpClient.delete(this.fileAPI + `/project/${_id}`);
+  }
 }

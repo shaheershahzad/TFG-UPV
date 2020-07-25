@@ -12,5 +12,6 @@ const fileController = require("../controllers/file.controller");
     router.get("/project/:id", fileController.getProjectFiles);
     router.put("/:id", fileController.updateFile);
     router.delete("/:id", fileController.deleteFile);
+    router.delete("/project/:id", fileController.deleteProjectFiles);
 //};
 module.exports = router;

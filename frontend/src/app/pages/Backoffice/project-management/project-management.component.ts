@@ -59,47 +59,17 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   addProject(form): void{
+
     (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "block";
+
     this.projectService.addProject(form.value).subscribe( res => {
 
       if(this.uploadedFiles.length > 0){
 
         let savedProjectId = JSON.parse(JSON.stringify(res)).id;
         let uid = this.authService.getUID();
-
-        let formData = new FormData();
-
-        for(let i=0; i<this.uploadedFiles.length; i++){
-          formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
-        }
-
-        this.uploadService.uploadFile(formData).subscribe( res => {
-
-          let filesUploaded = JSON.parse(JSON.stringify(res));
-          let tmpFiles: Array<FileModel> = new Array<FileModel>();
-
-          filesUploaded.forEach(file => {
-            let fileId = new ObjectID().toString();
-            let fileToAdd = new FileModel(fileId, file.name, file.path, file.size, file.type, savedProjectId, uid);
-            tmpFiles.push(fileToAdd);
-          });
-
-          this.fileService.addFiles(tmpFiles).subscribe( res => {
-
-            this.clearForm(form);
-            (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
-            M.toast({html: "Proyecto creado"});
-            this.getProjects();
-            console.log("Ficheros subidos");
-
-          }, err => {
-            console.log("Error al guardar la información de ficheros");
-          });
-
-
-        }, err => {
-          console.log("Error al subir fichero");
-        });
+        this.uploadFilesToServer(savedProjectId, uid);
+        this.clearForm(form);
 
       }else{
 
@@ -113,15 +83,11 @@ export class ProjectManagementComponent implements OnInit {
     }, ( err => {
       console.log("Error al crear el proyecto.");
     }));
+
   }
 
+  uploadFilesToServer(projectId: string, userId: string) {
 
-  handleFileInput(e) {
-    this.uploadedFiles = e.target.files;
-    console.log(this.uploadedFiles);
-  }
-
-  uploadFiles() {
     let formData = new FormData();
 
     for(let i=0; i<this.uploadedFiles.length; i++){
@@ -129,10 +95,37 @@ export class ProjectManagementComponent implements OnInit {
     }
 
     this.uploadService.uploadFile(formData).subscribe( res => {
-      console.log("Fichero subido");
+
+      let filesUploaded = JSON.parse(JSON.stringify(res));
+      this.saveFilesDatabase(filesUploaded, projectId, userId);          
+
     }, err => {
-      console.log("Error al subir fichero");
+      console.log("Error al subir ficheros al servidor");
     });
+
+  }
+
+  saveFilesDatabase(uploadedFiles, projectId: string, userId: string){
+
+    let tmpFiles: Array<FileModel> = new Array<FileModel>();
+
+    uploadedFiles.forEach(file => {
+      let fileId = new ObjectID().toString();
+      let fileToAdd = new FileModel(fileId, file.name, file.path, file.size, file.type, projectId, userId);
+      tmpFiles.push(fileToAdd);
+    });
+
+    this.fileService.addFiles(tmpFiles).subscribe( res => {
+
+      (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
+      M.toast({html: "Proyecto creado"});
+      this.getProjects();
+      console.log("Ficheros subidos");
+
+    }, err => {
+      console.log("Error al guardar la información de ficheros");
+    });
+
   }
 
   viewProjectDetails(form, project: Project) {
@@ -149,8 +142,21 @@ export class ProjectManagementComponent implements OnInit {
 
   updateProject(form) {
     this.projectService.updateProject(form.value).subscribe( res => {
-      M.toast({html: "Proyecto actualizado"});
-      this.getProjects();
+
+      if(this.uploadedFiles.length > 0){
+
+        let updatedProjectId = form._id;
+        let uid = this.authService.getUID();
+        this.uploadFilesToServer(updatedProjectId, uid);
+        this.clearForm(form);
+
+      }else{
+
+        M.toast({html: "Proyecto actualizado"});
+        this.getProjects();
+
+      }
+      
     }, ( err => {
       console.log("Error al actualizar los datos del proyecto.");
     }));
@@ -164,13 +170,24 @@ export class ProjectManagementComponent implements OnInit {
 
   deleteProject() {
 
-    this.projectService.deleteProject((<HTMLInputElement>document.querySelector('#projectID')).value).subscribe( res => {
-      if((<HTMLInputElement>document.querySelector('#filesConservationOption')).checked){
+    let projectId = (<HTMLInputElement>document.querySelector('#projectID')).value;
+    let conserveProjectFiles = (<HTMLInputElement>document.querySelector('#filesConservationOption')).checked;
+    this.projectService.deleteProject(projectId).subscribe( res => {
+      if(conserveProjectFiles){
+
         M.toast({html: "Proyecto borrado"});
         this.getProjects();
+
       }else{
 
-        this.fileService.deleteFile
+        this.fileService.deleteProjectFiles(projectId).subscribe( res => {
+
+          M.toast({html: "Proyecto borrado"});
+          this.getProjects();
+
+        }, err => {
+          console.log("Error al borrar los ficheros del proyecto.");
+        });
 
       }      
     }, ( err => {
@@ -207,4 +224,10 @@ export class ProjectManagementComponent implements OnInit {
       description: project.description
     });
   }
+
+  handleFileInput(e) {
+    this.uploadedFiles = e.target.files;
+    console.log(this.uploadedFiles);
+  }
+
 }
