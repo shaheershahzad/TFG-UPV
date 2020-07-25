@@ -7,21 +7,21 @@ import { User } from '../models/user';
 })
 export class UserService {
 
-  //readonly userAPI = "http://localhost:3000/api/users2";
-  readonly userAPI = "/api/users2";
+  readonly userAPI = "http://localhost:3000/api/users2";
+  //readonly userAPI = "/api/users2";
   selectedUser: User;
   users: User[];
 
   constructor(private httpClient: HttpClient) {
-    this.selectedUser = new User();
+    this.selectedUser = new User("","","","","","",false);
   }
 
   getUsers(){
     return this.httpClient.get(this.userAPI);
   }
 
-  addUser(User: User){
-    return this.httpClient.post(this.userAPI, User);
+  addUser(user: User){
+    return this.httpClient.post(this.userAPI, user);
   }
 
   updateUser(user: User){

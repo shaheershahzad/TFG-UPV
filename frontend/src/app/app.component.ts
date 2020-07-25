@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from'./services/auth.service';
+import { Title }     from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -7,13 +8,13 @@ import { AuthService } from'./services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'frontend';
+  title = "Frontend";
 
-  constructor(private authService: AuthService) { }
+  constructor(private titleService: Title, private authService: AuthService) { }
 
   ngOnInit(): void {
     if(location.href.indexOf("/backoffice") > 0){
-      if(!this.authService.isSuperadmin()){
+      if(!this.authService.isSuperadmin() && !this.authService.isAdmin()){
         location.href = "/";
       }
     }

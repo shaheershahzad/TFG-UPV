@@ -3,6 +3,9 @@ import { AuthService } from '../../services/auth.service';
 import { DataSharingService } from '../../services/data-sharing.service';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project';
+import { UploadService } from '../../services/upload.service';
+
+declare const L: any;
 
 @Component({
   selector: 'app-home',
@@ -13,9 +16,11 @@ import { Project } from '../../models/project';
 
 export class HomeComponent implements OnInit {
 
-  constructor(private authService: AuthService, private dataSharingService: DataSharingService, public projectService: ProjectService) { }
-
+  uploadedFiles: Array<File>;
   public isLogged: boolean = false;
+  public projectsAvailable: boolean = false;
+
+  constructor(private authService: AuthService, private dataSharingService: DataSharingService, public projectService: ProjectService, private uploadService: UploadService) { }
 
   ngOnInit(): void {
     /*document.addEventListener('DOMContentLoaded', function() {
@@ -29,11 +34,49 @@ export class HomeComponent implements OnInit {
     });
 
     this.getProjects();
+
+    /*var mymap = L.map('map', {
+      center: [39.46975, -0.37739],
+      zoom: 10
+    });
+
+    var marker = L.marker([39.46975, -0.37739], { title: "Valencia" }).addTo(mymap);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: ''
+    }).addTo(mymap);
+
+    mymap.on('click', function(e) {        
+      var popLocation= e.latlng;
+      var popup = L.popup()
+      .setLatLng(popLocation)
+      .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+      .openOn(mymap);
+      
+      mymap.removeLayer(marker);
+      marker = L.marker(popLocation).addTo(mymap);
+      
+      const Http = new XMLHttpRequest();
+      const url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+popLocation.lat+"&lon="+popLocation.lng;
+      Http.open("GET", url);
+      Http.send();
+
+      Http.onreadystatechange = (e) => {
+        let coordData = JSON.parse(Http.responseText);
+        console.log(coordData.address.county);
+      }
+    });*/
   }
 
   getProjects(){
     this.projectService.getProjects().subscribe(res => {
       this.projectService.projects = res as Project[];
+
+      if(this.projectService.projects.length > 0){
+        this.projectsAvailable = true;
+      }else{
+        this.projectsAvailable = false;
+      }
     });
   }
 

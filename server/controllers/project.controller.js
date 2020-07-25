@@ -7,14 +7,21 @@ projectController.getProjects = async (req, res) => {
 };
 
 projectController.createProject = async (req, res) => {
-    const project = new projectModel({
-        name: req.body.name,
-        description: req.body.description
-    });
-    await project.save();
-    res.json({
-        "status":"Project saved"
-    });
+    try {
+        const project = new projectModel({
+            name: req.body.name,
+            description: req.body.description,
+            coordinates: req.body.coordinates
+        });
+        let p = await project.save();
+        res.json({
+            "status":"Project saved",
+            "id": p._id
+        });
+    } catch (error) {
+        console.log('err' + error);
+        res.status(500).send(error);
+    }
 };
 
 projectController.getProject = async (req, res) => {
@@ -25,7 +32,8 @@ projectController.getProject = async (req, res) => {
 projectController.updateProject = async (req, res) => {
     const project = {
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        coordinates: req.body.coordinates
     }
     await projectModel.findByIdAndUpdate(req.params.id, {$set: project}, { new: true});
     res.json({

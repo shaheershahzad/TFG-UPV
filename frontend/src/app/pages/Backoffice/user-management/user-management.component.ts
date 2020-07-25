@@ -10,6 +10,8 @@ import { User } from '../../../models/user';
 })
 export class UserManagementComponent implements OnInit {
 
+  public noData = true;
+
   constructor(public userService: UserService) { }
 
   ngOnInit(): void {
@@ -19,7 +21,10 @@ export class UserManagementComponent implements OnInit {
   getUsers(){
     this.userService.getUsers().subscribe(res => {
       this.userService.users = res as User[];
-      console.log(res);
+
+      if(this.userService.users.length > 0){
+        this.noData = false;
+      }
     });
   }
 }

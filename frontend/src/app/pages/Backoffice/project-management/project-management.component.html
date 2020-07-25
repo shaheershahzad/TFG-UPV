@@ -1,8 +1,13 @@
 <div class="container">
     <h3 class="main-heading">Gestión de proyectos</h3>
-    <a id="addProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#addProjectForm"><i class="material-icons">add</i></a>
-    <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
-    <table class="responsive-table stripped highlight">
+    <div class="row">
+      <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm"><i class="material-icons">add</i></a>
+      <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
+    </div>
+    <div class="row" *ngIf="!projectsAvailable">
+      <h5 class="center" style="color: lightgray;">No hay proyectos a mostrar <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+    </div>
+    <table class="responsive-table stripped highlight" *ngIf="projectsAvailable">
       <thead>
         <tr>
             <th class="hidden">ID</th>
@@ -20,7 +25,7 @@
           <td>
             <a class="modal-trigger" href="#projectDetailsForm"><i class="material-icons" (click)="viewProjectDetails(frmProjectDetails, project)">content_paste</i></a>
             <a class="modal-trigger" href="#editProjectForm"><i class="material-icons" (click)="editProject(frmEditProject, project)">edit</i></a>
-            <a class="modal-trigger" href="#deleteProjectModal"><i class="material-icons" (click)="showDeleteProjectConfirmation(project._id, project.name)">delete</i></a>
+            <a class="modal-trigger delete" href="#deleteProjectModal"><i class="material-icons" (click)="showDeleteProjectConfirmation(project._id, project.name)">delete</i></a>
           </td>
         </tr>
       </tbody>
@@ -34,18 +39,59 @@
             <form class="col s12" #frmAddProject="ngForm">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Name" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
+                    <input id="nameAdd" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
                     <!--<label for="name">Nombre</label>-->
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Description" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
+                      <input id="descriptionAdd" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
                       <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
-              <button id="closeAddProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddProject)">Cancelar</button> 
-              <button id="addProjectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addProject(frmAddProject)" name="action">Añadir</button>
+              <div class="row">
+                <ul class="collapsible">
+                  <li class="active">
+                    <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span></div>
+                    <div class="collapsible-body">
+                      <div id="map"></div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span>Ficheros</span>
+                  <input id="filesAdd" type="file" multiple (change)="handleFileInput($event)" name="files" >
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Sube los ficheros del proyecto">
+                </div>
+                <div id="progressBarAdd" class="progress" style="display: none;">
+                  <div class="indeterminate"></div>
+                </div>
+              </div>
+              <div class="row hidden">
+                <ul class="collapsible">
+                  <li *ngIf="hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div *ngFor="let file of fileService.files" class="collapsible-body _{{file._id}}">
+                      <span><strong>Nombre:</strong> {{ file.name }}</span><br>
+                      <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
+                      <span><strong>Tipo:</strong> {{ file.type }}</span>
+                      <span class="right" style="cursor: pointer;"><i id="{{file._id}}" class="material-icons delete" (click)="deleteFile($event)">delete</i></span>
+                    </div>
+                  </li>
+                  <li *ngIf="!hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div class="collapsible-body"><i class="material-icons" style="vertical-align: bottom;margin-right: 1rem;">do_not_disturb_alt</i>No hay documentos subidos</div>
+                  </li>
+                </ul>
+              </div>
+              <div class="row" style="margin-top: 3rem;">
+                <button id="closeAddProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddProject)">Cancelar</button> 
+                <button id="addProjectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addProject(frmAddProject)" name="action">Añadir</button>
+              </div>
           </form>
         </div>
       </div>
@@ -57,21 +103,52 @@
         <h4 class="main-heading" id="modalTitle">Actualizar proyecto</h4>
           <div class="row">
             <form class="col s12" #frmEditProject="ngForm">
-              <input id="id" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
+              <input id="idEdit" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Name" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
+                    <input id="nameEdit" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" required>
                     <!--<label for="name">Nombre</label>-->
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Description" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
+                      <input id="descriptionEdit" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
                       <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
-              <button id="closeEditProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditProject)">Cancelar</button> 
-              <button id="editPprojectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateProject(frmEditProject)" name="action">Actualizar</button>
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span>Ficheros</span>
+                  <input id="filesEdit" type="file" multiple (change)="handleFileInput($event)" name="files" >
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Añade ficheros al proyecto">
+                </div>
+                <div id="progressBarEdit" class="progress" style="display: none;">
+                  <div class="indeterminate"></div>
+                </div>
+              </div>
+              <div class="row">
+                <ul class="collapsible">
+                  <li *ngIf="hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div *ngFor="let file of fileService.files" class="collapsible-body _{{file._id}}">
+                      <span><strong>Nombre:</strong> {{ file.name }}</span><br>
+                      <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
+                      <span><strong>Tipo:</strong> {{ file.type }}</span>
+                      <span class="right" style="cursor: pointer;"><i id="{{file._id}}" class="material-icons delete" (click)="deleteFile($event)">delete</i></span>
+                    </div>
+                  </li>
+                  <li *ngIf="!hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div class="collapsible-body"><i class="material-icons" style="vertical-align: bottom;margin-right: 1rem;">do_not_disturb_alt</i>No hay documentos subidos</div>
+                  </li>
+                </ul>
+              </div>
+              <div class="row">
+                <button id="closeEditProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditProject)">Cancelar</button> 
+                <button id="editPprojectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateProject(frmEditProject)" name="action">Actualizar</button>
+              </div>
           </form>
         </div>
       </div>
@@ -83,18 +160,34 @@
         <h4 class="main-heading" id="modalTitle">Información del proyecto</h4>
           <div class="row">
             <form class="col s12" #frmProjectDetails="ngForm">
-              <input id="id" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
+              <input id="idDelete" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="name" placeholder="Name" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
+                    <input id="nameDelete" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
                     <label for="name">Nombre</label>
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="description" placeholder="Description" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
+                      <input id="descriptionDelete" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
                       <label for="description">Descripción</label>
                   </div>
+              </div>
+              <div class="row">
+                <ul class="collapsible">
+                  <li *ngIf="hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div class="collapsible-body" *ngFor="let file of fileService.files">
+                      <span><strong>Nombre:</strong> {{ file.name }}</span><br>
+                      <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
+                      <span><strong>Tipo:</strong> {{ file.type }}</span>
+                    </div>
+                  </li>
+                  <li *ngIf="!hasDocuments">
+                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+                    <div class="collapsible-body"><i class="material-icons" style="vertical-align: bottom;margin-right: 1rem;">do_not_disturb_alt</i>No hay documentos subidos</div>
+                  </li>
+                </ul>
               </div>
               <button id="closeProjectDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
           </form>
@@ -109,6 +202,12 @@
         <input id="projectName" type="hidden">
         <h5>¿Seguro que quiere borrar el proyecto '<span id="projectNameDelete"></span>'?</h5>
         <p>El proyecto se borrará permanentemente.</p>
+        <p>
+          <label>
+            <input id="filesConservationOption" type="checkbox" class="filled-in" />
+            <span>Quiero conservar los ficheros del proyecto.</span>
+          </label>
+        </p>
       </div>
       <div class="modal-footer">
         <button style="margin-right: 0.5rem;" class="btn btn-neutral modal-close">Cancelar</button>

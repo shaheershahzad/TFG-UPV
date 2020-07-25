@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { NewsletterService } from '../../services/newsletter.service';
 import { UserI } from '../../interfaces/user';
 import { Form } from '@angular/forms';
 import { DataSharingService } from '../../services/data-sharing.service';
 import { ObjectUnsubscribedError } from 'rxjs';
+import { Newsletter } from 'src/app/models/newsletter';
 //import * as M from 'materialize-css/dist/js/materialize';
+import { ObjectID } from 'bson';
+import { User } from 'src/app/models/user';
 
 declare const M: any;
 
@@ -25,13 +29,15 @@ export class RegisterComponent implements OnInit {
     newsletter: true
   }
 
-  constructor(private authService: AuthService, private router: Router, private dataSharingService: DataSharingService) { }
+  constructor(private authService: AuthService, 
+    private router: Router, 
+    private dataSharingService: DataSharingService,
+    private newsletterService: NewsletterService) { }
   
   public isLogged: boolean = false;
 
   ngOnInit(): void {
     document.addEventListener('DOMContentLoaded', function() {
-
       var date = new Date();
       var year = date.getFullYear();
       var month = date.getMonth();
@@ -48,6 +54,12 @@ export class RegisterComponent implements OnInit {
       }
       var instances = M.Datepicker.init(elems, options);
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems);
+    });
+
     this.checkLoggedUser();
     (<HTMLInputElement> document.getElementById("notifications")).checked = true;
     /*this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
@@ -56,22 +68,58 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister(form): void{
-    this.user.birthday = (<HTMLInputElement> document.getElementById("birthday")).value;
-    form.setValue({
-      name: this.user.name,
-      email: this.user.email,
-      password: this.user.password,
-      birthday: this.user.birthday,
-      role: this.user.role,
-      notifications: this.user.newsletter
-    });
-    this.authService.register(form.value).subscribe(res => {
-      //this.dataSharingService.changeLoggedUser(true);
-      //this.router.navigateByUrl("/");
-      window.location.reload();
-    }, err => {
-      console.log("Error: ", err);
-    });
+
+    let formMessage = this.registerFormValidation();
+
+    if(formMessage == "OK"){
+
+      this.user.birthday = (<HTMLInputElement> document.getElementById("birthday")).value;
+      this.user.role = (<HTMLInputElement> document.getElementById("roleSelect")).value;
+      
+      form.setValue({
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password,
+        birthday: this.user.birthday,
+        role: this.user.role,
+        notifications: this.user.newsletter
+      });
+
+      let _idUser = new ObjectID().toString();
+      let user = new User(_idUser, form.value.name, form.value.email, form.value.password, form.value.role, form.value.birthday, form.value.notifications);
+
+      let _idSubscriber = new ObjectID().toString();
+      let newSubscriber = new Newsletter(_idSubscriber, this.user.email);
+
+      console.log(newSubscriber);
+      console.log(user);
+
+      this.authService.register(user).subscribe(res => {
+        //this.dataSharingService.changeLoggedUser(true);
+        //this.router.navigateByUrl("/");
+
+        if(form.value.notifications){
+          this.newsletterService.addSubscriber(newSubscriber).subscribe( res => {
+            console.log("Registered completed with all");
+            window.location.reload();
+          }, err => {
+            console.log("Error al suscribir el correo: ", err);
+          });
+        }else{
+          window.location.reload();
+        }
+
+      }, err => {
+        console.log("Error al registrar: ", err);
+      });
+
+      //console.log(form.value);
+
+    }else{
+
+      M.toast({html: formMessage});
+
+    }
   }
 
   checkLoggedUser(): void {
@@ -79,6 +127,31 @@ export class RegisterComponent implements OnInit {
       this.isLogged = true;
       this.router.navigateByUrl("/");
     }
+  }
+
+  registerFormValidation(): string{
+
+    let name = (<HTMLInputElement> document.getElementById("name")).value.trim();
+    let email = (<HTMLInputElement> document.getElementById("register_email")).value.trim();
+    let password = (<HTMLInputElement> document.getElementById("password")).value.trim();
+    let birthday = (<HTMLInputElement> document.getElementById("birthday")).value.trim();
+    let role = (<HTMLInputElement> document.getElementById("roleSelect")).value.trim();
+    //let notifications = (<HTMLInputElement> document.getElementById("notifications")).checked;
+
+    if(name.length <= 1){
+      return "Nombre incorrecto";
+    }else if(email.length <= 3 || email.indexOf("@") <= 0){
+      return "Correo incorrecto";
+    }else if(password.length < 6){
+      return "Contraseña incorrecta";
+    }else if(birthday.length < 10){
+      return "Fecha de nacimiento incorrecta";
+    }else if(role.length <= 0){
+      return "Tipo de usuario incorrecto";
+    }
+
+    return "OK";
+
   }
 
 }

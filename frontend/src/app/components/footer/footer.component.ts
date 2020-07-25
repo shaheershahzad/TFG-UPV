@@ -12,12 +12,14 @@ declare const M: any;
 })
 export class FooterComponent implements OnInit {
 
-  public isLogged: boolean;
+  public isLogged: boolean = false;
+  public subscriber: boolean = false;
 
   constructor(private authService: AuthService, public newsletterService: NewsletterService) { }
 
   ngOnInit(): void {
     this.onCheckUser();
+    this.checkNewsletter();
     let date = new Date();
     let year = date.getFullYear();
     document.getElementById("copyright-year").innerHTML = year.toString();
@@ -31,18 +33,39 @@ export class FooterComponent implements OnInit {
     }
   }
 
-  addSubscriber(form){
-    let email = "";
+  checkNewsletter(){
+    if(this.isLogged){
+      
+    }
+  }
 
-    email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
-    if(email.length > 0 && email.indexOf("@") > 0){      
+  addSubscriber(form){
+    
+    let email = this.validateEmail();
+
+    if(email == "OK"){      
       this.newsletterService.addSubscriber(form.value).subscribe( res => {
-        M.toast({html: "Se ha suscrito correctamente"});
+        M.toast({html: "Correo registrado correctamente"});
+        form.resetForm();
       }, err => {
+        M.toast({html: "El correo ya está registrado"})
         console.log("Error al añadir suscriptor");
       });
     }else{
-      console.log("Correo incorrecto");
+      M.toast({html: email});
     }
   }
+
+  validateEmail(): string{
+    
+    let email = (<HTMLInputElement> document.getElementById("newsletterEmailInput")).value.trim();
+
+    if(email.length > 0 && email.indexOf("@") > 0){
+      return "OK";
+    }else{
+      return "Correo incorrecto";
+    }
+
+  }
+
 }

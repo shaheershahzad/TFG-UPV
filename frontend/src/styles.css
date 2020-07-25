@@ -3,9 +3,23 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* Map */
+#map { 
+    height: 20rem; 
+    width: 100%;
+}
+
 /* Hide elements class */
 .hidden {
     display: none;
+}
+
+.btn {
+    background-color: #01579b;
+}
+
+.btn:hover {
+    background-color: #4fc3f7;
 }
 
 /* Neutral button style */
@@ -21,6 +35,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .btn-neutral:hover {
     background-color: #eceff1;
+}
+
+/* Progress bar */
+.progress {
+    background-color: #e1f5fe;
+}
+
+.progress .indeterminate {
+    background-color: #01579b;
+}
+
+/* Checkbox */
+[type="checkbox"].filled-in:checked+span:not(.lever):after {
+    border: 2px solid #01579b;
+    background-color: #01579b;
 }
 
 /* Main heading style */
@@ -40,6 +69,16 @@ td i {
 /* Links color: a */
 a {
     color: #01579b;
+}
+
+/* Delete link in red */
+a.delete {
+    color: #B71C1C;
+}
+
+/* Delete icon in red */
+i.delete {
+    color: #B71C1C;
 }
 
 /* label focus color */

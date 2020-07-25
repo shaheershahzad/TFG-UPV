@@ -30,6 +30,7 @@ exports.createUser = (req, res, next) => {
         });
 
         const dataUser = {
+            id: user.id,
             name: user.name,
             email: user.email,
             accessToken: accessToken,
@@ -63,6 +64,7 @@ exports.loginUser = (req, res, next) => {
                 accessToken = jwt.sign({id: user.id}, SECRET_KEY, {expiresIn: expiresIn});
 
                 const dataUser = {
+                    id: user.id,
                     name: user.name,
                     email: user.email,
                     accessToken: accessToken,

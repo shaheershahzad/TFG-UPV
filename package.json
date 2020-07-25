@@ -4,8 +4,15 @@
   "description": "Software Engineering final year project 2020.",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js",
-    "start": "node server.js"
+    "server": "cross-env NODE_ENV=development nodemon server/server.js",
+    "frontend": "cd frontend && ng serve",
+    "start": "cross-env NODE_ENV=production node server/server.js",
+    "build": "cd frontend && ng build --prod",
+    "ng": "ng",
+    "startproxy": "ng serve --proxy-config proxyconfig.json",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
   "repository": {
     "type": "git",
@@ -20,7 +27,10 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "connect-multiparty": "^2.2.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.19",
@@ -28,5 +38,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "engines": {
+    "node": "12.16.1",
+    "npm": "6.13.4"
   }
 }

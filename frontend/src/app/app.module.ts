@@ -1,7 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
 
 //Components
 import { AppRoutingModule } from './app-routing.module';
@@ -16,32 +18,33 @@ import { FooterComponent } from './components/footer/footer.component';
 import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
 import { UserManagementComponent } from './pages/Backoffice/user-management/user-management.component';
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
+import { DonateComponent } from './pages/donate/donate.component';
+import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
 
 //Material
-import { MatButtonModule } from '@angular/material/button';
+/*import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatBadgeModule } from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';*/
 
 //Materialize
 
 // Services
 import { AuthService } from '../app/services/auth.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataSharingService } from './services/data-sharing.service';
-import { DonateComponent } from './pages/donate/donate.component';
-import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
+import { UploadService } from './services/upload.service';
+import { FileDeleteConfirmationComponent } from './components/Modals/file-delete-confirmation/file-delete-confirmation.component';
 
-const MaterialComponents = [
+/*const MaterialComponents = [
   MatButtonModule,
   MatButtonToggleModule,
   MatIconModule,
   MatProgressSpinnerModule,
   MatToolbarModule,
   MatBadgeModule
-]
+]*/
 
 @NgModule({
   declarations: [
@@ -57,7 +60,8 @@ const MaterialComponents = [
     UserManagementComponent,
     ProjectManagementComponent,
     DonateComponent,
-    NewsletterManagementComponent
+    NewsletterManagementComponent,
+    FileDeleteConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -65,12 +69,13 @@ const MaterialComponents = [
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MaterialComponents
+    ReactiveFormsModule
   ],
   providers: [
     AuthService,
-    DataSharingService
+    DataSharingService,
+    Title,
+    UploadService
   ],
   bootstrap: [AppComponent]
 })

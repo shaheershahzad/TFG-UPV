@@ -15,7 +15,7 @@
           <td class="hidden">{{ subscriber._id }}</td>
           <td>{{ subscriber.email }}</td>
           <td>
-            <a class="modal-trigger" href="#deleteSubscriberModal"><i class="material-icons" (click)="showDeleteSubscriberConfirmation(subscriber._id, subscriber.email)">delete</i></a>
+            <a class="modal-trigger delete" href="#deleteSubscriberModal"><i class="material-icons" (click)="showDeleteSubscriberConfirmation(subscriber._id, subscriber.email)">delete</i></a>
           </td>
         </tr>
       </tbody>

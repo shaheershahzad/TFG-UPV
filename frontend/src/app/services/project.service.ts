@@ -8,8 +8,8 @@ import { Project } from '../models/project';
 
 export class ProjectService {
 
-  //readonly projectAPI = "http://localhost:3000/api/projects";
-  readonly projectAPI = "/api/projects";
+  readonly projectAPI = "http://localhost:3000/api/projects";
+  //readonly projectAPI = "/api/projects";
   selectedProject: Project;
   projects: Project[];
 
@@ -21,8 +21,8 @@ export class ProjectService {
     return this.httpClient.get(this.projectAPI);
   }
 
-  addProject(Project: Project){
-    return this.httpClient.post(this.projectAPI, Project);
+  addProject(project: Project){
+    return this.httpClient.post(this.projectAPI, project);
   }
 
   updateProject(project: Project){

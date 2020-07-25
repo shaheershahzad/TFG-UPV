@@ -10,9 +10,20 @@ newsletterController.addSubscriber = async (req, res) => {
     const subscriber = new newsletterModel({
         email: req.body.email
     });
-    await subscriber.save();
-    res.json({
-        "status":"Subscriber saved"
+    
+    newsletterModel.findOne({ email: subscriber.email }, (err, user) => {
+        if(!user){
+            subscriber.save().then( function() {
+                res.json({
+                    "status":"Subscriber saved"
+                });
+            }, function(err) {
+                return res.status(500).send("Error on saving email");
+                }
+            );
+        }else{
+            return res.status(500).send("Email already exists");
+        }
     });
 };
 

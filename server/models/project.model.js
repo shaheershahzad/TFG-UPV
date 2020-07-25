@@ -14,6 +14,11 @@ const projectSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    coordinates: {
+        type: String,
+        required: true,
+        trim: true,
     }
 },
 {
