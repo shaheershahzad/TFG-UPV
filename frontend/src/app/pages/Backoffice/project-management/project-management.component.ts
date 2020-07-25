@@ -118,9 +118,13 @@ export class ProjectManagementComponent implements OnInit {
 
     (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "block";
 
-    this.projectService.addProject(form.value).subscribe( res => {
+    let _idProject = new ObjectID().toString();
+    let coordinates = (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML;
+    let project = new Project(_idProject, form.value.name, form.value.description, coordinates);
 
-      if(this.uploadedFiles.length > 0){
+    this.projectService.addProject(project).subscribe( res => {
+
+      if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
 
         let savedProjectId = JSON.parse(JSON.stringify(res)).id;
         let uid = this.authService.getUID();
@@ -203,7 +207,7 @@ export class ProjectManagementComponent implements OnInit {
     (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "block";
     this.projectService.updateProject(form.value).subscribe( res => {
 
-      if(this.uploadedFiles.length > 0){
+      if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
 
         let updatedProjectId = form.value._id;
         let uid = this.authService.getUID();

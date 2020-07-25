@@ -10,7 +10,8 @@ projectController.createProject = async (req, res) => {
     try {
         const project = new projectModel({
             name: req.body.name,
-            description: req.body.description
+            description: req.body.description,
+            coordinates: req.body.coordinates
         });
         let p = await project.save();
         res.json({
@@ -31,7 +32,8 @@ projectController.getProject = async (req, res) => {
 projectController.updateProject = async (req, res) => {
     const project = {
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        coordinates: req.body.coordinates
     }
     await projectModel.findByIdAndUpdate(req.params.id, {$set: project}, { new: true});
     res.json({
