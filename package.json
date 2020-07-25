@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "ng": "cd frontend && ng",
-    "start": "cross-env NODE_ENV=production node server/server.js",
+    "start": "node server/server.js",
     "build": "cd frontend && ng build",
     "test": "cd frontend && ng test",
     "lint": "cd frontend && ng lint",
