@@ -17,10 +17,10 @@ declare const L: any;
 export class HomeComponent implements OnInit {
 
   uploadedFiles: Array<File>;
+  public isLogged: boolean = false;
+  public projectsAvailable: boolean = false;
 
   constructor(private authService: AuthService, private dataSharingService: DataSharingService, public projectService: ProjectService, private uploadService: UploadService) { }
-
-  public isLogged: boolean = false;
 
   ngOnInit(): void {
     /*document.addEventListener('DOMContentLoaded', function() {
@@ -68,20 +68,15 @@ export class HomeComponent implements OnInit {
     });*/
   }
 
-  getCoordsData(lat: string, lon: string){
-    const Http = new XMLHttpRequest();
-    const url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+lat+"&lon="+lon;
-    Http.open("GET", url);
-    Http.send();
-
-    Http.onreadystatechange = (e) => {
-      console.log(Http.responseText)
-    }
-  }
-
   getProjects(){
     this.projectService.getProjects().subscribe(res => {
       this.projectService.projects = res as Project[];
+
+      if(this.projectService.projects.length > 0){
+        this.projectsAvailable = true;
+      }else{
+        this.projectsAvailable = false;
+      }
     });
   }
 

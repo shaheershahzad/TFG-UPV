@@ -20,12 +20,14 @@ export class ProjectManagementComponent implements OnInit {
 
   uploadedFiles: Array<File>;
   public hasDocuments: boolean = false;
+  public projectsAvailable: boolean = false;
 
   constructor(public projectService: ProjectService, public uploadService: UploadService, private authService: AuthService, public fileService: FileService) { }
 
   ngOnInit(): void {
 
     var ubicacion = "Valencia";
+
     //Modals
     document.addEventListener('DOMContentLoaded', function() {
       var elems = document.querySelectorAll('.modal');
@@ -53,6 +55,8 @@ export class ProjectManagementComponent implements OnInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: ''
     }).addTo(mymap);
+
+    (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML = "39.46975,-0.37739";
 
     // Código para ocultar las atribuciones
     (<HTMLInputElement> document.querySelector(".leaflet-control-attribution.leaflet-control")).style.display = "none";
@@ -101,6 +105,12 @@ export class ProjectManagementComponent implements OnInit {
   getProjects(){
     this.projectService.getProjects().subscribe( res => {
       this.projectService.projects = res as Project[];
+
+      if(this.projectService.projects.length > 0){
+        this.projectsAvailable = true;
+      }else{
+        this.projectsAvailable = false;
+      }
     });
   }
 

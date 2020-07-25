@@ -1,8 +1,13 @@
 <div class="container">
     <h3 class="main-heading">Gestión de proyectos</h3>
-    <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm"><i class="material-icons">add</i></a>
-    <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
-    <table class="responsive-table stripped highlight">
+    <div class="row">
+      <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm"><i class="material-icons">add</i></a>
+      <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
+    </div>
+    <div class="row" *ngIf="!projectsAvailable">
+      <h5 class="center" style="color: lightgray;">No hay proyectos a mostrar <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+    </div>
+    <table class="responsive-table stripped highlight" *ngIf="projectsAvailable">
       <thead>
         <tr>
             <th class="hidden">ID</th>
