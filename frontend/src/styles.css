@@ -65,6 +65,11 @@ a {
     color: #01579b;
 }
 
+/* Delete link in red */
+a.delete {
+    color: #B71C1C;
+}
+
 /* label focus color */
 .input-field input[type=text]:focus + label {
     color: #03a9f4 !important;

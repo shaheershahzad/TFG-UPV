@@ -20,7 +20,7 @@
           <td>
             <a class="modal-trigger" href="#projectDetailsForm"><i class="material-icons" (click)="viewProjectDetails(frmProjectDetails, project)">content_paste</i></a>
             <a class="modal-trigger" href="#editProjectForm"><i class="material-icons" (click)="editProject(frmEditProject, project)">edit</i></a>
-            <a class="modal-trigger" href="#deleteProjectModal"><i class="material-icons" (click)="showDeleteProjectConfirmation(project._id, project.name)">delete</i></a>
+            <a class="modal-trigger delete" href="#deleteProjectModal"><i class="material-icons" (click)="showDeleteProjectConfirmation(project._id, project.name)">delete</i></a>
           </td>
         </tr>
       </tbody>
@@ -83,6 +83,18 @@
                       <input id="descriptionEdit" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" required>
                       <!--<label for="description">Descripción</label>-->
                   </div>
+              </div>
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span>Ficheros</span>
+                  <input id="filesEdit" type="file" multiple (change)="handleFileInput($event)" name="files" >
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Añade ficheros al proyecto">
+                </div>
+                <div id="progressBarEdit" class="progress" style="display: none;">
+                  <div class="indeterminate"></div>
+                </div>
               </div>
               <div class="row">
                 <ul class="collapsible">

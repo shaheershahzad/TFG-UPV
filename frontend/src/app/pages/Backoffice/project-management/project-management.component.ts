@@ -70,6 +70,8 @@ export class ProjectManagementComponent implements OnInit {
         let uid = this.authService.getUID();
         this.uploadFilesToServer(savedProjectId, uid);
         this.clearForm(form);
+        (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
+        M.toast({html: "Proyecto creado"});
 
       }else{
 
@@ -111,14 +113,14 @@ export class ProjectManagementComponent implements OnInit {
 
     uploadedFiles.forEach(file => {
       let fileId = new ObjectID().toString();
-      let fileToAdd = new FileModel(fileId, file.name, file.path, file.size, file.type, projectId, userId);
+      let uploadedName = file.path.split("\\");
+      uploadedName = uploadedName[uploadedName.length-1];
+      let fileToAdd = new FileModel(fileId, file.name, uploadedName, file.path, file.size, file.type, projectId, userId);
       tmpFiles.push(fileToAdd);
     });
 
     this.fileService.addFiles(tmpFiles).subscribe( res => {
 
-      (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
-      M.toast({html: "Proyecto creado"});
       this.getProjects();
       console.log("Ficheros subidos");
 
@@ -141,17 +143,23 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   updateProject(form) {
+
+    (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "block";
     this.projectService.updateProject(form.value).subscribe( res => {
 
       if(this.uploadedFiles.length > 0){
 
-        let updatedProjectId = form._id;
+        let updatedProjectId = form.value._id;
         let uid = this.authService.getUID();
         this.uploadFilesToServer(updatedProjectId, uid);
         this.clearForm(form);
+        (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "none";
+        M.toast({html: "Proyecto actualizado"});
 
       }else{
 
+        this.clearForm(form);
+        (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "none";
         M.toast({html: "Proyecto actualizado"});
         this.getProjects();
 
@@ -160,6 +168,7 @@ export class ProjectManagementComponent implements OnInit {
     }, ( err => {
       console.log("Error al actualizar los datos del proyecto.");
     }));
+
   }
 
   showDeleteProjectConfirmation(id: string, name: string) {
@@ -218,6 +227,7 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   setFormValues(form, project: Project){
+    form.reset();
     form.setValue({
       _id: project._id,
       name: project.name,

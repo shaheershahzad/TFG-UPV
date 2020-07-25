@@ -1,12 +1,14 @@
 const fileModel = require("../models/file.model");
 const fileController = {};
+const fs = require('fs');
+const path = require("path");
 
 fileController.getFiles = async (req, res) => {
     const files = await fileModel.find();
     res.json(files);
 };
 
-fileController.createFile = async (req, res) => {
+/*fileController.createFile = async (req, res) => {
     const file = new fileModel({
         name: req.body.name,
         size: req.body.size,
@@ -18,7 +20,7 @@ fileController.createFile = async (req, res) => {
     res.json({
         "status":"File saved"
     });
-};
+};*/
 
 fileController.createFiles = async (req, res) => {
     console.log(req.body);
@@ -40,7 +42,7 @@ fileController.getFile = async (req, res) => {
     res.json(file);
 };
 
-fileController.updateFile = async (req, res) => {
+/*fileController.updateFile = async (req, res) => {
     const file = {
         name: req.body.name,
         size: req.body.size,
@@ -52,7 +54,7 @@ fileController.updateFile = async (req, res) => {
     res.json({
         "status":"File updated"
     });
-};
+};*/
 
 fileController.deleteFile = async (req, res) => {
     await fileModel.findByIdAndRemove(req.params.id);
@@ -60,6 +62,22 @@ fileController.deleteFile = async (req, res) => {
         "status":"File deleted"
     });
 };
+
+function deleteServerFiles(files, callback){
+    var i = files.length-1;
+    let filepath = path.join(__dirname, "../uploads/");
+    files.forEach(file => {
+        fs.unlink(filepath+file.uploadedName, function(err) {
+            i--;
+            if (err) {
+                callback(err);
+                return;
+            } else if (i < 0) {
+                callback(null);
+            }
+        });
+    });
+}
 
 fileController.getProjectFiles = async (req, res) => {
     let filter = {
@@ -92,6 +110,16 @@ fileController.deleteProjectFiles = async (req, res) => {
                     });
                 }
             });
+        }
+    });
+
+    console.log("#############################################\n#############################################");
+    console.log(files);
+    deleteServerFiles(files, function(err) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('All files removed from server');
         }
     });
 };
