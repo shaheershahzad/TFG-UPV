@@ -2,16 +2,9 @@
   "name": "tfg-upv",
   "version": "1.0.0",
   "description": "Software Engineering final year project 2020.",
-  "main": "server/server.js",
+  "main": "server.js",
   "scripts": {
-    "ng": "cd frontend && ng",
-    "start": "node server/server.js",
-    "build": "cd frontend && ng build",
-    "test": "cd frontend && ng test",
-    "lint": "cd frontend && ng lint",
-    "e2e": "cd frontend && ng e2e",
-    "lite": "cd frontend && lite-server",
-    "postinstall": "cd frontend && ng build --prod"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
