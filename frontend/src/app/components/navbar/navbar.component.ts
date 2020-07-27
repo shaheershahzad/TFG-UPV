@@ -3,6 +3,8 @@ import { AuthService } from'../../services/auth.service';
 import { Router } from '@angular/router';
 import { DataSharingService } from '../../services/data-sharing.service';
 
+declare const M: any;
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -20,6 +22,12 @@ export class NavbarComponent implements OnInit {
     /*this.dataSharingService.isUserLoggedIn.subscribe( value => {
       this.isUserLoggedIn = value;
     });*/
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.dropdown-trigger');
+      var instances = M.Dropdown.init(elems, {hover: false});
+    });
+    
 
   }
 
