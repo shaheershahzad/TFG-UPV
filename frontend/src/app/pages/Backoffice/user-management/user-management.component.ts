@@ -92,14 +92,16 @@ export class UserManagementComponent implements OnInit {
             this.clearForm(form);
             M.toast({html: "Usuario creado y registrado"});
             //window.location.reload();
-            
+
           }, err => {
             M.toast({html: "Error al suscribir el correo."});
             console.log("Error al suscribir el correo: ", err);
           });
 
         }else{
-          window.location.reload();
+          M.toast({html: "Usuario creado"});
+          this.getUsers();
+          //window.location.reload();
         }
 
       }, err => {
