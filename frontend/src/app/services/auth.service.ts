@@ -20,6 +20,10 @@ export class AuthService implements CanActivate {
   private token: string;
   constructor(private httpClient: HttpClient, private router: Router, private userService: UserService, private newsletterService: NewsletterService) { }
 
+  saveUser(user: User){
+    return this.httpClient.post(`${this.AUTH_SERVER}/register/save`, user);
+  }
+  
   register(user:User): Observable<JwtResponseI> {
     return this.httpClient.post<JwtResponseI>(`${this.AUTH_SERVER}/register`, user)
     .pipe(
