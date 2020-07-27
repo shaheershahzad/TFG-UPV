@@ -109,10 +109,20 @@ export class UserManagementComponent implements OnInit {
   viewUserDetails(form, user: User) {
     //this.userService.selectedUser = user;
     this.setFormValues(form, user);
+
+    //Poner valor del select de rol
+    (<HTMLInputElement>document.querySelector('#roleDetail')).value = user.role.toString();
+
+    this.refreshRoleSelect();
   }
 
   editUser(form, user: User) {
     this.setFormValues(form, user);
+
+    //Poner valor del select de rol
+    (<HTMLInputElement>document.querySelector('#roleEdit')).value = user.role.toString();
+
+    this.refreshRoleSelect();
   }
 
   updateUser(form) {
@@ -166,6 +176,11 @@ export class UserManagementComponent implements OnInit {
       birthday: user.birthday,
       notifications: user.newsletter
     });
+  }
+
+  refreshRoleSelect(){
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
   }
 
 }
