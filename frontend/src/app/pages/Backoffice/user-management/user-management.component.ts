@@ -73,8 +73,10 @@ export class UserManagementComponent implements OnInit {
   addUser(form): void{
 
     let _idUser = new ObjectID().toString();
-    let user = new User(_idUser, form.value.name, form.value.email, form.value.password, form.value.role, form.value.birthday, form.value.notifications);
+    let birthday = (<HTMLInputElement> document.getElementById("birthdayAdd")).value;
+    let user = new User(_idUser, form.value.name, form.value.email, form.value.password, form.value.role, birthday, form.value.notifications);
 
+    //console.log(user);
     this.userService.addUser(user).subscribe( res => {
 
       this.authService.saveUser(user).subscribe( res => {
@@ -85,22 +87,28 @@ export class UserManagementComponent implements OnInit {
           let newSubscriber = new Newsletter(_idSubscriber, form.value.email);
   
           this.newsletterService.addSubscriber(newSubscriber).subscribe( res => {
+
             console.log("Registered completed with all");
             this.clearForm(form);
             M.toast({html: "Usuario creado y registrado"});
             //window.location.reload();
+            
           }, err => {
+            M.toast({html: "Error al suscribir el correo."});
             console.log("Error al suscribir el correo: ", err);
           });
+
         }else{
           window.location.reload();
         }
 
       }, err => {
+        M.toast({html: "Error al registrar usuario."});
         console.log("Error al registrar usuario.");
       });
 
     }, ( err => {
+      M.toast({html: "Error al crear el usuario."});
       console.log("Error al crear el usuario.");
     }));
 
@@ -127,7 +135,8 @@ export class UserManagementComponent implements OnInit {
 
   updateUser(form) {
 
-    this.userService.updateUser(form.value).subscribe( res => {
+    console.log(form.value);
+    /*this.userService.updateUser(form.value).subscribe( res => {
 
       this.clearForm(form);
         M.toast({html: "Usuario actualizado"});
@@ -135,7 +144,7 @@ export class UserManagementComponent implements OnInit {
       
     }, ( err => {
       console.log("Error al actualizar los datos del usuario.");
-    }));
+    }));*/
 
   }
 
@@ -160,13 +169,13 @@ export class UserManagementComponent implements OnInit {
   }
 
   clearForm(form) {
-    form.reset();
+    form.resetForm();
     this.userService.selectedUser = new User();
     this.getUsers();
   }
 
   setFormValues(form, user: User){
-    form.reset();
+    form.resetForm();
     form.setValue({
       _id: user._id,
       name: user.name,

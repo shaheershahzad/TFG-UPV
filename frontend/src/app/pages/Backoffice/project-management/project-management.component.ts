@@ -291,13 +291,13 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   clearForm(form) {
-    form.reset();
+    form.resetForm();
     this.projectService.selectedProject = new Project();
     this.getProjects();
   }
 
   setFormValues(form, project: Project){
-    form.reset();
+    form.resetForm();
     form.setValue({
       _id: project._id,
       name: project.name,
