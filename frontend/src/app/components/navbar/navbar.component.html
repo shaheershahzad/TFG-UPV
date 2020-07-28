@@ -8,9 +8,11 @@
 </mat-toolbar>-->
 <!-- Dropdown Structure -->
 <ul id="accountDropdown" class="dropdown-content">
-    <li><a href="#!">Perfil <i class="material-icons right">account_box</i></a></li>
+    <li *ngIf="!isLogged"><a href="/login">Entrar <i class="material-icons right">person</i></a></li>
+    <li *ngIf="!isLogged"><a href="/register">Registrar <i class="material-icons right">create</i></a></li>
+    <li *ngIf="isLogged"><a href="#!">Perfil <i class="material-icons right">account_box</i></a></li>
     <li class="divider"></li>
-    <li><a href="#!">Ajustes <i class="material-icons right">settings</i></a></li>
+    <li *ngIf="isSuperadmin || isAdmin"><a href="/backoffice">Backoffice <i class="material-icons right">settings</i></a></li>
     <li class="divider"></li>
     <li id="logoutButton" (click)="logout();" style="cursor: pointer;padding: 0px;" *ngIf="isLogged"><a href="#!">Salir <i class="material-icons right">exit_to_app</i></a></li>
 </ul>
@@ -23,11 +25,11 @@
             <li><a href="/contact">Contacto</a></li>
             <li style="background-color: #ffd60c;"><a href="/donate" style="color: #3c4245;font-weight: bold;">Donar</a></li>
             <!--<li><a href="/backoffice">Backoffice</a></li>-->
-            <li><a href="/login" *ngIf="!isLogged">Iniciar sesión</a></li>
+            <!--<li><a href="/login" *ngIf="!isLogged">Iniciar sesión</a></li>-->
             <!--<li><a href="/register" *ngIf="!isLogged">Register</a></li>-->
-            <li><a href="/backoffice" *ngIf="isSuperadmin || isAdmin"><i class="material-icons small">settings</i></a></li>
+            <!--<li><a href="/backoffice" *ngIf="isSuperadmin || isAdmin"><i class="material-icons small">settings</i></a></li>-->
             <!--<li id="logoutButton" (click)="logout();" style="cursor: pointer;" *ngIf="isLogged"><i class="material-icons">exit_to_app</i></li>-->
-            <li><a class="dropdown-trigger" href="#!" data-target="accountDropdown">¡Hola Usuario!<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="accountDropdown">¡Hola <span id="username" style="padding-right: 0;">Usuario</span>!<i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>
     </div>
 </nav>
