@@ -20,7 +20,8 @@
             <!--<li><a href="/register" *ngIf="!isLogged">Register</a></li>-->
             <!--<li><a href="/backoffice" *ngIf="isSuperadmin || isAdmin"><i class="material-icons small">settings</i></a></li>-->
             <!--<li id="logoutButton" (click)="logout();" style="cursor: pointer;" *ngIf="isLogged"><i class="material-icons">exit_to_app</i></li>-->
-            <li><a class="dropdown-trigger" href="#!" data-target="accountDropdown">¡Hola <span id="username" style="padding-right: 0;">Usuario</span>!<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li *ngIf="isLogged"><a class="dropdown-trigger" href="#!" data-target="accountDropdown">¡Hola <span id="username" style="padding-right: 0;">Usuario</span>!<i class="material-icons right" style="margin-left: 0;">arrow_drop_down</i></a></li>
+            <li *ngIf="!isLogged" style="width: 150px;text-align: center;"><a class="dropdown-trigger" href="#!" data-target="accountDropdown">¡Bienvenid@!<i class="material-icons right" style="margin-left: 0;">arrow_drop_down</i></a></li>
         </ul>
     </div>
 </nav>

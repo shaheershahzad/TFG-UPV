@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   public isSuperadmin: boolean = false;
   public isAdmin: boolean = false;
   public isRegistered: boolean = false;
+  public userName: string = "Usuario";
 
   constructor(private authService: AuthService, private router: Router, private dataSharingService: DataSharingService) {
     /*this.dataSharingService.isUserLoggedIn.subscribe( value => {
@@ -26,8 +27,7 @@ export class NavbarComponent implements OnInit {
     document.addEventListener('DOMContentLoaded', function() {
       var elems = document.querySelectorAll('.dropdown-trigger');
       var instances = M.Dropdown.init(elems, {hover: false});
-    });
-    
+    });    
 
   }
 
@@ -49,6 +49,10 @@ export class NavbarComponent implements OnInit {
   onCheckUser(): void {
     if(this.authService.loggedIn()){
       this.isLogged = true;
+
+      //Se obtiene el nombre de usuario y se pone en el menú horizontal
+      let userName =  this.authService.getName().split(" ");
+      (<HTMLInputElement> document.getElementById("username")).innerHTML = userName.length > 1 ? userName[0]+" "+userName[1] : userName[0];
     }else{
       this.isLogged = false;
     }
