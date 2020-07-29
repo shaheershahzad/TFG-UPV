@@ -6,16 +6,7 @@
         <span>Login</span>
     </div>
 </mat-toolbar>-->
-<!-- Dropdown Structure -->
-<ul id="accountDropdown" class="dropdown-content">
-    <li *ngIf="!isLogged"><a href="/login">Entrar <i class="material-icons right">person</i></a></li>
-    <li *ngIf="!isLogged"><a href="/register">Registrar <i class="material-icons right">create</i></a></li>
-    <li *ngIf="isLogged"><a href="#!">Perfil <i class="material-icons right">account_box</i></a></li>
-    <li class="divider"></li>
-    <li *ngIf="isSuperadmin || isAdmin"><a href="/backoffice">Backoffice <i class="material-icons right">settings</i></a></li>
-    <li class="divider"></li>
-    <li id="logoutButton" (click)="logout();" style="cursor: pointer;padding: 0px;" *ngIf="isLogged"><a href="#!">Salir <i class="material-icons right">exit_to_app</i></a></li>
-</ul>
+
 <nav class="light-blue darken-4" style="padding: 0 1em;">
     <div class="nav-wrapper container">
         <!--<a href="/" class="brand-logo" style="height: 100%;font-size: 0;"><img style="height: 80%;vertical-align: middle;" src="../../../assets/logo.png" /></a>-->
@@ -33,3 +24,13 @@
         </ul>
     </div>
 </nav>
+<!-- Dropdown Structure -->
+<ul id="accountDropdown" class="dropdown-content">
+    <li *ngIf="!isLogged"><a href="/login">Entrar <i class="material-icons right">person</i></a></li>
+    <li *ngIf="!isLogged"><a href="/register">Registrar <i class="material-icons right">create</i></a></li>
+    <li *ngIf="isLogged"><a href="#!">Perfil <i class="material-icons right">account_box</i></a></li>
+    <li class="divider"></li>
+    <li *ngIf="isSuperadmin || isAdmin"><a href="/backoffice">Backoffice <i class="material-icons right">settings</i></a></li>
+    <li class="divider"></li>
+    <li id="logoutButton" (click)="logout();" style="cursor: pointer;padding: 0px;" *ngIf="isLogged"><a href="#!">Salir <i class="material-icons right">exit_to_app</i></a></li>
+</ul>

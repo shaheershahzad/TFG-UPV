@@ -11,6 +11,9 @@ const multipart = require("connect-multiparty");
 const path = require("path");
 const morgan = require("morgan");
 
+// This is your real test secret API key.
+const stripe = require("stripe")("sk_test_51H9zUmBSYWBbR1OyYvtc2c4zIWilfqnqa9nXn2D1FQupgHffB0FTbnbSoIUuR7Yr0jguhtEI4fyO9fv8iSndpol700ok6r7Jx1");
+
 //Routes
 
 //User
@@ -80,6 +83,25 @@ app.use('/api/files', fileRoutes);
 
 app.get("*", (req, res) => {
     return res.sendFile(path.join(__dirname, "public/index.html"));
+});
+
+const calculateOrderAmount = items => {
+    // Replace this constant with a calculation of the order's amount
+    // Calculate the order total on the server to prevent
+    // people from directly manipulating the amount on the client
+    return 900000;
+};
+
+app.post("/create-payment-intent", async (req, res) => {
+    const { items } = req.body;
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: calculateOrderAmount(items),
+        currency: "usd"
+    });
+    res.send({
+        clientSecret: paymentIntent.client_secret
+    });
 });
 
 // Starting the server
