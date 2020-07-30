@@ -13,3 +13,7 @@
     font-weight: bold;
     font-size: 2rem;
 }
+
+.card .card-title {
+    font-size: 18px;
+}
