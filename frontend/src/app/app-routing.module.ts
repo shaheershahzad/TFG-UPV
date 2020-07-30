@@ -10,6 +10,7 @@ import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.co
 import { UserManagementComponent } from './pages/Backoffice/user-management/user-management.component';
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
 import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
+import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 
 // Services
 import { AuthService } from '../app/services/auth.service';
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'donate', component: DonateComponent },
+  { path: 'project/details/:id', component: ProjectDetailsComponent },
   { path: 'backoffice', component: BackofficeComponent, canActivate : [AuthService] },
   { path: 'backoffice/users', component: UserManagementComponent, canActivate : [AuthService] },
   { path: 'backoffice/projects', component: ProjectManagementComponent, canActivate : [AuthService] },

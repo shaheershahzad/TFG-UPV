@@ -13,6 +13,7 @@
             <th class="hidden">ID</th>
             <th>Nombre</th>
             <th>Descripción</th>
+            <th>Ubicación</th>
             <th>Acciones</th>
         </tr>
       </thead>
@@ -22,6 +23,7 @@
           <td class="hidden">{{ project._id }}</td>
           <td>{{ project.name }}</td>
           <td>{{ project.description }}</td>
+          <td>{{ project.location }}</td>
           <td>
             <a class="modal-trigger" href="#projectDetailsForm"><i class="material-icons" (click)="viewProjectDetails(frmProjectDetails, project)">content_paste</i></a>
             <a class="modal-trigger" href="#editProjectForm"><i class="material-icons" (click)="editProject(frmEditProject, project)">edit</i></a>
@@ -52,7 +54,7 @@
               <div class="row">
                 <ul class="collapsible">
                   <li>
-                    <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span></div>
+                    <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span><span id="location" class="hidden"></span></div>
                     <div class="collapsible-body">
                       <div id="map"></div>
                     </div>
