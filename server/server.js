@@ -4,6 +4,7 @@
 if(process.env.NODE_ENV !== "production"){
     require("dotenv").config();
 }
+require("dotenv").config();
 
 const express = require("express");
 const app = express();
@@ -16,16 +17,17 @@ const nodemailer = require("nodemailer");
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'vicenteberenguerong@gmail.com',
-      pass: 'VicenteBerenguerONG'
+      user: process.env.EMAIL,
+      pass: process.env.PASS
     }
   });
   
   var mailOptions = {
-    from: 'vicenteberenguerong@gmail.com',
+    from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
     to: 'shaheer19962012@gmail.com',
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
+    subject: 'Test Email',
+    text: 'That was easy!',
+    html: '<h1>Bienvenido</h1>'
   };
   
   transporter.sendMail(mailOptions, function(error, info){
