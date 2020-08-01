@@ -10,6 +10,31 @@ const app = express();
 const multipart = require("connect-multiparty");
 const path = require("path");
 const morgan = require("morgan");
+const nodemailer = require("nodemailer");
+
+//Mail test
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'vicenteberenguerong@gmail.com',
+      pass: 'VicenteBerenguerONG'
+    }
+  });
+  
+  var mailOptions = {
+    from: 'vicenteberenguerong@gmail.com',
+    to: 'shaheer19962012@gmail.com',
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy!'
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 
 // This is your real test secret API key.
 const stripe = require("stripe")("sk_test_51H9zUmBSYWBbR1OyYvtc2c4zIWilfqnqa9nXn2D1FQupgHffB0FTbnbSoIUuR7Yr0jguhtEI4fyO9fv8iSndpol700ok6r7Jx1");
