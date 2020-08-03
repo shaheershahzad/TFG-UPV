@@ -1,42 +1,20 @@
 "use strict"
 
 //Para leer las variables del fichero .env si estamos en desarrollo
-if(process.env.NODE_ENV !== "production"){
+/*if(process.env.NODE_ENV !== "production"){
     require("dotenv").config();
-}
+}*/
 require("dotenv").config();
+
+const mailer = require("./mails/mail.sender.js");
 
 const express = require("express");
 const app = express();
 const multipart = require("connect-multiparty");
 const path = require("path");
 const morgan = require("morgan");
-const nodemailer = require("nodemailer");
 
-//Mail test
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASS
-    }
-  });
-  
-  var mailOptions = {
-    from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
-    to: 'shaheer19962012@gmail.com',
-    subject: 'Test Email',
-    text: 'That was easy!',
-    html: '<h1>Bienvenido</h1>'
-  };
-  
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
+//mailer.sendWelcomeEmail("Shaheer", "shaheer19962012@gmail.com");
 
 // This is your real test secret API key.
 const stripe = require("stripe")("sk_test_51H9zUmBSYWBbR1OyYvtc2c4zIWilfqnqa9nXn2D1FQupgHffB0FTbnbSoIUuR7Yr0jguhtEI4fyO9fv8iSndpol700ok6r7Jx1");
