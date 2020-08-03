@@ -88,17 +88,18 @@ export class RegisterComponent implements OnInit {
       let _idUser = new ObjectID().toString();
       let user = new User(_idUser, form.value.name, form.value.email, form.value.password, form.value.role, form.value.birthday, form.value.notifications);
 
-      let _idSubscriber = new ObjectID().toString();
-      let newSubscriber = new Newsletter(_idSubscriber, this.user.email);
-
-      console.log(newSubscriber);
-      console.log(user);
+      //console.log(newSubscriber);
+      //console.log(user);
 
       this.authService.register(user).subscribe(res => {
         //this.dataSharingService.changeLoggedUser(true);
         //this.router.navigateByUrl("/");
 
         if(form.value.notifications){
+
+          let _idSubscriber = new ObjectID().toString();
+          let newSubscriber = new Newsletter(_idSubscriber, this.user.email);
+
           this.newsletterService.addSubscriber(newSubscriber).subscribe( res => {
             console.log("Registered completed with all");
             window.location.reload();

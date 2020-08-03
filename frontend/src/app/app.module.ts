@@ -36,6 +36,8 @@ import { AuthService } from '../app/services/auth.service';
 import { DataSharingService } from './services/data-sharing.service';
 import { UploadService } from './services/upload.service';
 import { FileDeleteConfirmationComponent } from './components/Modals/file-delete-confirmation/file-delete-confirmation.component';
+import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import { MapComponent } from './components/map/map.component';
 
 /*const MaterialComponents = [
   MatButtonModule,
@@ -61,7 +63,9 @@ import { FileDeleteConfirmationComponent } from './components/Modals/file-delete
     ProjectManagementComponent,
     DonateComponent,
     NewsletterManagementComponent,
-    FileDeleteConfirmationComponent
+    FileDeleteConfirmationComponent,
+    ProjectDetailsComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

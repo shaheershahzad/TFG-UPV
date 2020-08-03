@@ -21,6 +21,7 @@ export class ProjectManagementComponent implements OnInit {
   uploadedFiles: Array<File>;
   public hasDocuments: boolean = false;
   public projectsAvailable: boolean = false;
+  public projectLocation = "";
 
   constructor(public projectService: ProjectService, public uploadService: UploadService, private authService: AuthService, public fileService: FileService) { }
 
@@ -57,6 +58,7 @@ export class ProjectManagementComponent implements OnInit {
     }).addTo(mymap);
 
     (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML = "39.46975,-0.37739";
+    (<HTMLInputElement> document.querySelector("#location")).innerHTML = ubicacion; 
 
     // Código para ocultar las atribuciones
     (<HTMLInputElement> document.querySelector(".leaflet-control-attribution.leaflet-control")).style.display = "none";
@@ -93,6 +95,8 @@ export class ProjectManagementComponent implements OnInit {
             ubicacion = "No localizable";
           }
 
+          (<HTMLInputElement> document.querySelector("#location")).innerHTML = ubicacion;
+
           var popup = L.popup()
           .setLatLng(popLocation)
           .setContent('<p>'+ ubicacion +'</p>')
@@ -127,10 +131,12 @@ export class ProjectManagementComponent implements OnInit {
   addProject(form): void{
 
     (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "block";
+    this.projectLocation ="2";
 
     let _idProject = new ObjectID().toString();
     let coordinates = (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML;
-    let project = new Project(_idProject, form.value.name, form.value.description, coordinates);
+    let location = (<HTMLInputElement> document.querySelector("#location")).innerHTML; 
+    let project = new Project(_idProject, form.value.name, form.value.description, coordinates, location);
 
     this.projectService.addProject(project).subscribe( res => {
 
@@ -291,13 +297,13 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   clearForm(form) {
-    form.reset();
+    form.resetForm();
     this.projectService.selectedProject = new Project();
     this.getProjects();
   }
 
   setFormValues(form, project: Project){
-    form.reset();
+    form.resetForm();
     form.setValue({
       _id: project._id,
       name: project.name,

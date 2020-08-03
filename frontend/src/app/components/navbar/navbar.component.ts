@@ -3,6 +3,8 @@ import { AuthService } from'../../services/auth.service';
 import { Router } from '@angular/router';
 import { DataSharingService } from '../../services/data-sharing.service';
 
+declare const M: any;
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -15,11 +17,17 @@ export class NavbarComponent implements OnInit {
   public isSuperadmin: boolean = false;
   public isAdmin: boolean = false;
   public isRegistered: boolean = false;
+  public name: string = "Usuario";
 
   constructor(private authService: AuthService, private router: Router, private dataSharingService: DataSharingService) {
     /*this.dataSharingService.isUserLoggedIn.subscribe( value => {
       this.isUserLoggedIn = value;
     });*/
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.dropdown-trigger');
+      var instances = M.Dropdown.init(elems, {hover: false});
+    });
 
   }
 
@@ -41,6 +49,11 @@ export class NavbarComponent implements OnInit {
   onCheckUser(): void {
     if(this.authService.loggedIn()){
       this.isLogged = true;
+
+      //Se obtiene el nombre de usuario y se pone en el menú horizontal
+      let userName =  this.authService.getName().split(" ");
+      //(<HTMLInputElement> document.getElementById("username")).innerHTML = userName.length > 1 ? userName[0]+" "+userName[1] : userName[0];
+      this.name = userName.length > 1 ? userName[0]+" "+userName[1] : userName[0];
     }else{
       this.isLogged = false;
     }

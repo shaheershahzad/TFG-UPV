@@ -1,7 +1,7 @@
 <div class="container">
     <h3 class="main-heading">Gestión de proyectos</h3>
     <div class="row">
-      <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm"><i class="material-icons">add</i></a>
+      <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm"><i (click)="clearForm(frmAddProject)" class="material-icons">add</i></a>
       <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
     </div>
     <div class="row" *ngIf="!projectsAvailable">
@@ -13,6 +13,7 @@
             <th class="hidden">ID</th>
             <th>Nombre</th>
             <th>Descripción</th>
+            <th>Ubicación</th>
             <th>Acciones</th>
         </tr>
       </thead>
@@ -22,6 +23,7 @@
           <td class="hidden">{{ project._id }}</td>
           <td>{{ project.name }}</td>
           <td>{{ project.description }}</td>
+          <td>{{ project.location }}</td>
           <td>
             <a class="modal-trigger" href="#projectDetailsForm"><i class="material-icons" (click)="viewProjectDetails(frmProjectDetails, project)">content_paste</i></a>
             <a class="modal-trigger" href="#editProjectForm"><i class="material-icons" (click)="editProject(frmEditProject, project)">edit</i></a>
@@ -34,7 +36,7 @@
     <!-- Add Project Form Modal -->
     <div id="addProjectForm" class="modal">
       <div class="modal-content">
-        <h4 class="main-heading" id="modalTitle">Añadir proyecto</h4>
+        <h4 class="main-heading">Añadir proyecto</h4>
           <div class="row">
             <form class="col s12" #frmAddProject="ngForm">
               <div class="row">
@@ -51,8 +53,8 @@
               </div>
               <div class="row">
                 <ul class="collapsible">
-                  <li class="active">
-                    <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span></div>
+                  <li>
+                    <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span><span id="location" class="hidden"></span></div>
                     <div class="collapsible-body">
                       <div id="map"></div>
                     </div>
@@ -100,7 +102,7 @@
     <!-- Edit Project Form Modal -->
     <div id="editProjectForm" class="modal">
       <div class="modal-content">
-        <h4 class="main-heading" id="modalTitle">Actualizar proyecto</h4>
+        <h4 class="main-heading">Actualizar proyecto</h4>
           <div class="row">
             <form class="col s12" #frmEditProject="ngForm">
               <input id="idEdit" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
@@ -147,7 +149,7 @@
               </div>
               <div class="row">
                 <button id="closeEditProjectModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditProject)">Cancelar</button> 
-                <button id="editPprojectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateProject(frmEditProject)" name="action">Actualizar</button>
+                <button id="editProjectForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateProject(frmEditProject)" name="action">Actualizar</button>
               </div>
           </form>
         </div>
@@ -157,19 +159,19 @@
     <!-- Project Details Form Modal -->
     <div id="projectDetailsForm" class="modal">
       <div class="modal-content">
-        <h4 class="main-heading" id="modalTitle">Información del proyecto</h4>
+        <h4 class="main-heading">Información del proyecto</h4>
           <div class="row">
             <form class="col s12" #frmProjectDetails="ngForm">
-              <input id="idDelete" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
+              <input id="idDetail" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
               <div class="row">
                   <div class="input-field col s12">
-                    <input id="nameDelete" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
+                    <input id="nameDetail" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
                     <label for="name">Nombre</label>
                   </div>
               </div>
               <div class="row">
                   <div class="input-field col s12">
-                      <input id="descriptionDelete" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
+                      <input id="descriptionDetail" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
                       <label for="description">Descripción</label>
                   </div>
               </div>
@@ -214,5 +216,5 @@
         <button id="deleteProjectModalButton" class="btn waves-effect waves-light red darken-4 right modal-close" (click)="deleteProject()">Borrar</button>
       </div>
     </div>
-  </div>
+</div>
   

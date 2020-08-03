@@ -16,16 +16,18 @@
   <div class="row" *ngIf="projectsAvailable">
     <h3 class="main-heading">Nuestros Proyectos</h3>
     <div class="col s4" *ngFor="let project of projectService.projects">
-      <div class="card">
-        <div class="card-image">
-          <img src="https://materializecss.com/images/sample-1.jpg">
-          <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+      <a href="/project/details/{{project._id}}">
+        <div class="card">
+          <div class="card-image">
+            <img src="https://materializecss.com/images/sample-1.jpg">
+            <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title" style="text-transform:uppercase;"><strong>{{ project.name }}</strong></span>
+            <!--<p>{{ project.description }}</p>-->
+          </div>
         </div>
-        <div class="card-content">
-          <span class="card-title">{{ project.name }}</span>
-          <p>{{ project.description }}</p>
-        </div>
-      </div>
+      </a>
     </div>
   </div>
 

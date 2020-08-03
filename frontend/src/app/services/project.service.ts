@@ -32,4 +32,8 @@ export class ProjectService {
   deleteProject(_id: String){
     return this.httpClient.delete(this.projectAPI + `/${_id}`);
   }
+
+  getProjectDetails(_id: String){
+    return this.httpClient.get(this.projectAPI + `/project/details/${_id}`);
+  }
 }

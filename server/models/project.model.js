@@ -19,6 +19,11 @@ const projectSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    location: {
+        type: String,
+        required: true,
+        trim: true,
     }
 },
 {

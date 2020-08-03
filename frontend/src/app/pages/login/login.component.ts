@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
         //this.dataSharingService.changeLoggedUser(true);
         window.location.reload();
       }, err => {
+        M.toast({html: "Correo o contraseña incorrecta"});
         console.log("Error: ", err);
       });
 

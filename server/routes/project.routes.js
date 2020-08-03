@@ -11,5 +11,6 @@ const projectController = require("../controllers/project.controller");
     router.get("/:id", projectController.getProject);
     router.put("/:id", projectController.updateProject);
     router.delete("/:id", projectController.deleteProject);
+    router.get("/project/details/:id", projectController.getProjectDetails);
 //};
 module.exports = router;
