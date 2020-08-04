@@ -1,7 +1,7 @@
 <div class="container">
   <h3 class="main-heading">Gestión de usuarios</h3>
   <div class="row">
-    <a id="addUserAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addUserForm"><i (click)="clearForm(frmAddUser)" class="material-icons">add</i></a>
+    <a id="addUserAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addUserForm" (click)="clearForm(frmAddUser)"><i class="material-icons" style="vertical-align: bottom; margin-right: 0.5rem;">add</i><span style="vertical-align: bottom;font-size: 0.9rem;">Añadir usuario</span></a>
     <a id="deleteUserAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteUserModal" style="display: none;"><i class="material-icons">delete</i></a>
   </div>
   <div class="row" *ngIf="noData">
