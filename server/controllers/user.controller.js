@@ -1,3 +1,5 @@
+require("dotenv").config();
+const mailer = require("../mails/mail.sender");
 const userDAO = require("../DAO/user.dao");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -37,6 +39,9 @@ exports.createUser = (req, res, next) => {
             expiresIn: expiresIn,
             role: user.role
         }
+
+        //Send welcome email
+        mailer.sendWelcomeEmail(dataUser.name, dataUser.email);
 
         //response
         res.send({ dataUser });

@@ -36,7 +36,7 @@ newsletterController.updateSubscriber = async (req, res) => {
     const subscriber = {
         email: req.body.email
     }
-    await newsletterModel.findByIdAndUpdate(req.params.id, {$set: subscriber}, { new: true});
+    await newsletterModel.findByIdAndUpdate(req.params.id, {$set: subscriber}, { new: true });
     res.json({
         "status":"Subscriber updated"
     });

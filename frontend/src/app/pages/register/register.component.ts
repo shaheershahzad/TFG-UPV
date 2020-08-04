@@ -74,19 +74,19 @@ export class RegisterComponent implements OnInit {
     if(formMessage == "OK"){
 
       this.user.birthday = (<HTMLInputElement> document.getElementById("birthday")).value;
-      this.user.role = (<HTMLInputElement> document.getElementById("roleSelect")).value;
+      //this.user.role = (<HTMLInputElement> document.getElementById("roleSelect")).value;
       
       form.setValue({
         name: this.user.name,
         email: this.user.email,
         password: this.user.password,
         birthday: this.user.birthday,
-        role: this.user.role,
+        //role: this.user.role,
         notifications: this.user.newsletter
       });
 
       let _idUser = new ObjectID().toString();
-      let user = new User(_idUser, form.value.name, form.value.email, form.value.password, form.value.role, form.value.birthday, form.value.notifications);
+      let user = new User(_idUser, form.value.name, form.value.email, form.value.password, this.user.role, form.value.birthday, form.value.notifications);
 
       //console.log(newSubscriber);
       //console.log(user);
@@ -136,7 +136,7 @@ export class RegisterComponent implements OnInit {
     let email = (<HTMLInputElement> document.getElementById("register_email")).value.trim();
     let password = (<HTMLInputElement> document.getElementById("password")).value.trim();
     let birthday = (<HTMLInputElement> document.getElementById("birthday")).value.trim();
-    let role = (<HTMLInputElement> document.getElementById("roleSelect")).value.trim();
+    //let role = (<HTMLInputElement> document.getElementById("roleSelect")).value.trim();
     //let notifications = (<HTMLInputElement> document.getElementById("notifications")).checked;
 
     if(name.length <= 1){
@@ -147,9 +147,9 @@ export class RegisterComponent implements OnInit {
       return "Contraseña incorrecta";
     }else if(birthday.length < 10){
       return "Fecha de nacimiento incorrecta";
-    }else if(role.length <= 0){
+    }/*else if(role.length <= 0){
       return "Tipo de usuario incorrecto";
-    }
+    }*/
 
     return "OK";
 

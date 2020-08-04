@@ -34,12 +34,12 @@ mailController.sendWelcomeEmail = (mailtoName, mailtoEmail) => {
   
 mailController.sendNewsEmail = (mailtoName, mailtoEmail) => {
     let to = '"' + mailtoName + '" ' + '<' + mailtoEmail + '>';
-    let emailMsg = '<h1>Hola!</h1><p>Hay novedades en nuestra ONG, ve a nuestra página web y revísalas!</p>';
+    let emailMsg = '<h1>Hola!</h1><p>Hay una nueva noticia dissponible en nuestra ONG, acceda a nuestra página web para consultarla!</p>';
 
     var mailOptions = {
         from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
         to: to,
-        subject: '¡Novedades en la ONG!',
+        subject: '¡Noticia en la ONG!',
         html: emailMsg
     };
 

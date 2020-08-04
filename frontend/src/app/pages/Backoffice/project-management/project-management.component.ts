@@ -210,9 +210,7 @@ export class ProjectManagementComponent implements OnInit {
     //this.projectService.selectedProject = project;
     this.hasDocuments = false;
     this.getProjectFiles(project._id);
-    (<HTMLInputElement> document.getElementById("nameDetail")).innerHTML = project.name.toString();
-    (<HTMLInputElement> document.getElementById("descriptionDetail")).innerHTML = project.description.toString();
-    (<HTMLInputElement> document.getElementById("placeDetail")).innerHTML = project.location.toString();
+    this.setProjectInfo(project);
     //this.setFormValues(form, project);
   }
 
@@ -316,6 +314,12 @@ export class ProjectManagementComponent implements OnInit {
       name: project.name,
       description: project.description
     });
+  }
+
+  setProjectInfo(project: Project){
+    (<HTMLInputElement> document.getElementById("nameDetail")).innerHTML = project.name.toString();
+    (<HTMLInputElement> document.getElementById("descriptionDetail")).innerHTML = project.description.toString();
+    (<HTMLInputElement> document.getElementById("placeDetail")).innerHTML = project.location.toString();
   }
 
   handleFileInput(e) {
