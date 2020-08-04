@@ -12,6 +12,8 @@ export class MapComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
+    //console.log((<HTMLInputElement> document.getElementsByTagName("app-map")[0]));
 
     var ubicacion = "Valencia";
 
