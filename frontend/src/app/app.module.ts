@@ -20,6 +20,11 @@ import { UserManagementComponent } from './pages/Backoffice/user-management/user
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
 import { DonateComponent } from './pages/donate/donate.component';
 import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
+import { FileManagementComponent } from './pages/Backoffice/file-management/file-management.component';
+import { WebdataManagementComponent } from './pages/Backoffice/webdata-management/webdata-management.component';
+import { DonationManagementComponent } from './pages/Backoffice/donation-management/donation-management.component';
+import { EventManagementComponent } from './pages/Backoffice/event-management/event-management.component';
+import { NewsManagementComponent } from './pages/Backoffice/news-management/news-management.component';
 
 //Material
 /*import { MatButtonModule } from '@angular/material/button';
@@ -65,7 +70,12 @@ import { MapComponent } from './components/map/map.component';
     NewsletterManagementComponent,
     FileDeleteConfirmationComponent,
     ProjectDetailsComponent,
-    MapComponent
+    MapComponent,
+    FileManagementComponent,
+    WebdataManagementComponent,
+    DonationManagementComponent,
+    EventManagementComponent,
+    NewsManagementComponent
   ],
   imports: [
     BrowserModule,
