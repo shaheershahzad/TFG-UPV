@@ -3,17 +3,20 @@ const webdataController = {};
 
 webdataController.addWebdata = async (req, res) => {
     const webdata = new webdataModel({
-        title: req.body.title,
-        metaTitle: req.body.metaTitle,
-        metaDescription: req.body.metaDescription
+        websiteTitle: req.body.title,
+        websiteMetaTitle: req.body.metaTitle,
+        websiteMetaDescription: req.body.metaDescription
     });
+
+    console.log(webdata);
+    console.log(req.body);
 
     const dataAvailable = await webdataModel.find();
 
     if(dataAvailable.length > 0){
         return res.status(500).send("Webdata is already available");
     }else{
-
+        console.log(webdata);
         webdata.save().then( function() {
             res.json({
                 "status":"Webdata saved"
@@ -36,11 +39,11 @@ webdataController.getWebdata = async (req, res) => {
 };
 
 webdataController.updateWebdata = async (req, res) => {
-    const webdata = new webdataModel({
-        title: req.body.title,
-        metaTitle: req.body.metaTitle,
-        metaDescription: req.body.metaDescription
-    });
+    const webdata = {
+        websiteTitle: req.body.websiteTitle,
+        websiteMetaTitle: req.body.websiteMetaTitle,
+        websiteMetaDescription: req.body.websiteMetaDescription
+    }
 
     await webdataModel.findByIdAndUpdate(req.params.id, {$set: webdata}, { new: true });
     res.json({

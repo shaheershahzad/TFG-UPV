@@ -1,13 +1,13 @@
 export class Webdata {
     constructor(_id="", title="", metaTitle="", metaDescription=""){
         this._id = _id;
-        this.title = title;
-        this.metaTitle = metaTitle;
-        this.metaDescription = metaDescription;
+        this.websiteTitle = title;
+        this.websiteMetaTitle = metaTitle;
+        this.websiteMetaDescription = metaDescription;
     }
 
     _id: String;
-    title: String;
-    metaTitle: String;
-    metaDescription: String;
+    websiteTitle: String;
+    websiteMetaTitle: String;
+    websiteMetaDescription: String;
 }
