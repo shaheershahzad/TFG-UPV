@@ -1,1 +1,13 @@
-<p>webdata-management works!</p>
+<div class="container">
+    <div class="row">
+        <form #frmWebdata="ngForm" (ngSubmit)="onSaveWebdata(frmWebdata)">
+            <div class="row">
+                <div class="input-field col s12">
+                  <input id="title" [(ngModel)]="user.name" type="text" class="validate" name="name" ngModel required>
+                  <label for="name">Nombre y apellidos</label>
+                  <span class="helper-text" data-error="Introduce un nombre"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
