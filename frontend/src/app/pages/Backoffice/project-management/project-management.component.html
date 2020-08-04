@@ -1,8 +1,13 @@
 <div class="container">
     <h3 class="main-heading">Gestión de proyectos</h3>
     <div class="row">
-      <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm" (click)="clearForm(frmAddProject)"><i class="material-icons" style="vertical-align: bottom; margin-right: 0.5rem;">add</i><span style="vertical-align: bottom;font-size: 0.9rem;">Añadir proyecto</span></a>
-      <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
+      <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm" (click)="clearForm(frmAddProject)">
+        <i class="material-icons" style="vertical-align: bottom; margin-right: 0.5rem;">add</i>
+        <span style="vertical-align: bottom;font-size: 0.9rem;">Añadir proyecto</span>
+      </a>
+      <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;">
+        <i class="material-icons">delete</i>
+      </a>
     </div>
     <div class="row" *ngIf="!projectsAvailable">
       <h5 class="center" style="color: lightgray;">No hay proyectos a mostrar <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
@@ -56,7 +61,7 @@
                   <li>
                     <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span><span id="location" class="hidden"></span></div>
                     <div class="collapsible-body">
-                      <div id="map"></div>
+                      <app-map></app-map>
                     </div>
                   </li>
                 </ul>
@@ -121,9 +126,13 @@
               <div class="row">
                 <ul class="collapsible">
                   <li>
-                    <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span><span id="location" class="hidden"></span></div>
+                    <div class="collapsible-header">
+                      <i class="material-icons">place</i>Ubicación
+                      <span id="coordenadasEdit" class="hidden"></span>
+                      <span id="locationEdit" class="hidden"></span>
+                    </div>
                     <div class="collapsible-body">
-                      <div id="map"></div>
+                      <div id="mapEdit"></div>
                     </div>
                   </li>
                 </ul>
