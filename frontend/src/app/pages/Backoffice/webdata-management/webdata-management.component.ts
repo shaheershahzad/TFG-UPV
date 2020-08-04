@@ -43,6 +43,7 @@ export class WebdataManagementComponent implements OnInit {
 
         this.webdataService.addWebdata(form.value).subscribe( res => {
           M.toast({html: "Datos guardados correctamente"});
+          location.reload();
         }, err => {
           console.log(err);
           M.toast({html: "Error al guardar datos"});
@@ -53,6 +54,7 @@ export class WebdataManagementComponent implements OnInit {
 
         this.webdataService.updateWebdata(form.value).subscribe( res => {
           M.toast({html: "Datos actualizados correctamente"});
+          location.reload();
         }, err => {
           console.log("Error Webdata: " +err);
           M.toast({html: "Error al actualizar datos"});
