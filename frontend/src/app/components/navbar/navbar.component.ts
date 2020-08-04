@@ -28,6 +28,8 @@ export class NavbarComponent implements OnInit {
       var elems = document.querySelectorAll('.dropdown-trigger');
       var instances = M.Dropdown.init(elems, {hover: false});
 
+      (<HTMLInputElement> document.getElementById("accountDropdown")).style.top = "64px";
+
       var elems = document.querySelectorAll('.sidenav');
       var instances = M.Sidenav.init(elems);
     });

@@ -9,3 +9,7 @@
 span {
     padding-right: 1rem;
 }
+
+.dropdown-content {
+    top: 100% !important;
+  }

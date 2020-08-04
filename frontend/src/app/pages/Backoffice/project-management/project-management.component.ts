@@ -206,11 +206,14 @@ export class ProjectManagementComponent implements OnInit {
 
   }
 
-  viewProjectDetails(form, project: Project) {
+  viewProjectDetails(project: Project) {
     //this.projectService.selectedProject = project;
     this.hasDocuments = false;
     this.getProjectFiles(project._id);
-    this.setFormValues(form, project);
+    (<HTMLInputElement> document.getElementById("nameDetail")).innerHTML = project.name.toString();
+    (<HTMLInputElement> document.getElementById("descriptionDetail")).innerHTML = project.description.toString();
+    (<HTMLInputElement> document.getElementById("placeDetail")).innerHTML = project.location.toString();
+    //this.setFormValues(form, project);
   }
 
   editProject(form, project: Project) {
