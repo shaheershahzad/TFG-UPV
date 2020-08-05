@@ -54,6 +54,16 @@ export class UserManagementComponent implements OnInit {
       var instances = M.FormSelect.init(elems);
     });
 
+    document.addEventListener('DOMContentLoaded', function() {
+
+      var options = {
+        swipeable: true
+      }
+
+      var elems = document.querySelectorAll('.tabs');
+      var instance = M.Tabs.init(elems, options);
+    });
+
     this.getUsers();
 
   }

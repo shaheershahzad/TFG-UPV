@@ -9,38 +9,40 @@
       <i class="material-icons">delete</i>
     </a>
   </div>
-  <div class="row" *ngIf="noData">
-    <h5 class="center" style="color: lightgray;">No hay usuarios a mostrar <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+  <div class="row">
+    <div class="row" *ngIf="noData">
+      <h5 class="center" style="color: lightgray;">No hay usuarios a mostrar <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+    </div>
+    <table class="responsive-table stripped highlight" *ngIf="!noData">
+      <thead>
+        <tr>
+          <th class="hidden">ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Tipo</th>
+          <th>Fecha de nacimiento</th>
+          <th>Boletín</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <tr *ngFor="let user of userService.users">
+          <td class="hidden">{{ user._id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.birthday }}</td>
+          <td>{{ user.newsletter }}</td>
+          <td>
+            <a class="modal-trigger" href="#userDetailsForm"><i class="material-icons" (click)="viewUserDetails(frmUserDetails, user)">remove_red_eye</i></a>
+            <a class="modal-trigger" href="#editUserForm"><i class="material-icons" (click)="editUser(frmEditUser, user)">edit</i></a>
+            <a class="modal-trigger delete" href="#deleteUserModal"><i class="material-icons" (click)="showDeleteUserConfirmation(user._id, user.name)">delete</i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <table class="responsive-table stripped highlight" *ngIf="!noData">
-    <thead>
-      <tr>
-        <th class="hidden">ID</th>
-        <th>Nombre</th>
-        <th>Correo</th>
-        <th>Tipo</th>
-        <th>Fecha de nacimiento</th>
-        <th>Boletín</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr *ngFor="let user of userService.users">
-        <td class="hidden">{{ user._id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.birthday }}</td>
-        <td>{{ user.newsletter }}</td>
-        <td>
-          <a class="modal-trigger" href="#userDetailsForm"><i class="material-icons" (click)="viewUserDetails(frmUserDetails, user)">remove_red_eye</i></a>
-          <a class="modal-trigger" href="#editUserForm"><i class="material-icons" (click)="editUser(frmEditUser, user)">edit</i></a>
-          <a class="modal-trigger delete" href="#deleteUserModal"><i class="material-icons" (click)="showDeleteUserConfirmation(user._id, user.name)">delete</i></a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 
   <!-- Add User Form Modal -->
   <div id="addUserForm" class="modal">

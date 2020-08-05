@@ -122,3 +122,24 @@ button.btn-flat:focus {
 .switch label input[type=checkbox]:checked+.lever, .switch label input[type=checkbox]:checked+.lever:after {
     background-color:#03a9f4 !important;
 }
+
+.tabs .tab a{
+    color:#4fc3f7;
+} /*Text color*/
+
+.tabs .tab a:hover {
+    color: #01579b;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+    background-color:#e1f5fe;
+    color: #4fc3f7;
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+    background-color:#01579b;
+} /*Color of underline*/
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color:#e1f5fe;
+}
