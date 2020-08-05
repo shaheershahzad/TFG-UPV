@@ -43,6 +43,7 @@ import { UploadService } from './services/upload.service';
 import { FileDeleteConfirmationComponent } from './components/Modals/file-delete-confirmation/file-delete-confirmation.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { MapComponent } from './components/map/map.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 /*const MaterialComponents = [
   MatButtonModule,
@@ -75,7 +76,8 @@ import { MapComponent } from './components/map/map.component';
     WebdataManagementComponent,
     DonationManagementComponent,
     EventManagementComponent,
-    NewsManagementComponent
+    NewsManagementComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

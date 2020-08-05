@@ -6,6 +6,7 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { DonateComponent } from './pages/donate/donate.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
 import { UserManagementComponent } from './pages/Backoffice/user-management/user-management.component';
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'donate', component: DonateComponent },
+  { path: 'my-profile', component: ProfileComponent, canActivate : [AuthService] },
   { path: 'project/details/:id', component: ProjectDetailsComponent },
   { path: 'backoffice', component: BackofficeComponent, canActivate : [AuthService] },
   { path: 'backoffice/users', component: UserManagementComponent, canActivate : [AuthService] },

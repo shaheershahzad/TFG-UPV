@@ -50,7 +50,6 @@ export class WebdataManagementComponent implements OnInit {
         });
 
       }else{
-        console.log(form.value);
 
         this.webdataService.updateWebdata(form.value).subscribe( res => {
           M.toast({html: "Datos actualizados correctamente"});

@@ -8,15 +8,11 @@ webdataController.addWebdata = async (req, res) => {
         websiteMetaDescription: req.body.metaDescription
     });
 
-    console.log(webdata);
-    console.log(req.body);
-
     const dataAvailable = await webdataModel.find();
 
     if(dataAvailable.length > 0){
         return res.status(500).send("Webdata is already available");
     }else{
-        console.log(webdata);
         webdata.save().then( function() {
             res.json({
                 "status":"Webdata saved"

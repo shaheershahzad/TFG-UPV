@@ -30,7 +30,7 @@
 <ul id="accountDropdown" class="dropdown-content" style="top: 64px;">
     <li *ngIf="!isLogged"><a href="/login">Entrar <i class="material-icons right">person</i></a></li>
     <li *ngIf="!isLogged"><a href="/register">Registrar <i class="material-icons right">create</i></a></li>
-    <li *ngIf="isLogged"><a href="#!">Mi perfil <i class="material-icons right">account_box</i></a></li>
+    <li *ngIf="isLogged"><a href="/my-profile">Mi perfil <i class="material-icons right">account_box</i></a></li>
     <li class="divider"></li>
     <li *ngIf="isSuperadmin || isAdmin"><a href="/backoffice">Backoffice <i class="material-icons right">settings</i></a></li>
     <li class="divider"></li>
