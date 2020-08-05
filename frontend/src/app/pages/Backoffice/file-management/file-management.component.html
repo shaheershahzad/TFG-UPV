@@ -1,1 +1,54 @@
-<p>file-management works!</p>
+<div class="container">
+    <h3 class="main-heading">Gestión de ficheros</h3>
+    <div class="row">
+        <div class="row" *ngIf="!filesAvailable">
+            <h5 class="center" style="color: lightgray;">No hay ficheros a mostrar <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+        </div>
+        <a id="deleteFileAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteFileModal" style="display: none;">
+            <i class="material-icons">delete</i>
+          </a>
+        <table class="responsive-table stripped highlight" *ngIf="filesAvailable">
+            <thead>
+              <tr>
+                  <th class="hidden">ID</th>
+                  <th>Nombre</th>
+                  <!--<th>Descripción</th>-->
+                  <th>Tipo</th>
+                  <th>Tamaño</th>
+                  <th>Proyecto</th>
+                  <th>Subido</th>
+                  <th>Acciones</th>
+              </tr>
+            </thead>
+        
+            <tbody>
+              <tr *ngFor="let file of fileService.files">
+                <td class="hidden">{{ file._id }}</td>
+                <td>{{ file.name }}</td>
+                <td>{{ file.type }}</td>
+                <td>{{ (file.size/1024).toFixed() }} KB</td>
+                <td>{{ projects[file.projectId] }} (<i>{{ file.projectId }}</i>)</td>
+                <td>{{ file.createdAt.split('T')[0] }}</td>
+                <td>
+                  <a><i class="material-icons" (click)="downloadFile()">file_download</i></a>
+                  <a class="modal-trigger delete" href="#deleteFileModal"><i class="material-icons" (click)="showDeleteFileConfirmation(file._id, file.name)">delete</i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div id="deleteFileModal" class="modal">
+        <div class="modal-content">
+          <input id="fileID" type="hidden">
+          <input id="fileName" type="hidden">
+          <h5>¿Seguro que quiere borrar el fichero '<span id="fileNameDelete"></span>'?</h5>
+          <p>El fichero se borrará permanentemente.</p>
+        </div>
+        <div class="modal-footer">
+          <button style="margin-right: 0.5rem;" class="btn btn-neutral modal-close">Cancelar</button>
+          <button id="deleteFileModalButton" class="btn waves-effect waves-light red darken-4 right modal-close" (click)="deleteFile()">Borrar</button>
+        </div>
+      </div>
+</div>
