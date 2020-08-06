@@ -3,7 +3,7 @@ const newsletterController = {};
 
 newsletterController.getSubscribers = async (req, res) => {
     const subscribers = await newsletterModel.find();
-    res.json(subscribers);
+    return res.json(subscribers);
 };
 
 newsletterController.addSubscriber = async (req, res) => {
