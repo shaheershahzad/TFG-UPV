@@ -118,6 +118,23 @@ button.btn-flat:focus {
     color: #000 !important;
 }
 
+/* Timepicker colors */
+.timepicker-digital-display {
+    background-color: #03a9f4 !important;
+}
+
+.timepicker-canvas line {
+    stroke: #03a9f4 !important;
+}
+
+.timepicker-canvas-bg, .timepicker-canvas-bearing {
+    fill: #03a9f4;
+}
+
+.timepicker-close {
+    color: #03a9f4;
+}
+
 /* Sqitch button */
 .switch label input[type=checkbox]:checked+.lever, .switch label input[type=checkbox]:checked+.lever:after {
     background-color:#03a9f4 !important;

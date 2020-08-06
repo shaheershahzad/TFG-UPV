@@ -58,6 +58,26 @@
                       <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="locationAdd" placeholder="Lugar del evento" type="text" class="validate" name="location" #location="ngModel" [(ngModel)]="eventService.selectedEvent.location" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="dateAdd" placeholder="Fecha del evento dd/mm/yyyy" type="text" [(ngModel)]="eventService.selectedEvent.date" class="datepicker validate" name="date" required>
+                    <!--<label for="birthday">Fecha del evento</label>-->
+                    <span class="helper-text" data-error="Introduce una fecha para el evento"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="timeAdd" placeholder="Hora del evento" type="text" [(ngModel)]="eventService.selectedEvent.time" class="timepicker validate" name="time" required>
+                    <!--<label for="birthday">Fecha del evento</label>-->
+                    <span class="helper-text" data-error="Introduce una fecha para el evento"></span>
+                </div>
+              </div>
               <div class="row" style="margin-top: 3rem;">
                 <button id="closeAddEventModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddEvent)">Cancelar</button> 
                 <button id="addEventForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addEvent(frmAddEvent)" name="action">Añadir</button>
@@ -87,6 +107,24 @@
                   </div>
               </div>
               <div class="row">
+                <div class="input-field col s12">
+                    <input id="locationEdit" placeholder="Lugar del evento" type="text" class="validate" name="location" #location="ngModel" [(ngModel)]="eventService.selectedEvent.location" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="dateEdit" placeholder="Fecha del evento dd/mm/yyyy" type="text" class="validate" name="date" #date="ngModel" [(ngModel)]="eventService.selectedEvent.date" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="timeEdit" placeholder="Hora del evento" type="text" class="validate" name="time" #time="ngModel" [(ngModel)]="eventService.selectedEvent.time" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
                 <button id="closeEditEventModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditEvent)">Cancelar</button> 
                 <button id="editEventForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateEvent(frmEditEvent)" name="action">Actualizar</button>
               </div>
@@ -113,6 +151,14 @@
                 <tr>
                     <td>Lugar:</td>
                     <td id="locationDetail"></td>
+                </tr>
+                <tr>
+                  <td>Fecha:</td>
+                  <td id="dateDetail"></td>
+                </tr>
+                <tr>
+                  <td>Hora:</td>
+                  <td id="timeDetail"></td>
                 </tr>
             </tbody>
         </table>

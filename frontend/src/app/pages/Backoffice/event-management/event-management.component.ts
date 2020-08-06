@@ -23,6 +23,31 @@ export class EventManagementComponent implements OnInit {
       var instances = M.Modal.init(elems);
     });
 
+    //Datepicker
+    document.addEventListener('DOMContentLoaded', function() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var day = date.getDate();
+      var date = new Date(year - 18, month, day);
+
+      var elems = document.querySelectorAll('.datepicker');
+      var options = {
+        autoClose: true,
+        format: "dd/mm/yyyy",
+        //defaultDate: date,
+        //setDefaultDate: true,
+        //minDate: date
+      }
+      var instances = M.Datepicker.init(elems, options);
+    });
+
+    //Timepicker
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.timepicker');
+      var instances = M.Timepicker.init(elems);
+    });
+
     this.getEvents();
   }
 
@@ -40,8 +65,11 @@ export class EventManagementComponent implements OnInit {
 
   addEvent(form): void{
 
+    form.value.date = (<HTMLInputElement> document.getElementById("dateAdd")).value;
+    form.value.time = (<HTMLInputElement> document.getElementById("timeAdd")).value;
+    console.log(form.value);
     let _idEvent = new ObjectID().toString();
-    let event = new Event(_idEvent, form.value.name, form.value.description, "","","");
+    let event = new Event(_idEvent, form.value.name, form.value.description, form.value.location, form.value.date, form.value.time);
 
     this.eventService.addEvent(event).subscribe( res => {
 
@@ -66,29 +94,15 @@ export class EventManagementComponent implements OnInit {
   updateEvent(form) {
 
     console.log(form.value);
-    /*this.projectService.updateProject(form.value).subscribe( res => {
+    this.eventService.updateEvent(form.value).subscribe( res => {
 
-      if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
-
-        let updatedProjectId = form.value._id;
-        let uid = this.authService.getUID();
-        this.uploadFilesToServer(updatedProjectId, uid);
-        this.clearForm(form);
-        (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "none";
-        M.toast({html: "Proyecto actualizado"});
-
-      }else{
-
-        this.clearForm(form);
-        (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "none";
-        M.toast({html: "Proyecto actualizado"});
-        this.getProjects();
-
-      }
+      this.clearForm(form);
+      M.toast({html: "Evento actualizado"});
+      this.getEvents();
       
     }, ( err => {
-      console.log("Error al actualizar los datos del proyecto.");
-    }));*/
+      console.log("Error al actualizar los datos del evento.");
+    }));
 
   }
 
@@ -96,6 +110,8 @@ export class EventManagementComponent implements OnInit {
     (<HTMLInputElement> document.getElementById("nameDetail")).innerHTML = event.name.toString();
     (<HTMLInputElement> document.getElementById("descriptionDetail")).innerHTML = event.description.toString();
     (<HTMLInputElement> document.getElementById("locationDetail")).innerHTML = event.location.toString();
+    (<HTMLInputElement> document.getElementById("dateDetail")).innerHTML = event.date.toString();
+    (<HTMLInputElement> document.getElementById("timeDetail")).innerHTML = event.time.toString();
   }
 
   showDeleteEventConfirmation(id: string, name: string) {
@@ -129,8 +145,31 @@ export class EventManagementComponent implements OnInit {
     form.setValue({
       _id: event._id,
       name: event.name,
-      description: event.description
+      description: event.description,
+      location: event.location,
+      date: event.date,
+      time: event.time
     });
+
+    let date = event.date.split("/");
+    this.changeDate(date[0], date[1], date[2]);
+  }
+
+  changeDate(day, month, year) {
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('#dateEdit');
+      var options = {
+        autoClose: true,
+        format: "dd/mm/yyyy",
+        defaultDate: new Date(year+"-"+month+"-"+day),
+        setDefaultDate: true
+        //minDate: date
+      }
+      var instances = M.Datepicker.init(elems, options);
+    });
+
+    (<HTMLInputElement> document.getElementById("dateEdit")).value = day+"/"+month+"/"+year;
+
   }
 
 }
