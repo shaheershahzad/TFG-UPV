@@ -7,6 +7,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { DonateComponent } from './pages/donate/donate.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { EventComponent } from './pages/event/event.component';
+import { NewsComponent } from './pages/news/news.component';
 import { BackofficeComponent } from './pages/Backoffice/backoffice/backoffice.component';
 import { UserManagementComponent } from './pages/Backoffice/user-management/user-management.component';
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
@@ -28,6 +30,8 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'donate', component: DonateComponent },
+  { path: 'events', component: EventComponent },
+  { path: 'news', component: NewsComponent },
   { path: 'my-profile', component: ProfileComponent, canActivate : [AuthService] },
   { path: 'project/details/:id', component: ProjectDetailsComponent },
   { path: 'backoffice', component: BackofficeComponent, canActivate : [AuthService] },

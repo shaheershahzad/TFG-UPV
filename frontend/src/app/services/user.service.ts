@@ -20,6 +20,10 @@ export class UserService {
     return this.httpClient.get(this.userAPI);
   }
 
+  getUser(_id: string){
+    return this.httpClient.get(this.userAPI + `/user-details/${_id}`);
+  }
+
   addUser(user: User){
     return this.httpClient.post(this.userAPI, user);
   }

@@ -44,6 +44,10 @@ import { FileDeleteConfirmationComponent } from './components/Modals/file-delete
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { MapComponent } from './components/map/map.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { EventComponent } from './pages/event/event.component';
+import { NewsComponent } from './pages/news/news.component';
+import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { NewsDetailsComponent } from './components/news-details/news-details.component';
 
 /*const MaterialComponents = [
   MatButtonModule,
@@ -77,7 +81,11 @@ import { ProfileComponent } from './pages/profile/profile.component';
     DonationManagementComponent,
     EventManagementComponent,
     NewsManagementComponent,
-    ProfileComponent
+    ProfileComponent,
+    EventComponent,
+    NewsComponent,
+    EventDetailsComponent,
+    NewsDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   getWebdata(){
 
     this.webdataService.getWebdata().subscribe( res => {
-      console.log(res[0]);
+      //console.log(res[0]);
       this.title = res[0].websiteTitle;
       this.metaTitle = res[0].websiteMetaTitle;
       this.metaDescription = res[0].websiteMetaDescription;
