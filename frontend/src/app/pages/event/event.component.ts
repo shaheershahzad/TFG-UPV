@@ -10,10 +10,12 @@ import { Event } from '../../models/event';
 export class EventComponent implements OnInit {
 
   public eventsAvailable: boolean = false;
+  public currentDate = "01/01/2000";
 
   constructor(public eventService: EventService) { }
 
   ngOnInit(): void {
+    this.getCurrentDate();
     this.getEvents();
   }
 
@@ -27,6 +29,31 @@ export class EventComponent implements OnInit {
         this.eventsAvailable = false;
       }
     });
+  }
+
+  getCurrentDate(): string {
+    let date = new Date()
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+
+    if(day < 10){
+      if(month < 10){
+        this.currentDate = `0${day}/0${month}/${year}`;
+      }else{
+        this.currentDate = `${day}/${month}/${year}`;
+      }
+    }else{
+      if(month < 10){
+        this.currentDate = `${day}/0${month}/${year}`;
+      }else{
+        this.currentDate = `${day}/${month}/${year}`;
+      }
+    }
+
+    return this.currentDate;
   }
 
 }
