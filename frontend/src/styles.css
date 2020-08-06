@@ -143,3 +143,8 @@ button.btn-flat:focus {
 .tabs .tab a:focus, .tabs .tab a:focus.active {
     background-color:#e1f5fe;
 }
+
+/* Collections */
+.collection a.collection-item {
+    color: #01579b;
+}
