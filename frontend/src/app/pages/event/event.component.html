@@ -1,11 +1,11 @@
 <div class="container">
     <h3 class="main-heading">Eventos</h3>
-    <div class="row">
-        <div class="collection">
-            <a href="#!" class="collection-item">Alvin <i class="material-icons right">remove_red_eye</i></a>
-            <a href="#!" class="collection-item">Alvin <i class="material-icons right">remove_red_eye</i></a>
-            <a href="#!" class="collection-item">Alvin <i class="material-icons right">remove_red_eye</i></a>
-            <a href="#!" class="collection-item">Alvin <i class="material-icons right">remove_red_eye</i></a>
+    <div class="row" *ngIf="!eventsAvailable">
+        <h5 class="center" style="color: lightgray;">No hay eventos programados <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+    </div>
+    <div class="row" *ngIf="eventsAvailable">
+        <div class="collection" *ngFor="let event of eventService.events">
+            <a href="/event-details/{{event._id}}"class="collection-item" >{{ event.name }} <i class="material-icons right">remove_red_eye</i></a>
         </div>
     </div>
 </div>

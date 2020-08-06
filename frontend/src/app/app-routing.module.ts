@@ -14,6 +14,8 @@ import { UserManagementComponent } from './pages/Backoffice/user-management/user
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
 import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { NewsDetailsComponent } from './components/news-details/news-details.component';
 import { NewsManagementComponent } from './pages/Backoffice/news-management/news-management.component';
 import { EventManagementComponent } from './pages/Backoffice/event-management/event-management.component';
 import { FileManagementComponent } from './pages/Backoffice/file-management/file-management.component';
@@ -34,6 +36,8 @@ const routes: Routes = [
   { path: 'news', component: NewsComponent },
   { path: 'my-profile', component: ProfileComponent, canActivate : [AuthService] },
   { path: 'project/details/:id', component: ProjectDetailsComponent },
+  { path: 'event-details/:id', component: EventDetailsComponent },
+  { path: 'news-details/:id', component: NewsDetailsComponent },
   { path: 'backoffice', component: BackofficeComponent, canActivate : [AuthService] },
   { path: 'backoffice/users', component: UserManagementComponent, canActivate : [AuthService] },
   { path: 'backoffice/projects', component: ProjectManagementComponent, canActivate : [AuthService] },

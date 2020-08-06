@@ -33,6 +33,9 @@ const newsletterRoutes = require("./routes/newsletter.routes");
 const fileRoutes = require("./routes/file.routes");
 //Webdata
 const webdataRoutes = require("./routes/webdata.routes");
+//Event
+const eventRoutes = require("./routes/event.routes");
+//News
 
 // Settings -> Configuración del servidor
 const cors = require("cors");
@@ -88,6 +91,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/files', fileRoutes);
 app.use('/api/webdata', webdataRoutes);
+app.use('/api/events', eventRoutes);
 
 app.get("*", (req, res) => {
     return res.sendFile(path.join(__dirname, "public/index.html"));

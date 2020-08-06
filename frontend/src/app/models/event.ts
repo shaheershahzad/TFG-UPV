@@ -9,10 +9,9 @@ export class Event {
     constructor(_id="", name="", description="", location="", date="", time=""){
         this._id = _id;
         this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.birthday = birthday;
-        this.newsletter = newsletter;
+        this.description = description;
+        this.location = location;
+        this.date = date;
+        this.time = time;
     }
 }
