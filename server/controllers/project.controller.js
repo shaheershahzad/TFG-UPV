@@ -42,7 +42,7 @@ projectController.updateProject = async (req, res) => {
         coordinates: req.body.coordinates,
         location: req.body.location
     }
-    await projectModel.findByIdAndUpdate(req.params.id, {$set: project}, { new: true});
+    await projectModel.findByIdAndUpdate(req.params.id, {$set: project}, { new: true });
     res.json({
         "status":"Project updated"
     });
