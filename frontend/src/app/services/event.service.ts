@@ -8,7 +8,7 @@ import { Event } from '../models/event';
 export class EventService {
 
   readonly eventAPI = "http://localhost:3000/api/events";
-  //readonly eventAPI = "/api/projects";
+  //readonly eventAPI = "/api/events";
   selectedEvent: Event;
   events: Event[];
 
