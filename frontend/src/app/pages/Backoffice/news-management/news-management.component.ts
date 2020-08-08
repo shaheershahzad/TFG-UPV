@@ -56,8 +56,8 @@ export class NewsManagementComponent implements OnInit {
 
   }
 
-  viewNewsDetails(news: News) {
-    this.setNewsInfo(news);
+  viewNewsDetails(news: News, date) {
+    this.setNewsInfo(news, date);
   }
 
   editNews(form, news: News) {
@@ -79,11 +79,17 @@ export class NewsManagementComponent implements OnInit {
 
   }
 
-  setNewsInfo(news: News){
+  setNewsInfo(news: News, date){
     (<HTMLInputElement> document.getElementById("nameDetail")).innerHTML = news.name.toString();
     (<HTMLInputElement> document.getElementById("descriptionDetail")).innerHTML = news.description.toString();
     (<HTMLInputElement> document.getElementById("linkDetail")).innerHTML = news.link.toString();
-    (<HTMLInputElement> document.getElementById("dateDetail")).innerHTML = news.name.toString();
+    let newDateFormat = this.changeDateFormat(date);
+    (<HTMLInputElement> document.getElementById("dateDetail")).innerHTML = newDateFormat;
+  }
+
+  changeDateFormat(date): string{
+    let newDateFormat = (date.split('T')[0]).split('-');
+    return newDateFormat[2]+"/"+newDateFormat[1]+"/"+newDateFormat[0];
   }
 
   showDeleteNewsConfirmation(id: string, name: string) {

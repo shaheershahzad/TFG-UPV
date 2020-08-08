@@ -29,10 +29,10 @@
           <td class="hidden">{{ news._id }}</td>
           <td>{{ news.name }}</td>
           <td>{{ news.description }}</td>
-          <td><a href="{{ news.link }}">Ver noticia <i class="material-icons">remove_red_eye</i></a></td>
+          <td><a href="{{ news.link }}" target="_blank">Ver noticia <i class="material-icons tiny">open_in_new</i></a></td>
           <td>{{ news.createdAt.split('T')[0] }}</td>
           <td>
-            <a class="modal-trigger" href="#newsDetailsForm"><i class="material-icons" (click)="viewNewsDetails(news)">remove_red_eye</i></a>
+            <a class="modal-trigger" href="#newsDetailsForm"><i class="material-icons" (click)="viewNewsDetails(news, news.createdAt)">remove_red_eye</i></a>
             <a class="modal-trigger" href="#editNewsForm"><i class="material-icons" (click)="editNews(frmEditNews, news)">edit</i></a>
             <a class="modal-trigger delete" href="#deleteNewsModal"><i class="material-icons" (click)="showDeleteNewsConfirmation(news._id, news.name)">delete</i></a>
           </td>
