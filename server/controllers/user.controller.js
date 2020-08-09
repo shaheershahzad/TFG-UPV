@@ -86,6 +86,51 @@ exports.loginUser = (req, res, next) => {
     });
 }
 
+exports.sendResetEmail = (req, res, next) => {
+    const recoveryEmail = {
+        email: req.query.recoveryEmail
+    }
+
+    userDAO.findOne({ email: recoveryEmail.email }, (err, user) => {
+        if(err){
+            return res.status(500).send("Server error");
+        }
+
+        if(!user){
+            // Email doesn't exist
+            res.status(409).send("Something is wrong");
+        }else{
+
+            //Send recovery email
+            mailer.sendRecoveryEmail(user.email, user.id);
+        }
+    });
+}
+
+exports.resetPassword = (req, res, next) => {
+    const newData = {
+        email: req.query.recoveryEmail,
+        password: req.query.newPassword
+    }
+
+    //console.log(newData);
+
+    userDAO.findOneAndUpdate({ email: newData.email }, { password: bcrypt.hashSync(newData.password) }, (err, user) => {
+        if(err){
+            return res.status(500).send("Server error");
+        }
+
+        if(!user){
+            // Email doesn't exist
+            res.status(409).send("Something is wrong");
+        }else{
+            res.send({
+                "status":"Password updated"
+             });
+        }
+    });
+}
+
 exports.saveUser = (req, res, next) => {
 
     const newUser = {

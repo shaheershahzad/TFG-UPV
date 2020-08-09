@@ -11,5 +11,6 @@ const user2Controller = require("../controllers/user2.controller");
     router.get("/user-details/:id", user2Controller.getUser);
     router.put("/:id", user2Controller.updateUser);
     router.delete("/:id", user2Controller.deleteUser);
+    router.put("/reset-password", user2Controller.resetPassword);
 //};
 module.exports = router;

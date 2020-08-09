@@ -48,6 +48,7 @@ import { EventComponent } from './pages/event/event.component';
 import { NewsComponent } from './pages/news/news.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { NewsDetailsComponent } from './components/news-details/news-details.component';
+import { PasswordRecoveryComponent } from './pages/password-recovery/password-recovery.component';
 
 /*const MaterialComponents = [
   MatButtonModule,
@@ -85,7 +86,8 @@ import { NewsDetailsComponent } from './components/news-details/news-details.com
     EventComponent,
     NewsComponent,
     EventDetailsComponent,
-    NewsDetailsComponent
+    NewsDetailsComponent,
+    PasswordRecoveryComponent
   ],
   imports: [
     BrowserModule,

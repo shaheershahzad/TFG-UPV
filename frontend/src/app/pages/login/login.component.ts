@@ -24,6 +24,13 @@ export class LoginComponent implements OnInit {
   submitted = false;
 
   ngOnInit(): void {
+
+    //Modals
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.modal');
+      var instances = M.Modal.init(elems);
+    });
+
     this.checkLoggedUser();
     /*this.dataSharingService.currentLoggedUser.subscribe( isLogged => {
       this.isLogged = isLogged;
@@ -53,6 +60,27 @@ export class LoginComponent implements OnInit {
     }
     
   }
+
+  sendRecoveryEmail(){
+
+    let email = (<HTMLInputElement> document.getElementById("emailRecovery")).value.trim();
+
+    if(email.length > 0){
+
+      //console.log(email);
+
+      this.authService.sendRecoveryEmail(email).subscribe( res => {
+
+        //this.clearRecoveryForm();
+        M.toast({html: "Hemos enviado un correo de recuperación a la dirección proporcionada."});
+  
+      }, ( err => {
+        console.log("Error al enviar correo de recuperación");
+      }));
+
+    }
+
+  }
   
   checkLoggedUser(): void {
     if(this.authService.loggedIn()){
@@ -74,6 +102,10 @@ export class LoginComponent implements OnInit {
 
     return "OK";
     
+  }
+
+  clearRecoveryForm() {
+    (<HTMLInputElement> document.getElementById("emailRecovery")).value = "";
   }
 
 }

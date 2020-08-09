@@ -36,6 +36,29 @@ mailController.sendWelcomeEmail = (mailtoName, mailtoEmail) => {
 
 }
 
+mailController.sendRecoveryEmail = (mailtoEmail, userId) => {
+  let to = mailtoEmail;
+  let emailMsg = '<h1>Hola!</h1>'+
+                  '<p>Ha habido un intento de recuperación de contraseña para este correo electrónico. Si no has sido tu, ignora este mensaje.</p>'+
+                  '<p>Si quieres resetear la contraseña, entra en el siguiente enlace: <a href="http://localhost:4200/recover-password/' +userId +'">Resetear mi contraseña</a></p>';
+
+  var mailOptions = {
+      from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+      to: to,
+      subject: 'Password Recovery',
+      html: emailMsg
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+  });
+
+}
+
 mailController.sendEventAddedEmail = (mailtoName, mailtoEmail) => {
   let to = '"' + mailtoName + '" ' + '<' + mailtoEmail + '>';
   let emailMsg = '<h1>Hola!</h1><p>Nuevo evento programado, acceda a nuestra página web para consultarlo!</p>';

@@ -43,6 +43,28 @@ user2Controller.updateUser = async (req, res) => {
     });
 };
 
+user2Controller.resetPassword = (req, res, next) => {
+    const newData = {
+        email: req.query.recoveryEmail,
+        password: req.query.newPassword
+    }
+
+    userDAO.findOneAndUpdate({ email: newData.email }, { password: bcrypt.hashSync(newData.password) }, (err, user) => {
+        if(err){
+            return res.status(500).send("Server error");
+        }
+
+        if(!user){
+            // Email doesn't exist
+            res.status(409).send("Something is wrong");
+        }else{
+            res.send({
+                "status":"Password updated"
+             });
+        }
+    });
+}
+
 user2Controller.deleteUser = async (req, res) => {
     await user2Model.findByIdAndRemove(req.params.id);
     res.json({

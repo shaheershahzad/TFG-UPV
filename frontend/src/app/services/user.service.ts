@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from '../models/user';
 
 @Injectable({
@@ -30,6 +30,11 @@ export class UserService {
 
   updateUser(user: User){
     return this.httpClient.put(this.userAPI + `/${user._id}`, user);
+  }
+
+  updatePassword(email: string, password: string){
+    let params = new HttpParams().set("recoveryEmail", email).set("newPassword", password);
+    return this.httpClient.put(this.userAPI + `/reset-password`, {}, {params: params});
   }
 
   deleteUser(_id: String){
