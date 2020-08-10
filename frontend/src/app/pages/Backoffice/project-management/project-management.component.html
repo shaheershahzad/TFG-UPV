@@ -157,6 +157,7 @@
                       <span><strong>Nombre:</strong> {{ file.name }}</span><br>
                       <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
                       <span><strong>Tipo:</strong> {{ file.type }}</span>
+                      <a href="http://localhost:3000/uploads/{{ file.uploadedName }}" target="_blank" class="right"><span><i class="material-icons">file_download</i></span></a>
                       <span class="right" style="cursor: pointer;"><i id="{{file._id}}" class="material-icons delete" (click)="deleteFile($event)">delete</i></span>
                     </div>
                   </li>
@@ -205,6 +206,7 @@
                 <span><strong>Nombre:</strong> {{ file.name }}</span><br>
                 <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
                 <span><strong>Tipo:</strong> {{ file.type }}</span>
+                <a href="http://localhost:3000/uploads/{{ file.uploadedName }}" target="_blank" class="right"><span><i class="material-icons">file_download</i></span></a>
               </div>
             </li>
             <li *ngIf="!hasDocuments">

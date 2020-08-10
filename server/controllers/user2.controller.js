@@ -29,7 +29,7 @@ user2Controller.getUser = async (req, res) => {
     res.json(user);
 };
 
-user2Controller.updateUser = async (req, res) => {
+/*user2Controller.updateUser = async (req, res) => {
     const user = {
         name: req.body.name,
         email: req.body.email,
@@ -37,33 +37,27 @@ user2Controller.updateUser = async (req, res) => {
         birthday: req.body.birthday,
         newsletter: req.body.newsletter
     }
-    await user2Model.findByIdAndUpdate(req.params.id, {$set: user}, { new: true});
+    await user2Model.findByIdAndUpdate(req.params.id, {$set: user}, {new: true});
     res.json({
         "status":"User updated"
     });
-};
+};*/
 
-user2Controller.resetPassword = (req, res, next) => {
+user2Controller.resetPassword = async (req, res, next) => {
+    console.log(req);
     const newData = {
         email: req.query.recoveryEmail,
         password: req.query.newPassword
     }
 
-    userDAO.findOneAndUpdate({ email: newData.email }, { password: bcrypt.hashSync(newData.password) }, (err, user) => {
-        if(err){
-            return res.status(500).send("Server error");
-        }
+    //console.log(newData);
 
-        if(!user){
-            // Email doesn't exist
-            res.status(409).send("Something is wrong");
-        }else{
-            res.send({
-                "status":"Password updated"
-             });
-        }
+    await user2Model.findOneAndUpdate({ email: newData.email }, { password: newData.password });
+    
+    res.json({
+        "status":"Password Updated"
     });
-}
+};
 
 user2Controller.deleteUser = async (req, res) => {
     await user2Model.findByIdAndRemove(req.params.id);

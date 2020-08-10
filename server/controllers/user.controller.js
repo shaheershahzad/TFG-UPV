@@ -1,6 +1,7 @@
 require("dotenv").config();
 const mailer = require("../mails/mail.sender");
 const userDAO = require("../DAO/user.dao");
+const user2Controller = require("../controllers/user2.controller");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const SECRET_KEY = "secretkey123456";
@@ -110,12 +111,12 @@ exports.sendResetEmail = (req, res, next) => {
 exports.resetPassword = (req, res, next) => {
     const newData = {
         email: req.query.recoveryEmail,
-        password: req.query.newPassword
+        password: bcrypt.hashSync(req.query.newPassword)
     }
 
     //console.log(newData);
 
-    userDAO.findOneAndUpdate({ email: newData.email }, { password: bcrypt.hashSync(newData.password) }, (err, user) => {
+    userDAO.findOneAndUpdate({ email: newData.email }, { password: newData.password }, (err, user) => {
         if(err){
             return res.status(500).send("Server error");
         }
@@ -124,9 +125,12 @@ exports.resetPassword = (req, res, next) => {
             // Email doesn't exist
             res.status(409).send("Something is wrong");
         }else{
-            res.send({
-                "status":"Password updated"
-             });
+
+            user2Controller.resetPassword(newData.email, newData.password).then( () => {
+                res.send({
+                    "status":"Password updated"
+                });
+            });
         }
     });
 }

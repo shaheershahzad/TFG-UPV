@@ -32,7 +32,7 @@ export class UserService {
     return this.httpClient.put(this.userAPI + `/${user._id}`, user);
   }
 
-  updatePassword(email: string, password: string){
+  resetPassword(email: string, password: string){
     let params = new HttpParams().set("recoveryEmail", email).set("newPassword", password);
     return this.httpClient.put(this.userAPI + `/reset-password`, {}, {params: params});
   }

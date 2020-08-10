@@ -30,7 +30,7 @@
                 <td>{{ projects[file.projectId] }} (<i>{{ file.projectId }}</i>)</td>
                 <td>{{ file.createdAt.split('T')[0] }}</td>
                 <td>
-                  <a><i class="material-icons" (click)="downloadFile()">file_download</i></a>
+                  <a href="http://localhost:3000/uploads/{{ file.uploadedName }}" target="_blank"><i class="material-icons">file_download</i></a>
                   <a class="modal-trigger delete" href="#deleteFileModal"><i class="material-icons" (click)="showDeleteFileConfirmation(file._id, file.name)">delete</i></a>
                 </td>
               </tr>

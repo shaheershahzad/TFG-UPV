@@ -22,16 +22,16 @@ export class PasswordRecoveryComponent implements OnInit {
 
     if(email.length > 0){
 
-      this.authService.resetPassword(email, password).subscribe( res => {
+      this.authService.resetPassword(email, password).subscribe( res1 => {
 
-        this.userService.updatePassword(email, password).subscribe( res => {
+        this.userService.resetPassword(email, password).subscribe( res2 => {
           window.location.href = "/login";
         }, err => {
-          M.toast({html: "Error al actualizar la contraseña"});
+          M.toast({html: "Error al actualizar la contraseña 2"});
         });
   
       }, ( err => {
-        console.log("Error al actualizar la contraseña");
+        console.log("Error al actualizar la contraseña 1");
       }));
 
     }
