@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MailService } from '../../services/mail.service';
+
+declare const M: any;
 
 @Component({
   selector: 'app-contact',
@@ -7,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactComponent implements OnInit {
 
-  constructor() { }
+  constructor(private mailService: MailService) { }
 
   ngOnInit(): void {
   }
@@ -45,13 +48,15 @@ export class ContactComponent implements OnInit {
     return "OK";
   }
 
-  sendContactForm() {
+  sendContactForm(form) {
 
     let validationMessage = this.validateForm();
     if(validationMessage == "OK"){
 
       if(this.checkPolicy()){
-        console.log("Message sent");
+        this.mailService.sendContactMessage(form.value).subscribe( res => {
+          console.log("Message sent");
+        });
       }
 
     }else{
