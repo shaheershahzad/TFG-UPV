@@ -55,7 +55,7 @@ export class ContactComponent implements OnInit {
 
       if(this.checkPolicy()){
         this.mailService.sendContactMessage(form.value).subscribe( res => {
-          console.log("Message sent");
+          M.toast({html: "Mensaje enviado"});
         });
       }
 
