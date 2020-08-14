@@ -5,6 +5,7 @@ import { UploadService } from '../../../services/upload.service';
 import { AuthService } from '../../../services/auth.service';
 import { FileService } from '../../../services/file.service';
 import { FileModel } from '../../../models/file';
+
 import { ObjectID } from 'bson';
 
 declare const M: any;
@@ -134,6 +135,7 @@ export class ProjectManagementComponent implements OnInit {
     this.projectLocation ="2";
 
     let _idProject = new ObjectID().toString();
+    
     let coordinates = (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML;
     let location = (<HTMLInputElement> document.querySelector("#location")).innerHTML; 
     let project = new Project(_idProject, form.value.name, form.value.description, coordinates, location);

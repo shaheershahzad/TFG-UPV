@@ -48,7 +48,9 @@ app.set("port", properties.PORT);
 // Middlewares -> Funciones para tratar los datos
 app.use(morgan("dev"));
 app.use(cors());
+
 app.use(express.json());
+
 const multipartMiddleware = multipart({
     //uploadDir: path.join(__dirname, "./public/uploads")
     uploadDir: path.join(__dirname, "./uploads")
@@ -68,7 +70,7 @@ const router = express.Router();
 //File uploader
 app.post("/api/files/upload", multipartMiddleware, (req, res) => {
     res.json(req.files.uploads);
-})
+});
 
 app.use("/api/users", router);
 userRoutes(router);
