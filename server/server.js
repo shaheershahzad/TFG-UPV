@@ -16,7 +16,7 @@ const morgan = require("morgan");
 
 //mailer.sendWelcomeEmail("Shaheer", "shaheer19962012@gmail.com");
 
-// This is your real test secret API key.
+// Clave secreta de la API stripe va aquí.
 const stripe = require("stripe")(process.env.stripeKey);
 
 //Routes
