@@ -1,1 +1,240 @@
-<p>donation-management works!</p>
+<div class="container">
+    <h3 class="main-heading">Gestión de donaciones</h3>
+    <div class="row">
+      <a id="addDonationAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addDonationForm" (click)="clearForm(frmAddDonation)">
+        <i class="material-icons" style="vertical-align: bottom; margin-right: 0.5rem;">add</i>
+        <span style="vertical-align: bottom;font-size: 0.9rem;">Añadir donación</span>
+      </a>
+      <a id="deleteDonationAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteDonationModal" style="display: none;">
+        <i class="material-icons">delete</i>
+      </a>
+    </div>
+    <div class="row" *ngIf="!donationsAvailable">
+      <h5 class="center" style="color: lightgray;">La ONG aún no ha recibido ninguna donación <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+    </div>
+    <table class="responsive-table stripped highlight" *ngIf="donationsAvailable">
+      <thead>
+        <tr>
+            <th class="hidden">ID</th>
+            <th>Doner</th>
+            <th>Importe</th>
+            <th>Proyecto</th>
+            <th>Método</th>
+            <th>Fecha pago</th>
+            <th>Acciones</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <tr *ngFor="let donation of donationService.donations">
+          <td class="hidden">{{ donation._id }}</td>
+          <td>{{ donation.donerId }}</td>
+          <td>{{ donation.amount }} €</td>
+          <td>{{ donation.projectId }}</td>
+          <td>{{ donation.paymentMethod }}</td>
+          <td>{{ donation.paymentDate }}</td>
+          <td>
+            <a class="modal-trigger" href="#donationDetailsForm"><i class="material-icons" (click)="viewDonationDetails(donation)">remove_red_eye</i></a>
+            <a class="modal-trigger" href="#editDonationForm"><i class="material-icons" (click)="editDonation(frmEditDonation, donation)">edit</i></a>
+            <a class="modal-trigger delete" href="#deleteDonationModal"><i class="material-icons" (click)="showDeleteDonationConfirmation(donation._id, donation.donerId)">delete</i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add Donation Form Modal -->
+    <div id="addDonationForm" class="modal modalAdd">
+      <div class="modal-content">
+        <h4 class="main-heading">Añadir donación</h4>
+          <div class="row">
+            <form class="col s12" #frmAddDonation="ngForm">
+              <!--<div class="row">
+                  <div class="input-field col s12">
+                    <input id="donerIdAdd" placeholder="Donante" type="text" class="validate" name="donerID" #donerId="ngModel" [(ngModel)]="donationService.selectedDonation.donerId" required>
+                    <label for="name">Nombre</label>
+                  </div>
+              </div>-->
+              <div class="row">
+                <!--<div class="input-field col s12">
+                    <input id="paymentMethodAdd" type="text" [(ngModel)]="donationService.selectedDonation.paymentMethod" class="validate" name="paymentMethod" #paymentMethod="ngModel" required>
+                    <label for="paymentMethod">Método de pago</label>
+                </div>-->
+                <label>Donante</label>
+                <div class="input-field col s12">
+                  <select id="donerIdAdd" class="validate browser-default" name="donerId" #donerId="ngModel" [(ngModel)]="donationService.selectedDonation.donerId" required>
+                    <option *ngFor="let user of userService.users" value="{{ user._id }}">{{ user.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="input-field col s12">
+                      <input id="amountAdd" placeholder="Importe a donar" type="number" class="validate" name="amount" #amount="ngModel" [(ngModel)]="donationService.selectedDonation.amount" required>
+                      <!--<label for="description">Descripción</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                <!--<div class="input-field col s12">
+                    <input id="projectIdAdd" placeholder="Proyecto que recibe la donación" type="text" class="validate" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
+                    <label for="description">Descripción</label>
+                </div>-->
+                <label>Donar para:</label>
+                <div class="input-field col s12">
+                  <select id="projectIdAdd" class="validate browser-default" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
+                    <option value="General" selected>Todos los proyectos</option>
+                    <option *ngFor="let project of projectService.projects" value="{{ project._id }}">{{ project.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <!--<div class="row">
+                <div class="input-field col s12">
+                    <input id="paymentMethodAdd" placeholder="Método de pago" type="text" class="validate" name="paymentMethod" #paymentMethod="ngModel" [(ngModel)]="donationService.selectedDonation.paymentMethod" required>
+                    <label for="description">Descripción</label>
+                </div>
+              </div>-->
+              <div class="row">
+                <!--<div class="input-field col s12">
+                    <input id="paymentMethodAdd" type="text" [(ngModel)]="donationService.selectedDonation.paymentMethod" class="validate" name="paymentMethod" #paymentMethod="ngModel" required>
+                    <label for="paymentMethod">Método de pago</label>
+                </div>-->
+                <label>Método de pago</label>
+                <div class="input-field col s12">
+                  <select id="paymentMethodAdd" [(ngModel)]="donationService.selectedDonation.paymentMethod" class="validate browser-default" name="paymentMethod" #paymentMethod="ngModel" required>
+                    <option value="tarjeta" selected>Tarjeta</option>
+                    <option value="domiciliacion">Domiciliación bancaria</option>
+                    <option value="paypal">Paypal</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="paymentDateAdd" placeholder="Fecha del pago dd/mm/yyyy" type="text" [(ngModel)]="donationService.selectedDonation.paymentDate" class="datepicker validate" name="paymentDate" #paymentDate="ngModel" required>
+                    <!--<label for="birthday">Fecha del evento</label>-->
+                </div>
+              </div>
+              <div class="row" style="margin-top: 3rem;">
+                <button id="closeAddDonationModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddDonation)">Cancelar</button> 
+                <button id="addDonationForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addDonation(frmAddDonation)" name="action">Añadir</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Donation Form Modal -->
+    <div id="editDonationForm" class="modal modalEdit">
+      <div class="modal-content">
+        <h4 class="main-heading">Actualizar donación</h4>
+          <div class="row">
+            <form class="col s12" #frmEditDonation="ngForm">
+              <input id="idEdit" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="donationService.selectedDonation._id">
+              <div class="row">
+                  <!--<div class="input-field col s12">
+                    <input id="donerIdEdit" placeholder="Donante" type="text" class="validate" name="donerId" #donerId="ngModel" [(ngModel)]="donationService.selectedDonation.donerId" required>
+                    <label for="name">Nombre</label>
+                  </div>-->
+                <label>Donante</label>
+                <div class="input-field col s12">
+                  <select id="donerIdEdit" class="validate browser-default" name="donerId" #donerId="ngModel" [(ngModel)]="donationService.selectedDonation.donerId" required>
+                    <option *ngFor="let user of userService.users" value="{{ user._id }}">{{ user.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="input-field col s12">
+                      <input id="amountEdit" placeholder="Importe a donar" type="number" class="validate" name="amount" #amount="ngModel" [(ngModel)]="donationService.selectedDonation.amount" required>
+                      <!--<label for="description">Descripción</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                <!--<div class="input-field col s12">
+                    <input id="projectIdEdit" placeholder="Proyecto que recibe la donación" type="text" class="validate" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
+                    <label for="description">Descripción</label>
+                </div>-->
+                <label>Donar para:</label>
+                <div class="input-field col s12">
+                  <select id="projectIdEdit" class="validate browser-default" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
+                    <option value="General" selected>Todos los proyectos</option>
+                    <option *ngFor="let project of projectService.projects" value="{{ project._id }}">{{ project.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <!--<div class="input-field col s12">
+                    <input id="paymentMethodEdit" placeholder="Método de pago" type="text" class="validate" name="paymentMethod" #paymentMethod="ngModel" [(ngModel)]="donationService.selectedDonation.paymentMethod" required>
+                    <label for="description">Descripción</label>
+                </div>-->
+                <label>Método de pago</label>
+                <div class="input-field col s12">
+                    <select id="paymentMethodEdit" [(ngModel)]="donationService.selectedDonation.paymentMethod" class="validate browser-default" name="paymentMethod" #paymentMethod="ngModel" required>
+                      <option value="tarjeta">Tarjeta</option>
+                      <option value="domiciliacion">Domiciliación bancaria</option>
+                      <option value="paypal">Paypal</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="paymentDateEdit" placeholder="Fecha del pago dd/mm/yyyy" type="text" class="validate" name="paymentDate" #paymentDate="ngModel" [(ngModel)]="donationService.selectedDonation.paymentDate" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <button id="closeEditDonationModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditDonation)">Cancelar</button> 
+                <button id="editDonationForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateDonation(frmEditDonation)" name="action">Actualizar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donation Details Form Modal -->
+    <div id="donationDetailsForm" class="modal modalDetails">
+      <div class="modal-content">
+        <h4 class="main-heading">Detalles de la donación</h4>
+        <div class="row">
+          <table>
+            <tbody>
+                <tr>
+                    <td>Donante:</td>
+                    <td id="donerIdDetail"></td>
+                </tr>
+                <tr>
+                    <td>Importe:</td>
+                    <td id="amountDetail"></td>
+                </tr>
+                <tr>
+                    <td>Proyecto:</td>
+                    <td id="projectIdDetail"></td>
+                </tr>
+                <tr>
+                  <td>Método de pago:</td>
+                  <td id="paymentMethodDetail"></td>
+                </tr>
+                <tr>
+                  <td>Fecha de pago:</td>
+                  <td id="paymentDateDetail"></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="row">
+          <button id="closeDonationDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div id="deleteDonationModal" class="modal modalDelete">
+      <div class="modal-content">
+        <input id="donationID" type="hidden">
+        <input id="donationDonerId" type="hidden">
+        <h5>¿Seguro que quiere borrar la donación del donante '<span id="donationDonerIdDelete"></span>'?</h5>
+        <p>La donación se borrará permanentemente.</p>
+      </div>
+      <div class="modal-footer">
+        <button style="margin-right: 0.5rem;" class="btn btn-neutral modal-close">Cancelar</button>
+        <button id="deleteDonationModalButton" class="btn waves-effect waves-light red darken-4 right modal-close" (click)="deleteDonation()">Borrar</button>
+      </div>
+    </div>
+</div>
+  
