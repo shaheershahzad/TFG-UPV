@@ -17,8 +17,6 @@ declare const M: any;
 export class DonationManagementComponent implements OnInit {
 
   public donationsAvailable: boolean = false;
-  public appUsers: User[];
-  public appProjects: Project[];
 
   constructor(public donationService: DonationService, public userService: UserService, public projectService: ProjectService) { }
 
@@ -92,9 +90,9 @@ export class DonationManagementComponent implements OnInit {
 
     if(formMessage == "OK"){
 
+      //form.value.paymentDate = (<HTMLInputElement> document.getElementById("paymentDateAdd")).value;
+      //console.log(form.value);
       form.value.paymentDate = (<HTMLInputElement> document.getElementById("paymentDateAdd")).value;
-      console.log(form.value);
-      /*form.value.paymentDate = (<HTMLInputElement> document.getElementById("paymentDateAdd")).value;
       let _idDonation = new ObjectID().toString();
       let donation = new Donation(_idDonation, form.value.donerId, form.value.amount, form.value.projectId, form.value.paymentMethod, form.value.paymentDate);
 
@@ -106,7 +104,7 @@ export class DonationManagementComponent implements OnInit {
 
       }, ( err => {
         console.log("Error al crear la donación.");
-      }));*/
+      }));
 
     }else{
 
@@ -131,9 +129,9 @@ export class DonationManagementComponent implements OnInit {
 
     if(formMessage == "OK"){
 
-      console.log(form.value);
+      //console.log(form.value);
 
-      /*this.donationService.updateDonation(form.value).subscribe( res => {
+      this.donationService.updateDonation(form.value).subscribe( res => {
 
         this.clearForm(form);
         M.toast({html: "Donación actualizada"});
@@ -141,7 +139,7 @@ export class DonationManagementComponent implements OnInit {
         
       }, ( err => {
         console.log("Error al actualizar los datos de la donación.");
-      }));*/
+      }));
 
     }else{
 

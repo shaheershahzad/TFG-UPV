@@ -1,9 +1,55 @@
-<div class="container center">
+<div class="container">
     <div class="row">
-        <h3 class="main-heading">Donate</h3>
+        <h3 class="main-heading center">Donar</h3>
+
+        <form class="col s12" #frmDonation="ngForm">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="donerId" placeholder="Donante" disabled type="text" class="validate" name="donerID" required>
+                    <!--<label for="name">Nombre</label>-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="amount" placeholder="Importe a donar" type="number" class="validate" name="amount" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+            </div>
+            <div class="row">
+                <!--<div class="input-field col s12">
+                    <input id="projectIdAdd" placeholder="Proyecto que recibe la donación" type="text" class="validate" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
+                    <label for="description">Descripción</label>
+                </div>-->
+                <label style="padding: 0 0.75rem;">Donar para:</label>
+                <div class="input-field col s12">
+                <select id="projectI" class="validate browser-default" name="projectId" required>
+                    <option value="General" selected>Todos los proyectos</option>
+                    <option *ngFor="let project of projectService.projects" value="{{ project._id }}">{{ project.name }}</option>
+                </select>
+                </div>
+            </div>
+            <div class="row">
+                <label style="padding: 0 0.75rem;">Método de pago</label>
+                <div class="input-field col s12">
+                <select id="paymentMethod" class="validate browser-default" name="paymentMethod" required>
+                    <option value="tarjeta" selected>Tarjeta</option>
+                    <option value="domiciliacion">Domiciliación bancaria</option>
+                    <option value="paypal">Paypal</option>
+                </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="paymentDateAdd" disabled placeholder="Fecha del pago dd/mm/yyyy" type="text" class="datepicker validate" name="paymentDate" required>
+                    <!--<label for="birthday">Fecha del evento</label>-->
+                </div>
+            </div>
+        </form>
+
         <!-- Display a payment form -->
-        <form id="payment-form">
-            <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+        <!--Stripe.js injects the Card Element-->
+        <!--<form id="payment-form">
+            <div id="card-element"></div>
             <button id="submit">
                 <div class="spinner hidden" id="spinner"></div>
                 <span id="button-text">Donar</span>
@@ -13,6 +59,6 @@
                 Payment succeeded, see the result in your
                 <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
             </p>
-        </form>
+        </form>-->
     </div>
 </div>

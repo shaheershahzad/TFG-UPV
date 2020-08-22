@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { ProjectService } from '../../services/project.service';
+import { Project } from '../../models/project';
 
 declare const Stripe: any;
+declare const M: any;
 
 @Component({
   selector: 'app-donate',
@@ -9,11 +13,40 @@ declare const Stripe: any;
 })
 export class DonateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService, public projectService: ProjectService) { }
 
   ngOnInit(): void {
+
+    //Datepicker
+    document.addEventListener('DOMContentLoaded', function() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var day = date.getDate();
+      var date = new Date(year - 18, month, day);
+
+      var elems = document.querySelectorAll('.datepicker');
+      var options = {
+        autoClose: true,
+        format: "dd/mm/yyyy",
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        //minDate: date
+      }
+      var instances = M.Datepicker.init(elems, options);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems);
+    });
+
+    (<HTMLInputElement> document.getElementById("donerId")).value = this.authService.getUID();
+
+    this.getProjects();
+
     // A reference to Stripe.js initialized with your real test publishable API key.
-    var stripe = Stripe("pk_test_51H9zUmBSYWBbR1OygXreJC3tvv8TL7UbQG26UdbINqNSYqa2JQ8NVyMAc7Dvvr6UDwyHHfvv2Pk6EU6OeT7ZW2SH00NErO5PjM");
+    /*var stripe = Stripe("pk_test_51H9zUmBSYWBbR1OygXreJC3tvv8TL7UbQG26UdbINqNSYqa2JQ8NVyMAc7Dvvr6UDwyHHfvv2Pk6EU6OeT7ZW2SH00NErO5PjM");
 
     // The items the customer wants to buy
     var purchase = {
@@ -123,7 +156,14 @@ export class DonateComponent implements OnInit {
           document.querySelector("#spinner").classList.add("hidden");
           document.querySelector("#button-text").classList.remove("hidden");
         }
-      };
+      };*/
+  }
+
+  getProjects(){
+    this.projectService.getProjects().subscribe(res => {
+      this.projectService.projects = res as Project[];
+      //console.log(this.appProjects);
+    });
   }
 
 }

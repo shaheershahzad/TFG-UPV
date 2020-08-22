@@ -59,7 +59,7 @@
                     <input id="paymentMethodAdd" type="text" [(ngModel)]="donationService.selectedDonation.paymentMethod" class="validate" name="paymentMethod" #paymentMethod="ngModel" required>
                     <label for="paymentMethod">Método de pago</label>
                 </div>-->
-                <label>Donante</label>
+                <label style="padding: 0 0.75rem;">Donante</label>
                 <div class="input-field col s12">
                   <select id="donerIdAdd" class="validate browser-default" name="donerId" #donerId="ngModel" [(ngModel)]="donationService.selectedDonation.donerId" required>
                     <option *ngFor="let user of userService.users" value="{{ user._id }}">{{ user.name }}</option>
@@ -77,7 +77,7 @@
                     <input id="projectIdAdd" placeholder="Proyecto que recibe la donación" type="text" class="validate" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
                     <label for="description">Descripción</label>
                 </div>-->
-                <label>Donar para:</label>
+                <label style="padding: 0 0.75rem;">Donar para:</label>
                 <div class="input-field col s12">
                   <select id="projectIdAdd" class="validate browser-default" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
                     <option value="General" selected>Todos los proyectos</option>
@@ -96,7 +96,7 @@
                     <input id="paymentMethodAdd" type="text" [(ngModel)]="donationService.selectedDonation.paymentMethod" class="validate" name="paymentMethod" #paymentMethod="ngModel" required>
                     <label for="paymentMethod">Método de pago</label>
                 </div>-->
-                <label>Método de pago</label>
+                <label style="padding: 0 0.75rem;">Método de pago</label>
                 <div class="input-field col s12">
                   <select id="paymentMethodAdd" [(ngModel)]="donationService.selectedDonation.paymentMethod" class="validate browser-default" name="paymentMethod" #paymentMethod="ngModel" required>
                     <option value="tarjeta" selected>Tarjeta</option>
@@ -132,7 +132,7 @@
                     <input id="donerIdEdit" placeholder="Donante" type="text" class="validate" name="donerId" #donerId="ngModel" [(ngModel)]="donationService.selectedDonation.donerId" required>
                     <label for="name">Nombre</label>
                   </div>-->
-                <label>Donante</label>
+                <label style="padding: 0 0.75rem;">Donante</label>
                 <div class="input-field col s12">
                   <select id="donerIdEdit" class="validate browser-default" name="donerId" #donerId="ngModel" [(ngModel)]="donationService.selectedDonation.donerId" required>
                     <option *ngFor="let user of userService.users" value="{{ user._id }}">{{ user.name }}</option>
@@ -150,7 +150,7 @@
                     <input id="projectIdEdit" placeholder="Proyecto que recibe la donación" type="text" class="validate" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
                     <label for="description">Descripción</label>
                 </div>-->
-                <label>Donar para:</label>
+                <label style="padding: 0 0.75rem;">Donar para:</label>
                 <div class="input-field col s12">
                   <select id="projectIdEdit" class="validate browser-default" name="projectId" #projectId="ngModel" [(ngModel)]="donationService.selectedDonation.projectId" required>
                     <option value="General" selected>Todos los proyectos</option>
@@ -163,7 +163,7 @@
                     <input id="paymentMethodEdit" placeholder="Método de pago" type="text" class="validate" name="paymentMethod" #paymentMethod="ngModel" [(ngModel)]="donationService.selectedDonation.paymentMethod" required>
                     <label for="description">Descripción</label>
                 </div>-->
-                <label>Método de pago</label>
+                <label style="padding: 0 0.75rem;">Método de pago</label>
                 <div class="input-field col s12">
                     <select id="paymentMethodEdit" [(ngModel)]="donationService.selectedDonation.paymentMethod" class="validate browser-default" name="paymentMethod" #paymentMethod="ngModel" required>
                       <option value="tarjeta">Tarjeta</option>
