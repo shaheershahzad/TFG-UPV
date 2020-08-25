@@ -20,6 +20,10 @@ export class MailService {
     return this.httpClient.post(this.mailAPI+"/welcome-email", mailData);
   }
 
+  sendSubscriptionEmail(mailData){
+    return this.httpClient.post(this.mailAPI+"/subscription-email", mailData);
+  }
+
   sendProjectCreated(mailData){
     return this.httpClient.post(this.mailAPI+"/send-project-created", mailData);
   }

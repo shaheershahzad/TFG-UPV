@@ -32,13 +32,13 @@ mailController.sendContactMessage = async (req, res) => {
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-          console.log(error);
-          return res.send('Error saving');
+            console.log(error);
+            return res.send('Error saving');
         } else {
-          console.log('Email sent: ' + info.response);
-          res.send({
-            "status":"Contact mail sent"
-        });
+            console.log('Email sent: ' + info.response);
+            res.json({
+                "status":"Contact mail sent"
+            });
         }
     });
 
@@ -46,9 +46,15 @@ mailController.sendContactMessage = async (req, res) => {
 
 mailController.sendWelcomeEmail = async (req, res) => {
     
-    console.log(req);
-    /*let to = '"' + mailtoName + '" ' + '<' + mailtoEmail + '>';
-    let emailMsg = '<h1>Bienvenid@ ' + mailtoName + '</h1><p>Queremos darte las gracias por tu voluntad de ayudar junto con nuestra ONG!</p>';
+    //console.log(req);
+
+    const mailData = {
+        name: req.body.name,
+        email: req.body.to
+    }
+
+    let to = '"' + mailData.name + '" ' + '<' + mailData.email + '>';
+    let emailMsg = '<h1>Bienvenid@ ' + mailData.name + '</h1><p>Queremos darte las gracias por tu voluntad de ayudar junto con nuestra ONG!</p>';
 
     var mailOptions = {
         from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
@@ -59,11 +65,55 @@ mailController.sendWelcomeEmail = async (req, res) => {
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-          console.log(error);
+            console.log(error);
+            return res.send('Error saving');
         } else {
-          console.log('Email sent: ' + info.response);
+            console.log('Email sent: ' + info.response);
+            res.json({
+                "status":"Welcome mail sent"
+            });
         }
-    });*/
+    });
+
+    res.json({
+        "status":"Welcome mail sent"
+    });
+};
+
+mailController.sendSubscriptionEmail = async (req, res) => {
+    
+    //console.log(req);
+
+    const mailData = {
+        name: req.body.name,
+        email: req.body.to
+    }
+
+    let to = '"' + mailData.name + '" ' + '<' + mailData.email + '>';
+    let emailMsg = '<h1>Hola ' + mailData.name + '</h1><p>Has sido dado de alta en nuestro boletín de noticias. Recibirás todas las novedades de la ONG.</p>';
+
+    var mailOptions = {
+        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        to: to,
+        subject: 'Suscripción al boletín | ONG',
+        html: emailMsg
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            return res.send('Error sending subscription mail');
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.json({
+                "status":"Subscription mail sent"
+            });
+        }
+    });
+
+    res.json({
+        "status":"Subscription mail sent"
+    });
 
 };
 
