@@ -15,7 +15,7 @@ export class ContactComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  checkPolicy(): boolean {
+  checkPolicy() {
 
     let policyChecked = (<HTMLInputElement> document.getElementById("acceptPolicy")).checked;
 
@@ -25,7 +25,6 @@ export class ContactComponent implements OnInit {
       (<HTMLInputElement> document.getElementById("sendContactFormButton")).disabled = true;
     }
 
-    return policyChecked;
   }
 
   validateForm(): string{
@@ -53,10 +52,16 @@ export class ContactComponent implements OnInit {
     let validationMessage = this.validateForm();
     if(validationMessage == "OK"){
 
-      if(this.checkPolicy()){
+      if((<HTMLInputElement> document.getElementById("acceptPolicy")).checked){
+
         this.mailService.sendContactMessage(form.value).subscribe( res => {
           M.toast({html: "Mensaje enviado"});
         });
+
+      }else{
+
+        M.toast({html: "No ha aceptado la política"});
+
       }
 
     }else{
