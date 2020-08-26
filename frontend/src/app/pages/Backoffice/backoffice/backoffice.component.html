@@ -1,63 +1,63 @@
 <div class="container center">
     <div class="row">
         <h3 class="main-heading">Backoffice</h3>
-        <a href="/backoffice/users">
+        <a href="/backoffice/users" *ngIf="isSuperadmin">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Gestionar Usuarios <i class="material-icons small">contacts</i></span></h5>
                 </div>
             </div>
         </a>
-        <a href="/backoffice/projects">
+        <a href="/backoffice/projects" *ngIf="isSuperadmin || isVolunteer">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Gestionar Proyectos <i class="material-icons small">work</i></span></h5>
                 </div>
             </div>
         </a>
-        <a href="/backoffice/donations">
+        <a href="/backoffice/donations" *ngIf="isSuperadmin || isVolunteer">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Gestionar Donaciones <i class="material-icons small">payment</i></span></h5>
                 </div>
             </div>
         </a>
-        <a href="/backoffice/events">
+        <a href="/backoffice/events" *ngIf="isSuperadmin">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Gestionar Eventos <i class="material-icons small">event</i></span></h5>
                 </div>
             </div>
         </a>
-        <a href="/backoffice/news">
+        <a href="/backoffice/news" *ngIf="isSuperadmin">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Gestionar Noticias <i class="material-icons small">surround_sound</i></span></h5>
                 </div>
             </div>
         </a>
-        <a href="/backoffice/webdata">
+        <a href="/backoffice/webdata" *ngIf="isSuperadmin">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Gestionar Web <i class="material-icons small">web</i></span></h5>
                 </div>
             </div>
         </a>
-        <a href="/manage/team" style="display: none;">
+        <a href="/manage/team" style="display: none;" *ngIf="isSuperadmin">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Gestionar Equipo <i class="material-icons small">people</i></span></h5>
                 </div>
             </div>
         </a>
-        <a href="/backoffice/newsletter">
+        <a href="/backoffice/newsletter" *ngIf="isSuperadmin">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Suscriptores Newsletter <i class="material-icons small">email</i></span></h5>
                 </div>
             </div>
         </a>
-        <a href="/backoffice/files">
+        <a href="/backoffice/files" *ngIf="isSuperadmin">
             <div class="col s6">
                 <div class="card-panel light-blue darken-4">
                 <h5><span class="white-text">Ver Ficheros <i class="material-icons small">insert_drive_file</i></span></h5>

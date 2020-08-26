@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if(location.href.indexOf("/backoffice") > 0){
-      if(!this.authService.isSuperadmin() && !this.authService.isAdmin()){
+      if(!this.authService.isSuperadmin() && !this.authService.isVolunteer()){
         location.href = "/";
       }
     }

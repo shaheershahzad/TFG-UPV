@@ -132,16 +132,8 @@ export class AuthService implements CanActivate {
     }
   }
 
-  isAdmin(): boolean {
-    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "admin"){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
-  isRegistered(): boolean {
-    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "registered"){
+  isVolunteer(): boolean {
+    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "volunteer"){
       return true;
     }else{
       return false;
@@ -150,6 +142,14 @@ export class AuthService implements CanActivate {
 
   isDoner(): boolean {
     if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "doner"){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  isRegistered(): boolean {
+    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "registered"){
       return true;
     }else{
       return false;

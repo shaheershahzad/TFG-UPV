@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   public isUserLoggedIn: boolean;
   public isLogged: boolean;
   public isSuperadmin: boolean = false;
-  public isAdmin: boolean = false;
+  public isVolunteer: boolean = false;
   public isRegistered: boolean = false;
   public name: string = "Usuario";
 
@@ -65,8 +65,8 @@ export class NavbarComponent implements OnInit {
 
     if(this.authService.isSuperadmin()){
       this.isSuperadmin = true;
-    }else if(this.authService.isAdmin()){
-      this.isAdmin = true;
+    }else if(this.authService.isVolunteer()){
+      this.isVolunteer = true;
     }else if(this.authService.isRegistered()){
       this.isRegistered = true;
     }
