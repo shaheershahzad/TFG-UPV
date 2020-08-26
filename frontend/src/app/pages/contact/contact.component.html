@@ -1,5 +1,39 @@
 <div class="container">
-    <div class="row">
-        <h2>Contact</h2>
-    </div>
+    <h3 class="main-heading">Contacto</h3>
+    <form class="col s12 left-align" #frmContact="ngForm">
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="name" type="text" class="validate" name="name" required ngModel>
+                <label for="name">Nombre y apellidos</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="email" type="email" class="validate" name="email" required ngModel>
+                <label for="email">Correo electrónico</label>
+                <span class="helper-text" data-error="Correo incorrecto"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="subject" type="text" class="validate" name="subject" required ngModel>
+                <label for="subject">Asunto</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+              <textarea id="message" class="materialize-textarea" name="message" required ngModel></textarea>
+              <label for="message">Mensaje</label>
+            </div>
+        </div>
+        <p>
+            <label>
+              <input id="acceptPolicy" type="checkbox" class="filled-in" (click)="checkPolicy()" />
+              <span>Acepto la política de privacidad</span>
+            </label>
+        </p>
+        <div class="row center">
+            <button id="sendContactFormButton" class="btn waves-effect waves-light light-blue darken-4" name="action" (click)="sendContactForm(frmContact)" disabled >Enviar <i class="material-icons" style="vertical-align: bottom;">send</i></button>
+        </div>                 
+    </form>
 </div>

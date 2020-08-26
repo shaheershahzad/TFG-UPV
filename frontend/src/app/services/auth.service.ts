@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserI } from '../interfaces/user';
 import { User } from '../models/user';
 import { JwtResponseI } from '../interfaces/jwt-response';
@@ -59,6 +59,22 @@ export class AuthService implements CanActivate {
     );
   }
 
+  getProfileData(id: string) {
+    let params = new HttpParams().set("userId", id);
+    return this.httpClient.get(this.AUTH_SERVER + `/info`, {params: params});
+  }
+
+  sendRecoveryEmail(email: string) {
+    let params = new HttpParams().set("recoveryEmail", email);
+    return this.httpClient.get(this.AUTH_SERVER + `/recover-password`, {params: params});
+  }
+
+  resetPassword(email: string, password: string) {
+    let params = new HttpParams().set("recoveryEmail", email).set("newPassword", password);
+    //console.log(params);
+    return this.httpClient.put(this.AUTH_SERVER + `/reset-password`, {}, {params: params});
+  }
+
   logout(): void{
     this.token = "";
     localStorage.removeItem("UID");
@@ -116,16 +132,8 @@ export class AuthService implements CanActivate {
     }
   }
 
-  isAdmin(): boolean {
-    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "admin"){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
-  isRegistered(): boolean {
-    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "registered"){
+  isVolunteer(): boolean {
+    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "volunteer"){
       return true;
     }else{
       return false;
@@ -134,6 +142,14 @@ export class AuthService implements CanActivate {
 
   isDoner(): boolean {
     if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "doner"){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  isRegistered(): boolean {
+    if(localStorage.getItem("ROLE") != null && localStorage.getItem("ROLE") == "registered"){
       return true;
     }else{
       return false;

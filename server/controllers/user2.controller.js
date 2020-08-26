@@ -11,6 +11,7 @@ user2Controller.getUsers = async (req, res) => {
 
 user2Controller.createUser = async (req, res) => {
     const user = new user2Model({
+        //_id: req.body._id,
         name: req.body.name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password),
@@ -18,6 +19,7 @@ user2Controller.createUser = async (req, res) => {
         birthday: req.body.birthday,
         newsletter: req.body.newsletter
     });
+    console.log(user);
     await user.save();
     res.json({
         "status":"User saved"
@@ -26,10 +28,11 @@ user2Controller.createUser = async (req, res) => {
 
 user2Controller.getUser = async (req, res) => {
     const user = await user2Model.findById(req.params.id);
+    console.log(user);
     res.json(user);
 };
 
-user2Controller.updateUser = async (req, res) => {
+/*user2Controller.updateUser = async (req, res) => {
     const user = {
         name: req.body.name,
         email: req.body.email,
@@ -37,9 +40,25 @@ user2Controller.updateUser = async (req, res) => {
         birthday: req.body.birthday,
         newsletter: req.body.newsletter
     }
-    await user2Model.findByIdAndUpdate(req.params.id, {$set: user}, { new: true});
+    await user2Model.findByIdAndUpdate(req.params.id, {$set: user}, {new: true});
     res.json({
         "status":"User updated"
+    });
+};*/
+
+user2Controller.resetPassword = async (req, res, next) => {
+    console.log(req);
+    const newData = {
+        email: req.query.recoveryEmail,
+        password: req.query.newPassword
+    }
+
+    //console.log(newData);
+
+    await user2Model.findOneAndUpdate({ email: newData.email }, { password: newData.password });
+    
+    res.json({
+        "status":"Password Updated"
     });
 };
 

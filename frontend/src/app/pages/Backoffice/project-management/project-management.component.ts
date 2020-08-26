@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../services/project.service';
+import { MailService } from '../../../services/mail.service';
+import { NewsletterService } from '../../../services/newsletter.service';
 import { Project } from '../../../models/project';
 import { UploadService } from '../../../services/upload.service';
 import { AuthService } from '../../../services/auth.service';
 import { FileService } from '../../../services/file.service';
 import { FileModel } from '../../../models/file';
+
 import { ObjectID } from 'bson';
 
 declare const M: any;
@@ -23,11 +26,14 @@ export class ProjectManagementComponent implements OnInit {
   public projectsAvailable: boolean = false;
   public projectLocation = "";
 
-  constructor(public projectService: ProjectService, public uploadService: UploadService, private authService: AuthService, public fileService: FileService) { }
+  constructor(public projectService: ProjectService, 
+    public uploadService: UploadService, 
+    private authService: AuthService, 
+    public fileService: FileService,
+    private newsletterService: NewsletterService,
+    private mailService: MailService) { }
 
   ngOnInit(): void {
-
-    var ubicacion = "Valencia";
 
     //Modals
     document.addEventListener('DOMContentLoaded', function() {
@@ -45,8 +51,13 @@ export class ProjectManagementComponent implements OnInit {
     });
 
     this.getProjects();
+  }
 
-    var mymap = L.map('map', {
+  loadEditMap(){   
+
+    var ubicacion = "Valencia";
+
+    var mymap = L.map('mapEdit', {
       center: [39.46975, -0.37739],
       zoom: 13
     });
@@ -57,11 +68,7 @@ export class ProjectManagementComponent implements OnInit {
       attribution: ''
     }).addTo(mymap);
 
-    (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML = "39.46975,-0.37739";
-    (<HTMLInputElement> document.querySelector("#location")).innerHTML = ubicacion; 
-
-    // Código para ocultar las atribuciones
-    (<HTMLInputElement> document.querySelector(".leaflet-control-attribution.leaflet-control")).style.display = "none";
+    mymap.invalidateSize();
 
     // Este listener es para renderizar correctamente el mapa al abrir un modal
     document.addEventListener("click", function(){
@@ -84,15 +91,15 @@ export class ProjectManagementComponent implements OnInit {
         if (Http.readyState == 4) {
           let coordData = JSON.parse(Http.responseText);
           if(coordData.address.village != undefined){
-            ubicacion = coordData.address.village;
+              ubicacion = coordData.address.village;
           }else if(coordData.address.county != undefined){
-            ubicacion = coordData.address.county;
+              ubicacion = coordData.address.county;
           }else if(coordData.address.city != undefined){
-            ubicacion = coordData.address.city;
+              ubicacion = coordData.address.city;
           }else if(coordData.address.country != undefined){
-            ubicacion = coordData.address.country;
+              ubicacion = coordData.address.country;
           }else{
-            ubicacion = "No localizable";
+              ubicacion = "No localizable";
           }
 
           (<HTMLInputElement> document.querySelector("#location")).innerHTML = ubicacion;
@@ -104,6 +111,7 @@ export class ProjectManagementComponent implements OnInit {
         }
       }
     });
+    
   }
 
   getProjects(){
@@ -134,6 +142,7 @@ export class ProjectManagementComponent implements OnInit {
     this.projectLocation ="2";
 
     let _idProject = new ObjectID().toString();
+    
     let coordinates = (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML;
     let location = (<HTMLInputElement> document.querySelector("#location")).innerHTML; 
     let project = new Project(_idProject, form.value.name, form.value.description, coordinates, location);
@@ -162,6 +171,17 @@ export class ProjectManagementComponent implements OnInit {
       console.log("Error al crear el proyecto.");
     }));
 
+  }
+
+  sendProjectBroadcast(){
+    this.newsletterService.getSubscribers().subscribe( (res: any) => {
+
+      let newsletterUsers = res;
+      //console.log(newsletterUsers);
+
+      this.mailService.sendProjectCreated({subject: "Proyecto nuevo", subscribers: newsletterUsers});
+
+    });
   }
 
   uploadFilesToServer(projectId: string, userId: string) {
@@ -206,22 +226,27 @@ export class ProjectManagementComponent implements OnInit {
 
   }
 
-  viewProjectDetails(form, project: Project) {
+  viewProjectDetails(project: Project) {
     //this.projectService.selectedProject = project;
     this.hasDocuments = false;
     this.getProjectFiles(project._id);
-    this.setFormValues(form, project);
+    this.setProjectInfo(project);
+    //this.setFormValues(form, project);
   }
 
   editProject(form, project: Project) {
     this.getProjectFiles(project._id);
     this.setFormValues(form, project);
+    /*(<HTMLInputElement> document.getElementsByTagName("app-map")[0]).remove();
+    (<HTMLInputElement> document.getElementById("mapEdit")).innerHTML = "<app-map></app-map>";*/
+    this.loadEditMap();
   }
 
   updateProject(form) {
 
     (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "block";
-    this.projectService.updateProject(form.value).subscribe( res => {
+    console.log(form.value);
+    /*this.projectService.updateProject(form.value).subscribe( res => {
 
       if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
 
@@ -243,7 +268,7 @@ export class ProjectManagementComponent implements OnInit {
       
     }, ( err => {
       console.log("Error al actualizar los datos del proyecto.");
-    }));
+    }));*/
 
   }
 
@@ -309,6 +334,12 @@ export class ProjectManagementComponent implements OnInit {
       name: project.name,
       description: project.description
     });
+  }
+
+  setProjectInfo(project: Project){
+    (<HTMLInputElement> document.getElementById("nameDetail")).innerHTML = project.name.toString();
+    (<HTMLInputElement> document.getElementById("descriptionDetail")).innerHTML = project.description.toString();
+    (<HTMLInputElement> document.getElementById("placeDetail")).innerHTML = project.location.toString();
   }
 
   handleFileInput(e) {

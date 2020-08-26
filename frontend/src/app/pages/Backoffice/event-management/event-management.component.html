@@ -1,0 +1,186 @@
+<div class="container">
+    <h3 class="main-heading">Gestión de eventos</h3>
+    <div class="row">
+      <a id="addEventAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addEventForm" (click)="clearForm(frmAddEvent)">
+        <i class="material-icons" style="vertical-align: bottom; margin-right: 0.5rem;">add</i>
+        <span style="vertical-align: bottom;font-size: 0.9rem;">Añadir evento</span>
+      </a>
+      <a id="deleteEventAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteEventModal" style="display: none;">
+        <i class="material-icons">delete</i>
+      </a>
+    </div>
+    <div class="row" *ngIf="!eventsAvailable">
+      <h5 class="center" style="color: lightgray;">No hay eventos programados <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+    </div>
+    <table class="responsive-table stripped highlight" *ngIf="eventsAvailable">
+      <thead>
+        <tr>
+            <th class="hidden">ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Lugar</th>
+            <th>Fecha y hora</th>
+            <th>Acciones</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <tr *ngFor="let event of eventService.events">
+          <td class="hidden">{{ event._id }}</td>
+          <td>{{ event.name }}</td>
+          <td>{{ event.description }}</td>
+          <td>{{ event.location }}</td>
+          <td>{{ event.date }} {{ event.time }}</td>
+          <td>
+            <a class="modal-trigger" href="#eventDetailsForm"><i class="material-icons" (click)="viewEventDetails(event)">remove_red_eye</i></a>
+            <a class="modal-trigger" href="#editEventForm"><i class="material-icons" (click)="editEvent(frmEditEvent, event)">edit</i></a>
+            <a class="modal-trigger delete" href="#deleteEventModal"><i class="material-icons" (click)="showDeleteEventConfirmation(event._id, event.name)">delete</i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add Event Form Modal -->
+    <div id="addEventForm" class="modal">
+      <div class="modal-content">
+        <h4 class="main-heading">Añadir evento</h4>
+          <div class="row">
+            <form class="col s12" #frmAddEvent="ngForm">
+              <div class="row">
+                  <div class="input-field col s12">
+                    <input id="nameAdd" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="eventService.selectedEvent.name" required>
+                    <!--<label for="name">Nombre</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="input-field col s12">
+                      <input id="descriptionAdd" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="eventService.selectedEvent.description" required>
+                      <!--<label for="description">Descripción</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="locationAdd" placeholder="Lugar del evento" type="text" class="validate" name="location" #location="ngModel" [(ngModel)]="eventService.selectedEvent.location" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="dateAdd" placeholder="Fecha del evento dd/mm/yyyy" type="text" [(ngModel)]="eventService.selectedEvent.date" class="datepicker validate" name="date" required>
+                    <!--<label for="birthday">Fecha del evento</label>-->
+                    <span class="helper-text" data-error="Introduce una fecha para el evento"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="timeAdd" placeholder="Hora del evento" type="text" [(ngModel)]="eventService.selectedEvent.time" class="timepicker validate" name="time" required>
+                    <!--<label for="birthday">Fecha del evento</label>-->
+                    <span class="helper-text" data-error="Introduce una fecha para el evento"></span>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 3rem;">
+                <button id="closeAddEventModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddEvent)">Cancelar</button> 
+                <button id="addEventForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addEvent(frmAddEvent)" name="action">Añadir</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Event Form Modal -->
+    <div id="editEventForm" class="modal">
+      <div class="modal-content">
+        <h4 class="main-heading">Actualizar evento</h4>
+          <div class="row">
+            <form class="col s12" #frmEditEvent="ngForm">
+              <input id="idEdit" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="eventService.selectedEvent._id">
+              <div class="row">
+                  <div class="input-field col s12">
+                    <input id="nameEdit" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="eventService.selectedEvent.name" required>
+                    <!--<label for="name">Nombre</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="input-field col s12">
+                      <input id="descriptionEdit" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="eventService.selectedEvent.description" required>
+                      <!--<label for="description">Descripción</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="locationEdit" placeholder="Lugar del evento" type="text" class="validate" name="location" #location="ngModel" [(ngModel)]="eventService.selectedEvent.location" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="dateEdit" placeholder="Fecha del evento dd/mm/yyyy" type="text" class="validate" name="date" #date="ngModel" [(ngModel)]="eventService.selectedEvent.date" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="timeEdit" placeholder="Hora del evento" type="text" class="validate" name="time" #time="ngModel" [(ngModel)]="eventService.selectedEvent.time" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <button id="closeEditEventModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditEvent)">Cancelar</button> 
+                <button id="editEventForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateEvent(frmEditEvent)" name="action">Actualizar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event Details Form Modal -->
+    <div id="eventDetailsForm" class="modal">
+      <div class="modal-content">
+        <h4 class="main-heading">Información del evento</h4>
+        <div class="row">
+          <table>
+            <tbody>
+                <tr>
+                    <td>Nombre:</td>
+                    <td id="nameDetail"></td>
+                </tr>
+                <tr>
+                    <td>Descripción:</td>
+                    <td id="descriptionDetail"></td>
+                </tr>
+                <tr>
+                    <td>Lugar:</td>
+                    <td id="locationDetail"></td>
+                </tr>
+                <tr>
+                  <td>Fecha:</td>
+                  <td id="dateDetail"></td>
+                </tr>
+                <tr>
+                  <td>Hora:</td>
+                  <td id="timeDetail"></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="row">
+          <button id="closeEventDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div id="deleteEventModal" class="modal">
+      <div class="modal-content">
+        <input id="eventID" type="hidden">
+        <input id="eventName" type="hidden">
+        <h5>¿Seguro que quiere borrar el evento '<span id="eventNameDelete"></span>'?</h5>
+        <p>El evento se borrará permanentemente.</p>
+      </div>
+      <div class="modal-footer">
+        <button style="margin-right: 0.5rem;" class="btn btn-neutral modal-close">Cancelar</button>
+        <button id="deleteEventModalButton" class="btn waves-effect waves-light red darken-4 right modal-close" (click)="deleteEvent()">Borrar</button>
+      </div>
+    </div>
+</div>
+  

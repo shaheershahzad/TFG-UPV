@@ -20,6 +20,11 @@ import { UserManagementComponent } from './pages/Backoffice/user-management/user
 import { ProjectManagementComponent } from './pages/Backoffice/project-management/project-management.component';
 import { DonateComponent } from './pages/donate/donate.component';
 import { NewsletterManagementComponent } from './pages/Backoffice/newsletter-management/newsletter-management.component';
+import { FileManagementComponent } from './pages/Backoffice/file-management/file-management.component';
+import { WebdataManagementComponent } from './pages/Backoffice/webdata-management/webdata-management.component';
+import { DonationManagementComponent } from './pages/Backoffice/donation-management/donation-management.component';
+import { EventManagementComponent } from './pages/Backoffice/event-management/event-management.component';
+import { NewsManagementComponent } from './pages/Backoffice/news-management/news-management.component';
 
 //Material
 /*import { MatButtonModule } from '@angular/material/button';
@@ -38,6 +43,12 @@ import { UploadService } from './services/upload.service';
 import { FileDeleteConfirmationComponent } from './components/Modals/file-delete-confirmation/file-delete-confirmation.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { MapComponent } from './components/map/map.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { EventComponent } from './pages/event/event.component';
+import { NewsComponent } from './pages/news/news.component';
+import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { NewsDetailsComponent } from './components/news-details/news-details.component';
+import { PasswordRecoveryComponent } from './pages/password-recovery/password-recovery.component';
 
 /*const MaterialComponents = [
   MatButtonModule,
@@ -65,7 +76,18 @@ import { MapComponent } from './components/map/map.component';
     NewsletterManagementComponent,
     FileDeleteConfirmationComponent,
     ProjectDetailsComponent,
-    MapComponent
+    MapComponent,
+    FileManagementComponent,
+    WebdataManagementComponent,
+    DonationManagementComponent,
+    EventManagementComponent,
+    NewsManagementComponent,
+    ProfileComponent,
+    EventComponent,
+    NewsComponent,
+    EventDetailsComponent,
+    NewsDetailsComponent,
+    PasswordRecoveryComponent
   ],
   imports: [
     BrowserModule,

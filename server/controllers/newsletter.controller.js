@@ -3,7 +3,7 @@ const newsletterController = {};
 
 newsletterController.getSubscribers = async (req, res) => {
     const subscribers = await newsletterModel.find();
-    res.json(subscribers);
+    return res.json(subscribers);
 };
 
 newsletterController.addSubscriber = async (req, res) => {
@@ -36,7 +36,7 @@ newsletterController.updateSubscriber = async (req, res) => {
     const subscriber = {
         email: req.body.email
     }
-    await newsletterModel.findByIdAndUpdate(req.params.id, {$set: subscriber}, { new: true});
+    await newsletterModel.findByIdAndUpdate(req.params.id, {$set: subscriber}, { new: true });
     res.json({
         "status":"Subscriber updated"
     });

@@ -1,8 +1,13 @@
 <div class="container">
     <h3 class="main-heading">Gestión de proyectos</h3>
     <div class="row">
-      <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm"><i (click)="clearForm(frmAddProject)" class="material-icons">add</i></a>
-      <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;"><i class="material-icons">delete</i></a>
+      <a id="addProjectAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addProjectForm" (click)="clearForm(frmAddProject)">
+        <i class="material-icons" style="vertical-align: bottom; margin-right: 0.5rem;">add</i>
+        <span style="vertical-align: bottom;font-size: 0.9rem;">Añadir proyecto</span>
+      </a>
+      <a id="deleteProjectAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteProjectModal" style="display: none;">
+        <i class="material-icons">delete</i>
+      </a>
     </div>
     <div class="row" *ngIf="!projectsAvailable">
       <h5 class="center" style="color: lightgray;">No hay proyectos a mostrar <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
@@ -25,7 +30,7 @@
           <td>{{ project.description }}</td>
           <td>{{ project.location }}</td>
           <td>
-            <a class="modal-trigger" href="#projectDetailsForm"><i class="material-icons" (click)="viewProjectDetails(frmProjectDetails, project)">content_paste</i></a>
+            <a class="modal-trigger" href="#projectDetailsForm"><i class="material-icons" (click)="viewProjectDetails(project)">remove_red_eye</i></a>
             <a class="modal-trigger" href="#editProjectForm"><i class="material-icons" (click)="editProject(frmEditProject, project)">edit</i></a>
             <a class="modal-trigger delete" href="#deleteProjectModal"><i class="material-icons" (click)="showDeleteProjectConfirmation(project._id, project.name)">delete</i></a>
           </td>
@@ -56,7 +61,7 @@
                   <li>
                     <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span><span id="location" class="hidden"></span></div>
                     <div class="collapsible-body">
-                      <div id="map"></div>
+                      <app-map></app-map>
                     </div>
                   </li>
                 </ul>
@@ -118,6 +123,20 @@
                       <!--<label for="description">Descripción</label>-->
                   </div>
               </div>
+              <div class="row">
+                <ul class="collapsible">
+                  <li>
+                    <div class="collapsible-header">
+                      <i class="material-icons">place</i>Ubicación
+                      <span id="coordenadasEdit" class="hidden"></span>
+                      <span id="locationEdit" class="hidden"></span>
+                    </div>
+                    <div class="collapsible-body">
+                      <div id="mapEdit"></div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
               <div class="file-field input-field">
                 <div class="btn">
                   <span>Ficheros</span>
@@ -138,6 +157,7 @@
                       <span><strong>Nombre:</strong> {{ file.name }}</span><br>
                       <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
                       <span><strong>Tipo:</strong> {{ file.type }}</span>
+                      <a href="http://localhost:3000/uploads/{{ file.uploadedName }}" target="_blank" class="right"><span><i class="material-icons">file_download</i></span></a>
                       <span class="right" style="cursor: pointer;"><i id="{{file._id}}" class="material-icons delete" (click)="deleteFile($event)">delete</i></span>
                     </div>
                   </li>
@@ -160,7 +180,42 @@
     <div id="projectDetailsForm" class="modal">
       <div class="modal-content">
         <h4 class="main-heading">Información del proyecto</h4>
-          <div class="row">
+        <div class="row">
+          <table>
+            <tbody>
+                <tr>
+                    <td>Nombre:</td>
+                    <td id="nameDetail"></td>
+                </tr>
+                <tr>
+                    <td>Descripción:</td>
+                    <td id="descriptionDetail"></td>
+                </tr>
+                <tr>
+                    <td>Lugar:</td>
+                    <td id="placeDetail"></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="row">
+          <ul class="collapsible">
+            <li *ngIf="hasDocuments">
+              <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+              <div class="collapsible-body" *ngFor="let file of fileService.files">
+                <span><strong>Nombre:</strong> {{ file.name }}</span><br>
+                <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
+                <span><strong>Tipo:</strong> {{ file.type }}</span>
+                <a href="http://localhost:3000/uploads/{{ file.uploadedName }}" target="_blank" class="right"><span><i class="material-icons">file_download</i></span></a>
+              </div>
+            </li>
+            <li *ngIf="!hasDocuments">
+              <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
+              <div class="collapsible-body"><i class="material-icons" style="vertical-align: bottom;margin-right: 1rem;">do_not_disturb_alt</i>No hay documentos subidos</div>
+            </li>
+          </ul>
+        </div>
+          <!--<div class="row">
             <form class="col s12" #frmProjectDetails="ngForm">
               <input id="idDetail" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
               <div class="row">
@@ -193,6 +248,9 @@
               </div>
               <button id="closeProjectDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
           </form>
+        </div>-->
+        <div class="row">
+          <button id="closeProjectDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
         </div>
       </div>
     </div>

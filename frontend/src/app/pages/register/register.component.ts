@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MailService } from '../../services/mail.service';
 import { NewsletterService } from '../../services/newsletter.service';
-import { UserI } from '../../interfaces/user';
-import { Form } from '@angular/forms';
 import { DataSharingService } from '../../services/data-sharing.service';
 import { ObjectUnsubscribedError } from 'rxjs';
 import { Newsletter } from 'src/app/models/newsletter';
@@ -32,7 +31,8 @@ export class RegisterComponent implements OnInit {
   constructor(private authService: AuthService, 
     private router: Router, 
     private dataSharingService: DataSharingService,
-    private newsletterService: NewsletterService) { }
+    private newsletterService: NewsletterService,
+    private mailService: MailService) { }
   
   public isLogged: boolean = false;
 
@@ -74,19 +74,19 @@ export class RegisterComponent implements OnInit {
     if(formMessage == "OK"){
 
       this.user.birthday = (<HTMLInputElement> document.getElementById("birthday")).value;
-      this.user.role = (<HTMLInputElement> document.getElementById("roleSelect")).value;
+      //this.user.role = (<HTMLInputElement> document.getElementById("roleSelect")).value;
       
       form.setValue({
         name: this.user.name,
         email: this.user.email,
         password: this.user.password,
         birthday: this.user.birthday,
-        role: this.user.role,
+        //role: this.user.role,
         notifications: this.user.newsletter
       });
 
       let _idUser = new ObjectID().toString();
-      let user = new User(_idUser, form.value.name, form.value.email, form.value.password, form.value.role, form.value.birthday, form.value.notifications);
+      let user = new User(_idUser, form.value.name, form.value.email, form.value.password, this.user.role, form.value.birthday, form.value.notifications);
 
       //console.log(newSubscriber);
       //console.log(user);
@@ -95,20 +95,30 @@ export class RegisterComponent implements OnInit {
         //this.dataSharingService.changeLoggedUser(true);
         //this.router.navigateByUrl("/");
 
-        if(form.value.notifications){
+        let receiverName = this.user.name;
+        let receiverEmail = this.user.email;
+        this.mailService.sendWelcomeEmail({name: receiverName, to: receiverEmail}).subscribe(res => {
 
-          let _idSubscriber = new ObjectID().toString();
-          let newSubscriber = new Newsletter(_idSubscriber, this.user.email);
+          if(form.value.notifications){
 
-          this.newsletterService.addSubscriber(newSubscriber).subscribe( res => {
-            console.log("Registered completed with all");
+            let _idSubscriber = new ObjectID().toString();
+            let newSubscriber = new Newsletter(_idSubscriber, this.user.email);
+  
+            this.newsletterService.addSubscriber(newSubscriber).subscribe( res => {
+              console.log("Registered completed with all");
+              
+              this.mailService.sendSubscriptionEmail({name: receiverName, to: receiverEmail}).subscribe(res => {
+                window.location.reload();
+              });
+        
+            }, err => {
+              console.log("Error al suscribir el correo: ", err);
+            });
+          }else{
             window.location.reload();
-          }, err => {
-            console.log("Error al suscribir el correo: ", err);
-          });
-        }else{
-          window.location.reload();
-        }
+          }
+
+        });
 
       }, err => {
         console.log("Error al registrar: ", err);
@@ -123,6 +133,14 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  /*sendRegistrationMail(receiverName: string, receiverEmail: string){
+    this.mailService.sendWelcomeEmail({name: receiverName, to: receiverEmail});
+  }
+
+  sendSubscriptionMail(receiverName: string, receiverEmail: string){
+    this.mailService.sendSubscriptionEmail({name: receiverName, to: receiverEmail});
+  }*/
+
   checkLoggedUser(): void {
     if(this.authService.loggedIn()){
       this.isLogged = true;
@@ -136,7 +154,7 @@ export class RegisterComponent implements OnInit {
     let email = (<HTMLInputElement> document.getElementById("register_email")).value.trim();
     let password = (<HTMLInputElement> document.getElementById("password")).value.trim();
     let birthday = (<HTMLInputElement> document.getElementById("birthday")).value.trim();
-    let role = (<HTMLInputElement> document.getElementById("roleSelect")).value.trim();
+    //let role = (<HTMLInputElement> document.getElementById("roleSelect")).value.trim();
     //let notifications = (<HTMLInputElement> document.getElementById("notifications")).checked;
 
     if(name.length <= 1){
@@ -147,9 +165,9 @@ export class RegisterComponent implements OnInit {
       return "Contraseña incorrecta";
     }else if(birthday.length < 10){
       return "Fecha de nacimiento incorrecta";
-    }else if(role.length <= 0){
+    }/*else if(role.length <= 0){
       return "Tipo de usuario incorrecto";
-    }
+    }*/
 
     return "OK";
 

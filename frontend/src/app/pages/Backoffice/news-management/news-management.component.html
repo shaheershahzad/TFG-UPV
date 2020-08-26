@@ -1,0 +1,156 @@
+<div class="container">
+    <h3 class="main-heading">Gestión de noticias</h3>
+    <div class="row">
+      <a id="addNewsAction" class="waves-effect waves-light btn-small left light-blue darken-4 modal-trigger" href="#addNewsForm" (click)="clearForm(frmAddNews)">
+        <i class="material-icons" style="vertical-align: bottom; margin-right: 0.5rem;">add</i>
+        <span style="vertical-align: bottom;font-size: 0.9rem;">Añadir noticia</span>
+      </a>
+      <a id="deleteNewsAction" class="waves-effect waves-light btn-small right light-blue darken-4 modal-trigger" href="#deleteNewsModal" style="display: none;">
+        <i class="material-icons">delete</i>
+      </a>
+    </div>
+    <div class="row" *ngIf="!newsAvailable">
+      <h5 class="center" style="color: lightgray;">No hay noticias <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+    </div>
+    <table class="responsive-table stripped highlight" *ngIf="newsAvailable">
+      <thead>
+        <tr>
+            <th class="hidden">ID</th>
+            <th>Titular</th>
+            <th>Noticia</th>
+            <th>Fuente</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <tr *ngFor="let news of newsService.news">
+          <td class="hidden">{{ news._id }}</td>
+          <td>{{ news.name }}</td>
+          <td>{{ news.description }}</td>
+          <td><a href="{{ news.link }}" target="_blank">Ver noticia <i class="material-icons tiny">open_in_new</i></a></td>
+          <td>{{ news.createdAt.split('T')[0] }}</td>
+          <td>
+            <a class="modal-trigger" href="#newsDetailsForm"><i class="material-icons" (click)="viewNewsDetails(news, news.createdAt)">remove_red_eye</i></a>
+            <a class="modal-trigger" href="#editNewsForm"><i class="material-icons" (click)="editNews(frmEditNews, news)">edit</i></a>
+            <a class="modal-trigger delete" href="#deleteNewsModal"><i class="material-icons" (click)="showDeleteNewsConfirmation(news._id, news.name)">delete</i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add News Form Modal -->
+    <div id="addNewsForm" class="modal">
+      <div class="modal-content">
+        <h4 class="main-heading">Añadir noticia</h4>
+          <div class="row">
+            <form class="col s12" #frmAddNews="ngForm">
+              <div class="row">
+                  <div class="input-field col s12">
+                    <input id="nameAdd" placeholder="Titular de la noticia" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="newsService.selectedNews.name" required>
+                    <!--<label for="name">Nombre</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="input-field col s12">
+                      <input id="descriptionAdd" placeholder="Detalles de la noticia" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="newsService.selectedNews.description" required>
+                      <!--<label for="description">Descripción</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="linkAdd" placeholder="Enlace a la noticia" type="text" class="validate" name="link" #link="ngModel" [(ngModel)]="newsService.selectedNews.link" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row" style="margin-top: 3rem;">
+                <button id="closeAddNewsModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddNews)">Cancelar</button> 
+                <button id="addNewsForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addNews(frmAddNews)" name="action">Añadir</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit News Form Modal -->
+    <div id="editNewsForm" class="modal">
+      <div class="modal-content">
+        <h4 class="main-heading">Actualizar noticia</h4>
+          <div class="row">
+            <form class="col s12" #frmEditNews="ngForm">
+              <input id="idEdit" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="newsService.selectedNews._id">
+              <div class="row">
+                  <div class="input-field col s12">
+                    <input id="nameEdit" placeholder="Titular de la noticia" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="newsService.selectedNews.name" required>
+                    <!--<label for="name">Nombre</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="input-field col s12">
+                      <input id="descriptionEdit" placeholder="Detalles de la noticia" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="newsService.selectedNews.description" required>
+                      <!--<label for="description">Descripción</label>-->
+                  </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                    <input id="linkEdit" placeholder="Enlace a la noticia" type="text" class="validate" name="link" #link="ngModel" [(ngModel)]="newsService.selectedNews.link" required>
+                    <!--<label for="description">Descripción</label>-->
+                </div>
+              </div>
+              <div class="row">
+                <button id="closeEditNewsModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmEditNews)">Cancelar</button> 
+                <button id="editNewsForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="updateNews(frmEditNews)" name="action">Actualizar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- News Details Form Modal -->
+    <div id="newsDetailsForm" class="modal">
+      <div class="modal-content">
+        <h4 class="main-heading">Información de la noticia</h4>
+        <div class="row">
+          <table>
+            <tbody>
+                <tr>
+                    <td>Titular:</td>
+                    <td id="nameDetail"></td>
+                </tr>
+                <tr>
+                    <td>Detalles:</td>
+                    <td id="descriptionDetail"></td>
+                </tr>
+                <tr>
+                    <td>Enlace:</td>
+                    <td id="linkDetail"></td>
+                </tr>
+                <tr>
+                  <td>Fecha:</td>
+                  <td id="dateDetail"></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="row">
+          <button id="closeNewsDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div id="deleteNewsModal" class="modal">
+      <div class="modal-content">
+        <input id="newsID" type="hidden">
+        <input id="newsName" type="hidden">
+        <h5>¿Seguro que quiere borrar la noticia '<span id="newsNameDelete"></span>'?</h5>
+        <p>La noticia se borrará permanentemente.</p>
+      </div>
+      <div class="modal-footer">
+        <button style="margin-right: 0.5rem;" class="btn btn-neutral modal-close">Cancelar</button>
+        <button id="deleteNewsModalButton" class="btn waves-effect waves-light red darken-4 right modal-close" (click)="deleteNews()">Borrar</button>
+      </div>
+    </div>
+</div>
+  

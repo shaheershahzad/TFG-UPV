@@ -1,0 +1,22 @@
+table {
+    border-collapse: unset;
+}
+
+td:first-child {
+    width: 30%;
+    font-weight: bold;
+}
+
+img {
+    width: 100%;
+    padding: 0 2rem;
+}
+
+.buttons {
+    text-align: end;
+    margin-top: 1rem;
+}
+
+.buttons a {
+    margin: 0 0.5rem;
+}

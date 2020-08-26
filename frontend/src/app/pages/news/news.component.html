@@ -1,0 +1,20 @@
+<div class="container">
+    <h3 class="main-heading">Noticias</h3>
+    <div class="row" *ngIf="!newsAvailable">
+        <h5 class="center" style="color: lightgray;">No hay noticias <i class="material-icons" style="vertical-align: bottom;">sentiment_dissatisfied</i></h5>
+    </div>
+    <div class="row" *ngIf="newsAvailable">
+        <div class="collection" *ngFor="let news of newsService.news">
+            <a href="/news-details/{{news._id}}" class="collection-item avatar" onclick="return false;">
+                <i class="material-icons circle" style="background-color: #0091ea;">surround_sound</i>
+                <span class="title"><h5 style="margin-top: 0;"><strong>{{ news.name }}</strong></h5></span>
+                <p style="color: #0091ea;">Noticia: <strong>{{ news.description }}</strong> 
+                    <br>
+                    Enlace: <strong><a href="{{ news.link }}" target="_blank">{{ news.link }} <i class="material-icons tiny">open_in_new</i></a></strong>
+                    <br>
+                    Fecha: <strong>{{ news.createdAt.split('T')[0] }}</strong>
+                </p>
+            </a>
+        </div>
+    </div>
+</div>

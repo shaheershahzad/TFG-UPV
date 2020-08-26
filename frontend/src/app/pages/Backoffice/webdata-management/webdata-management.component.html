@@ -1,0 +1,32 @@
+<div class="container">
+    <h3 class="main-heading">Gestión de Web</h3>
+    <div class="row">
+        <form #frmWebdata="ngForm" (ngSubmit)="onSaveWebdata(frmWebdata)">
+            <input id="idWebdata" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="webdataService.selectedWebdata._id">
+            <div class="row">
+                <div class="input-field col s12">
+                    Título
+                  <input id="title" placeholder="Título de la página web" #websiteTitle="ngModel" [(ngModel)]="webdataService.selectedWebdata.websiteTitle" type="text" class="validate" name="websiteTitle" required>
+                  <span class="helper-text" data-error="Introduce un título para la página web"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    Meta-Título
+                  <input id="metaTitle" placeholder="Meta-Título de la página web" #websiteMetaTitle="ngModel" [(ngModel)]="webdataService.selectedWebdata.websiteMetaTitle" type="text" class="validate" name="websiteMetaTitle" required>
+                  <span class="helper-text" data-error="Introduce un meta-título para la página web"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    Meta-Descripción
+                  <input id="metaDescription" placeholder="Meta-Descripción de la página web" #websiteMetaDescription="ngModel" [(ngModel)]="webdataService.selectedWebdata.websiteMetaDescription" type="text" class="validate" name="websiteMetaDescription" required>
+                  <span class="helper-text" data-error="Introduce una meta-descripción para la página web"></span>
+                </div>
+            </div>
+            <div class="row">
+                <button id="saveWebdataButton" class="btn waves-effect waves-light light-blue darken-4 s6" type="submit" name="action">Actualizar datos</button>
+            </div>
+        </form>
+    </div>
+</div>

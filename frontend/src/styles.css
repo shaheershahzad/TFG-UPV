@@ -118,7 +118,60 @@ button.btn-flat:focus {
     color: #000 !important;
 }
 
+/* Timepicker colors */
+.timepicker-digital-display {
+    background-color: #03a9f4 !important;
+}
+
+.timepicker-canvas line {
+    stroke: #03a9f4 !important;
+}
+
+.timepicker-canvas-bg, .timepicker-canvas-bearing {
+    fill: #03a9f4;
+}
+
+.timepicker-close {
+    color: #03a9f4;
+}
+
 /* Sqitch button */
 .switch label input[type=checkbox]:checked+.lever, .switch label input[type=checkbox]:checked+.lever:after {
     background-color:#03a9f4 !important;
+}
+
+.tabs .tab a{
+    color:#4fc3f7;
+} /*Text color*/
+
+.tabs .tab a:hover {
+    color: #01579b;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+    background-color:#e1f5fe;
+    color: #4fc3f7;
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+    background-color:#01579b;
+} /*Color of underline*/
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color:#e1f5fe;
+}
+
+/* Collections */
+.collection a.collection-item {
+    color: #01579b;
+}
+
+/* Textarea */
+.input-field textarea:focus + label {
+    color: #03a9f4 !important;
+}
+
+.row .input-field textarea:focus {
+    border-bottom: 1px solid #03a9f4 !important;
+    box-shadow: 0 1px 0 0 #03a9f4 !important
 }

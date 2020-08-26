@@ -1,25 +1,4 @@
 <div class="container center">
-    <!--<form class="col-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <input type="text" placeholder="Email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.required">Se necesita introducir un email</div>
-                <div *ngIf="f.email.errors.email">Email debe ser una dirección email</div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col">
-                <input type="password" placeholder="Password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Se require introducir una contraseña</div>
-                    <div *ngIf="f.password.errors.minlength">La contraseña debe tener mínimo 6 caracteres</div>
-                </div>
-            </div>
-        </div>
-        <div class="text-center">
-            <button class="btn btn-primary mr-1">Iniciar sesión</button>
-        </div>
-    </form>-->
     <div class="row">
         <div class="col s6 push-s3">
         <h3 class="header" style="color: #333;">Iniciar sesión</h3>
@@ -47,8 +26,30 @@
             </div>
             <a href="/register">Crea una cuenta aquí</a>
             <br />
-            <a href="/reset-password">¿Has olvidado la contraseña?</a>
+            <a class="modal-trigger" href="#recoverPasswordForm">¿Has olvidado la contraseña?</a>
         </div>
         </div>
+  </div>
+
+  <!-- Recover password Form Modal -->
+  <div id="recoverPasswordForm" class="modal">
+    <div class="modal-content">
+      <h4 class="main-heading">Recuperación de contraseña</h4>
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                  <input id="emailRecovery" placeholder="Introduce el correo electrónico" type="email" class="validate" name="emailRecovery" required>
+                  <!--<label for="name">Nombre</label>-->
+                  <span class="helper-text" data-error="Correo incorrecto"></span>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 3rem;">
+              <button id="closePasswordRecoveryModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close left" (click)="clearRecoveryForm()">Cerrar</button> 
+              <button id="sendPasswordRecoveryForm" class="btn waves-effect waves-light light-blue darken-4 right" (click)="sendRecoveryEmail()" name="action">Enviar correo</button>
+            </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
