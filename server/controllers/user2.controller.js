@@ -11,6 +11,7 @@ user2Controller.getUsers = async (req, res) => {
 
 user2Controller.createUser = async (req, res) => {
     const user = new user2Model({
+        //_id: req.body._id,
         name: req.body.name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password),
@@ -18,6 +19,7 @@ user2Controller.createUser = async (req, res) => {
         birthday: req.body.birthday,
         newsletter: req.body.newsletter
     });
+    console.log(user);
     await user.save();
     res.json({
         "status":"User saved"
@@ -26,6 +28,7 @@ user2Controller.createUser = async (req, res) => {
 
 user2Controller.getUser = async (req, res) => {
     const user = await user2Model.findById(req.params.id);
+    console.log(user);
     res.json(user);
 };
 

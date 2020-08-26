@@ -27,14 +27,30 @@ export class ProfileComponent implements OnInit {
   getUserInfo(){
     let userId = this.authService.getUID();
 
-    this.userService.getUser(userId).subscribe( res => {
+    this.authService.getProfileData(userId).subscribe((res: any) => {
 
+      this.user = {
+        name: res.name,
+        email: res.email,
+        birthday: res.birthday,
+        role: res.role
+      }
+
+    }, err => {
+
+      M.toast({html: "Usuario no encontrado"});
+
+    });
+
+    /*this.userService.getUser(userId).subscribe( res => {
+
+      console.log(res);
       this.user = JSON.parse(JSON.stringify(res));
       console.log(this.user);
 
     }, err => {
       M.toast({html: "Usuario no encontrado"});
-    });
+    });*/
   }
 
 }

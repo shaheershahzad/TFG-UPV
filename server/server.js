@@ -87,9 +87,9 @@ app.get('/', (req, res) => {
     res.send('MAIN SERVER!')
 });
 
-app.get('/info', (req, res) => {
+/*app.get('/info', (req, res) => {
     res.send('INFORMATION PAGE!')
-});
+});*/
 
 app.use(router);
 //app.use('/api/users', userRoutes);

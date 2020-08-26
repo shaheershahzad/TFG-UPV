@@ -59,6 +59,11 @@ export class AuthService implements CanActivate {
     );
   }
 
+  getProfileData(id: string) {
+    let params = new HttpParams().set("userId", id);
+    return this.httpClient.get(this.AUTH_SERVER + `/info`, {params: params});
+  }
+
   sendRecoveryEmail(email: string) {
     let params = new HttpParams().set("recoveryEmail", email);
     return this.httpClient.get(this.AUTH_SERVER + `/recover-password`, {params: params});

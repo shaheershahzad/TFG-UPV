@@ -42,7 +42,7 @@ exports.createUser = (req, res, next) => {
         }
 
         //Send welcome email
-        mailer.sendWelcomeEmail(dataUser.name, dataUser.email);
+        //mailer.sendWelcomeEmail(dataUser.name, dataUser.email);
 
         //response
         res.send({ dataUser });
@@ -162,4 +162,24 @@ exports.saveUser = (req, res, next) => {
         });
     });
 
+}
+
+exports.getUser = (req, res, next) => {
+    const newData = {
+        id: req.query.userId
+    }
+
+    userDAO.findById(newData.id , (err, user) => {
+        if(err){
+            return res.status(500).send("Server error");
+        }
+
+        if(!user){
+            // Id doesn't exist
+            res.status(409).send("Something is wrong");
+        }else{
+
+            res.send(user);
+        }
+    });
 }
