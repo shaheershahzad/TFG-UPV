@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../../../services/news.service';
+import { MailService } from '../../../services/mail.service';
+import { NewsletterService } from '../../../services/newsletter.service';
 import { News } from '../../../models/news';
 import { ObjectID } from 'bson';
 
@@ -14,7 +16,7 @@ export class NewsManagementComponent implements OnInit {
 
   public newsAvailable: boolean = false;
 
-  constructor(public newsService: NewsService) { }
+  constructor(public newsService: NewsService, private newsletterService: NewsletterService, private mailService: MailService) { }
 
   ngOnInit(): void {
     //Modals
@@ -46,9 +48,18 @@ export class NewsManagementComponent implements OnInit {
 
     this.newsService.addNews(news).subscribe( res => {
 
-      this.clearForm(form);
-      M.toast({html: "Noticia creada"});
-      this.getNews();
+      this.newsletterService.getSubscribers().subscribe( (res: any) => {
+
+        let newsletterUsers = res;
+        //console.log(newsletterUsers);
+
+        this.mailService.sendNewsCreated({subject: "Noticia nueva", subscribers: newsletterUsers}).subscribe( res => {
+          this.clearForm(form);
+          M.toast({html: "Noticia creada"});
+          this.getNews();
+        });
+
+      });
 
     }, ( err => {
       console.log("Error al crear la noticia.");

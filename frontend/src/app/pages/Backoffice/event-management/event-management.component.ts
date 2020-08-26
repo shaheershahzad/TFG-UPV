@@ -16,7 +16,7 @@ export class EventManagementComponent implements OnInit {
 
   public eventsAvailable: boolean = false;
 
-  constructor(public eventService: EventService, private newslettterService: NewsletterService, private mailService: MailService) { }
+  constructor(public eventService: EventService, private newsletterService: NewsletterService, private mailService: MailService) { }
 
   ngOnInit(): void {
     //Modals
@@ -75,12 +75,12 @@ export class EventManagementComponent implements OnInit {
 
     this.eventService.addEvent(event).subscribe( res => {
 
-      this.newslettterService.getSubscribers().subscribe( (res: any) => {
+      this.newsletterService.getSubscribers().subscribe( (res: any) => {
 
         let newsletterUsers = res;
         //console.log(newsletterUsers);
 
-        this.mailService.sendBroadcast({subject: "Evento nuevo", subscribers: newsletterUsers}).subscribe( res => {
+        this.mailService.sendEventCreated({subject: "Evento nuevo", subscribers: newsletterUsers}).subscribe( res => {
           this.clearForm(form);
           M.toast({html: "Evento creado"});
           this.getEvents();

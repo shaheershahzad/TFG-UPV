@@ -5,7 +5,7 @@
     </div>
     <div class="row" *ngIf="eventsAvailable">
         <div class="collection" *ngFor="let event of eventService.events">
-            <a href="/event-details/{{event._id}}"class="collection-item avatar" >
+            <a href="/event-details/{{event._id}}"class="collection-item avatar" onclick="return false;">
                 <i class="material-icons circle" style="background-color: #0091ea;">event</i>
                 <span class="title"><h5 style="margin-top: 0;"><strong>{{ event.name }} <span class="new badge red darken-1" *ngIf="event.date >= currentDate"></span></strong></h5></span>
                 <p style="color: #0091ea;">Resumen: <strong>{{ event.description }}</strong> 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../services/project.service';
+import { MailService } from '../../../services/mail.service';
+import { NewsletterService } from '../../../services/newsletter.service';
 import { Project } from '../../../models/project';
 import { UploadService } from '../../../services/upload.service';
 import { AuthService } from '../../../services/auth.service';
@@ -24,7 +26,12 @@ export class ProjectManagementComponent implements OnInit {
   public projectsAvailable: boolean = false;
   public projectLocation = "";
 
-  constructor(public projectService: ProjectService, public uploadService: UploadService, private authService: AuthService, public fileService: FileService) { }
+  constructor(public projectService: ProjectService, 
+    public uploadService: UploadService, 
+    private authService: AuthService, 
+    public fileService: FileService,
+    private newsletterService: NewsletterService,
+    private mailService: MailService) { }
 
   ngOnInit(): void {
 
@@ -164,6 +171,17 @@ export class ProjectManagementComponent implements OnInit {
       console.log("Error al crear el proyecto.");
     }));
 
+  }
+
+  sendProjectBroadcast(){
+    this.newsletterService.getSubscribers().subscribe( (res: any) => {
+
+      let newsletterUsers = res;
+      //console.log(newsletterUsers);
+
+      this.mailService.sendProjectCreated({subject: "Proyecto nuevo", subscribers: newsletterUsers});
+
+    });
   }
 
   uploadFilesToServer(projectId: string, userId: string) {

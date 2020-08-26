@@ -119,14 +119,146 @@ mailController.sendSubscriptionEmail = async (req, res) => {
 };
 
 mailController.sendProjectCreated = async (req, res) => {
+
+    //console.log(req);
+
+    const mailData = {
+        subject: req.body.subject,
+        subscribers: req.body.subscribers
+    }
+
+    //console.log("######################################################");
+    //console.log(mailData);
+
+    let receivers = process.env.EMAIL;
+
+    mailData.subscribers.forEach(subscriber => {
+        receivers += ","+subscriber.email;
+    });
+
+    //console.log(receivers);
+
+    //let to = '"' + mailData.name + '" ' + '<' + mailData.email + '>';
+    let emailMsg = '<h1>Hola!</h1><p>Hay un proyecto nuevo disponible en nuestra página web. Entre en el siguiente enlace para ver nuestros proyectos: http://localhost:4200/projects</p>';
+
+    var mailOptions = {
+        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        to: receivers,
+        subject: mailData.subject,
+        html: emailMsg
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            return res.send('Error sending project mail');
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.json({
+                "status":"Project mail sent"
+            });
+        }
+    });
+
+    res.json({
+        "status":"Project mail sent"
+    });
     
 };
 
 mailController.sendEventCreated = async (req, res) => {
+
+    //console.log(req);
+
+    const mailData = {
+        subject: req.body.subject,
+        subscribers: req.body.subscribers
+    }
+
+    //console.log("######################################################");
+    //console.log(mailData);
+
+    let receivers = process.env.EMAIL;
+
+    mailData.subscribers.forEach(subscriber => {
+        receivers += ","+subscriber.email;
+    });
+
+    //console.log(receivers);
+
+    //let to = '"' + mailData.name + '" ' + '<' + mailData.email + '>';
+    let emailMsg = '<h1>Hola!</h1><p>Hay un evento nuevo disponible en nuestra página web. Entre en el siguiente enlace para ver los eventos programados: http://localhost:4200/events</p>';
+
+    var mailOptions = {
+        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        to: receivers,
+        subject: mailData.subject,
+        html: emailMsg
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            return res.send('Error sending event mail');
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.json({
+                "status":"Event mail sent"
+            });
+        }
+    });
+
+    res.json({
+        "status":"Event mail sent"
+    });
     
 };
 
 mailController.sendNewsCreated = async (req, res) => {
+
+    //console.log(req);
+
+    const mailData = {
+        subject: req.body.subject,
+        subscribers: req.body.subscribers
+    }
+
+    //console.log("######################################################");
+    //console.log(mailData);
+
+    let receivers = process.env.EMAIL;
+
+    mailData.subscribers.forEach(subscriber => {
+        receivers += ","+subscriber.email;
+    });
+
+    //console.log(receivers);
+
+    //let to = '"' + mailData.name + '" ' + '<' + mailData.email + '>';
+    let emailMsg = '<h1>Hola!</h1><p>Hay una noticia nueva disponible en nuestra página web. Entre en el siguiente enlace para ver las noticias de la ONG: http://localhost:4200/news</p>';
+
+    var mailOptions = {
+        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        to: receivers,
+        subject: mailData.subject,
+        html: emailMsg
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            return res.send('Error sending news mail');
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.json({
+                "status":"News mail sent"
+            });
+        }
+    });
+
+    res.json({
+        "status":"News mail sent"
+    });
     
 };
 

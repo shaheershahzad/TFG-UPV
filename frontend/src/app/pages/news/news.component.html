@@ -5,7 +5,7 @@
     </div>
     <div class="row" *ngIf="newsAvailable">
         <div class="collection" *ngFor="let news of newsService.news">
-            <a href="/news-details/{{news._id}}"class="collection-item avatar" >
+            <a href="/news-details/{{news._id}}" class="collection-item avatar" onclick="return false;">
                 <i class="material-icons circle" style="background-color: #0091ea;">surround_sound</i>
                 <span class="title"><h5 style="margin-top: 0;"><strong>{{ news.name }}</strong></h5></span>
                 <p style="color: #0091ea;">Noticia: <strong>{{ news.description }}</strong> 
