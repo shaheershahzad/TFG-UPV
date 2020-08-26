@@ -1,5 +1,6 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const { subscribe } = require("../routes/mail.routes");
 const mailController = {};
 
 //Mail test
@@ -130,6 +131,50 @@ mailController.sendNewsCreated = async (req, res) => {
 };
 
 mailController.sendBroadcast = async (req, res) => {
+
+    //console.log(req);
+
+    const mailData = {
+        subject: req.body.subject,
+        subscribers: req.body.subscribers
+    }
+
+    //console.log("######################################################");
+    //console.log(mailData);
+
+    let receivers = process.env.EMAIL;
+
+    mailData.subscribers.forEach(subscriber => {
+        receivers += ","+subscriber.email;
+    });
+
+    //console.log(receivers);
+
+    //let to = '"' + mailData.name + '" ' + '<' + mailData.email + '>';
+    let emailMsg = '<h1>Hola!</h1><p>Hay un evento nuevo disponible en nuestra página web. Entre en el siguiente enlace para ver los eventos programados: http://localhost:4200/events</p>';
+
+    var mailOptions = {
+        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        to: receivers,
+        subject: mailData.subject,
+        html: emailMsg
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            return res.send('Error sending broadcast mail');
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.json({
+                "status":"Broadcast mail sent"
+            });
+        }
+    });
+
+    res.json({
+        "status":"Broadcast mail sent"
+    });
     
 };
 

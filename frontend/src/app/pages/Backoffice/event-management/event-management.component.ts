@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../../services/event.service';
+import { MailService } from '../../../services/mail.service';
+import { NewsletterService } from '../../../services/newsletter.service';
 import { Event } from '../../../models/event';
 import { ObjectID } from 'bson';
 
@@ -14,7 +16,7 @@ export class EventManagementComponent implements OnInit {
 
   public eventsAvailable: boolean = false;
 
-  constructor(public eventService: EventService) { }
+  constructor(public eventService: EventService, private newslettterService: NewsletterService, private mailService: MailService) { }
 
   ngOnInit(): void {
     //Modals
@@ -67,15 +69,24 @@ export class EventManagementComponent implements OnInit {
 
     form.value.date = (<HTMLInputElement> document.getElementById("dateAdd")).value;
     form.value.time = (<HTMLInputElement> document.getElementById("timeAdd")).value;
-    console.log(form.value);
+    //console.log(form.value);
     let _idEvent = new ObjectID().toString();
     let event = new Event(_idEvent, form.value.name, form.value.description, form.value.location, form.value.date, form.value.time);
 
     this.eventService.addEvent(event).subscribe( res => {
 
-      this.clearForm(form);
-      M.toast({html: "Evento creado"});
-      this.getEvents();
+      this.newslettterService.getSubscribers().subscribe( (res: any) => {
+
+        let newsletterUsers = res;
+        //console.log(newsletterUsers);
+
+        this.mailService.sendBroadcast({subject: "Evento nuevo", subscribers: newsletterUsers}).subscribe( res => {
+          this.clearForm(form);
+          M.toast({html: "Evento creado"});
+          this.getEvents();
+        });
+
+      });
 
     }, ( err => {
       console.log("Error al crear el evento.");
