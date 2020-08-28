@@ -22,7 +22,7 @@
                 </div>-->
                 <label style="padding: 0 0.75rem;">Donar para:</label>
                 <div class="input-field col s12">
-                <select id="projectI" class="validate browser-default" name="projectId" required>
+                <select id="projectId" class="validate browser-default" name="projectId" required>
                     <option value="General" selected>Todos los proyectos</option>
                     <option *ngFor="let project of projectService.projects" value="{{ project._id }}">{{ project.name }}</option>
                 </select>
@@ -31,11 +31,11 @@
             <div class="row">
                 <label style="padding: 0 0.75rem;">Método de pago</label>
                 <div class="input-field col s12">
-                <select id="paymentMethod" class="validate browser-default" name="paymentMethod" required>
-                    <option value="tarjeta" selected>Tarjeta</option>
-                    <option value="domiciliacion">Domiciliación bancaria</option>
-                    <option value="paypal">Paypal</option>
-                </select>
+                    <select id="paymentMethod" class="validate browser-default" name="paymentMethod" required>
+                        <option value="tarjeta" selected>Tarjeta</option>
+                        <option value="domiciliacion">Domiciliación bancaria</option>
+                        <!--<option value="paypal">Paypal</option>-->
+                    </select>
                 </div>
             </div>
             <div class="row">

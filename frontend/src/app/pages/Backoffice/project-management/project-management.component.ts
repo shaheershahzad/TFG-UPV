@@ -3,12 +3,14 @@ import { ProjectService } from '../../../services/project.service';
 import { MailService } from '../../../services/mail.service';
 import { NewsletterService } from '../../../services/newsletter.service';
 import { Project } from '../../../models/project';
+import { User } from '../../../models/user';
 import { UploadService } from '../../../services/upload.service';
 import { AuthService } from '../../../services/auth.service';
 import { FileService } from '../../../services/file.service';
 import { FileModel } from '../../../models/file';
 
 import { ObjectID } from 'bson';
+import { subscribeOn } from 'rxjs/operators';
 
 declare const M: any;
 declare const L: any;
@@ -25,10 +27,11 @@ export class ProjectManagementComponent implements OnInit {
   public hasDocuments: boolean = false;
   public projectsAvailable: boolean = false;
   public projectLocation = "";
+  selectedVolunteers;
 
   constructor(public projectService: ProjectService, 
     public uploadService: UploadService, 
-    private authService: AuthService, 
+    public authService: AuthService, 
     public fileService: FileService,
     private newsletterService: NewsletterService,
     private mailService: MailService) { }
@@ -50,68 +53,25 @@ export class ProjectManagementComponent implements OnInit {
       var instances = M.Collapsible.init(elems, options);
     });
 
+    this.getUsers();
+
+    //Select
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelector('select');
+      var instances = M.FormSelect.init(elems);
+    });
+
     this.getProjects();
+    
   }
 
-  loadEditMap(){   
+  getUsers(){
+    this.authService.getUsers().subscribe( res => {
+      this.authService.users = res as User[];
 
-    var ubicacion = "Valencia";
-
-    var mymap = L.map('mapEdit', {
-      center: [39.46975, -0.37739],
-      zoom: 13
+      var elems = document.querySelector('select');
+      var instances = M.FormSelect.init(elems);
     });
-
-    var marker = L.marker([39.46975, -0.37739], { title: "Valencia" }).addTo(mymap);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: ''
-    }).addTo(mymap);
-
-    mymap.invalidateSize();
-
-    // Este listener es para renderizar correctamente el mapa al abrir un modal
-    document.addEventListener("click", function(){
-      mymap.invalidateSize();
-    });
-
-    mymap.on('click', function(e) {        
-      var popLocation= e.latlng;
-      (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML = popLocation.lat+","+popLocation.lng;
-      
-      mymap.removeLayer(marker);
-      marker = L.marker(popLocation).addTo(mymap);
-      
-      const Http = new XMLHttpRequest();
-      const url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+popLocation.lat+"&lon="+popLocation.lng;
-      Http.open("GET", url);
-      Http.send();
-
-      Http.onreadystatechange = (e) => {
-        if (Http.readyState == 4) {
-          let coordData = JSON.parse(Http.responseText);
-          if(coordData.address.village != undefined){
-              ubicacion = coordData.address.village;
-          }else if(coordData.address.county != undefined){
-              ubicacion = coordData.address.county;
-          }else if(coordData.address.city != undefined){
-              ubicacion = coordData.address.city;
-          }else if(coordData.address.country != undefined){
-              ubicacion = coordData.address.country;
-          }else{
-              ubicacion = "No localizable";
-          }
-
-          (<HTMLInputElement> document.querySelector("#location")).innerHTML = ubicacion;
-
-          var popup = L.popup()
-          .setLatLng(popLocation)
-          .setContent('<p>'+ ubicacion +'</p>')
-          .openOn(mymap);
-        }
-      }
-    });
-    
   }
 
   getProjects(){
@@ -147,6 +107,7 @@ export class ProjectManagementComponent implements OnInit {
     let location = (<HTMLInputElement> document.querySelector("#location")).innerHTML; 
     let project = new Project(_idProject, form.value.name, form.value.description, coordinates, location);
 
+    //console.log(project);
     this.projectService.addProject(project).subscribe( res => {
 
       if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
@@ -166,6 +127,9 @@ export class ProjectManagementComponent implements OnInit {
         this.getProjects();
 
       }
+
+      //Broadcast mail sender
+      this.sendProjectBroadcast();
 
     }, ( err => {
       console.log("Error al crear el proyecto.");
@@ -239,14 +203,14 @@ export class ProjectManagementComponent implements OnInit {
     this.setFormValues(form, project);
     /*(<HTMLInputElement> document.getElementsByTagName("app-map")[0]).remove();
     (<HTMLInputElement> document.getElementById("mapEdit")).innerHTML = "<app-map></app-map>";*/
-    this.loadEditMap();
+    //this.loadEditMap();
   }
 
   updateProject(form) {
 
     (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "block";
     console.log(form.value);
-    /*this.projectService.updateProject(form.value).subscribe( res => {
+    this.projectService.updateProject(form.value).subscribe( res => {
 
       if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
 
@@ -268,7 +232,7 @@ export class ProjectManagementComponent implements OnInit {
       
     }, ( err => {
       console.log("Error al actualizar los datos del proyecto.");
-    }));*/
+    }));
 
   }
 
@@ -332,7 +296,8 @@ export class ProjectManagementComponent implements OnInit {
     form.setValue({
       _id: project._id,
       name: project.name,
-      description: project.description
+      description: project.description,
+      location: project.location
     });
   }
 
@@ -345,6 +310,31 @@ export class ProjectManagementComponent implements OnInit {
   handleFileInput(e) {
     this.uploadedFiles = e.target.files;
     console.log(this.uploadedFiles);
+  }
+
+  addVolunteer() {
+    console.log("Añadir voluntarios ahora");
+    var elem = document.querySelectorAll('select');
+    var instance = M.FormSelect.init(elem);
+    //var instance = M.FormSelect.getInstance(elem);
+    //console.log(instance.getSelectedValues());
+    console.log(this.getSelectedValues(document.querySelectorAll('select option')));
+  }
+
+  getSelectedValues(select) {
+    //console.log(select);
+    var result = [];
+    var opt;
+  
+    for (var i=0, iLen=select.length; i<iLen; i++) {
+      opt = select[i];
+  
+      if (opt.selected) {
+        result.push(opt.value || opt.text);
+      }
+    }
+    console.log(result);
+    return result;
   }
 
 }

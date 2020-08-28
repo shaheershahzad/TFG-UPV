@@ -10,4 +10,5 @@ module.exports = (router) => {
     router.get("/recover-password", userController.sendResetEmail);
     router.put("/reset-password", userController.resetPassword);
     router.get("/info", userController.getUser);
+    router.get("/", userController.getUsers);
 };
