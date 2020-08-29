@@ -49,6 +49,17 @@ projectController.updateProject = async (req, res) => {
     });
 };
 
+projectController.getVolunteers = async (req, res) => {
+    const vol = await projectModel.findById(req.params.idProject);
+    //console.log(req.params);
+    //const vol = await projectModel.find({ volunteers: { $in: [ req.params.idVolunteer ] } });
+    if(vol){
+        res.json(vol.volunteers);
+    }else{
+        res.status(409).send("Project without volunteers");
+    }
+};
+
 projectController.checkVolunteer = async (req, res) => {
     const vol = await projectModel.find({ $and: [ { _id: req.params.idProject }, { volunteers: { $in: [ req.params.idVolunteer ] } } ] });
     //console.log(req.params);

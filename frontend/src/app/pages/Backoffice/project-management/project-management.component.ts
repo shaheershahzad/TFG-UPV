@@ -313,14 +313,60 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   setVolunteersModal(projectId: string) {
+    let volunteers = [];
     (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value = projectId;
+
+    let addButtons = document.getElementsByClassName("addVolunteer");
+    for(let i=0; i<addButtons.length; i++){
+      (<HTMLInputElement> addButtons[i]).style.display = "block";
+    }
+
+    let removeButtons = document.getElementsByClassName("removeVolunteer");
+    for(let i=0; i<removeButtons.length; i++){
+      (<HTMLInputElement> removeButtons[i]).style.display = "none";
+    }
+
+    this.projectService.getVolunteers(projectId).subscribe((res:any) => {
+      volunteers = res;
+      //console.log(volunteers);
+      if(volunteers.length > 0){
+
+        for(let i=0; i<volunteers.length; i++){
+          let elem = (<HTMLInputElement> document.getElementById("add_"+volunteers[i]));
+
+          if(elem){
+            elem.style.display = "none";
+            (<HTMLInputElement> document.getElementById("remove_"+volunteers[i])).style.display = "block";
+          }
+        }
+
+        let volunteerButtons = document.getElementsByClassName("volunteerContainer");
+        for(let i=0; i<volunteerButtons.length; i++){
+          if(volunteerButtons[i].getElementsByTagName("i").length == 2){
+            if(volunteerButtons[i].getElementsByTagName("i")[0].style.display != "none"){
+              volunteerButtons[i].getElementsByTagName("i")[1].style.display = "none";
+            }
+          }
+        }
+
+      }
+    });
   }
 
   addVolunteer(event) {
     let projectId = (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value;
-    let workerId = event.target.id;
-    let icon = (<HTMLInputElement> document.getElementById(workerId));
-    if(icon.innerHTML == "add_circle"){
+    let workerId = event.target.id.split("_")[1];
+    let icon = (<HTMLInputElement> document.getElementById("add_"+workerId));
+    this.projectService.addVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+      //icon.style.color = "#B71C1C"
+      //icon.innerHTML = "remove_circle";
+      icon.style.display = "none";
+      (<HTMLInputElement> document.getElementById("remove_"+workerId)).style.display = "block";
+      M.toast({html: "Voluntario añadido"});
+    }, err => {
+      M.toast({html: "Error al añadir voluntario"});
+    });
+    /*if(icon.innerHTML == "add_circle"){
 
       //console.log(workerId);
       this.projectService.addVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
@@ -341,7 +387,44 @@ export class ProjectManagementComponent implements OnInit {
         M.toast({html: "Error al quitar voluntario"});
       });
       
-    }
+    }*/
+  }
+
+  removeVolunteer(event) {
+    let projectId = (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value;
+    let workerId = event.target.id.split("_")[1];
+    let icon = (<HTMLInputElement> document.getElementById("remove_"+workerId));
+    this.projectService.removeVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+      //icon.style.color = "#01579b";
+      //icon.innerHTML = "add_circle";
+      icon.style.display = "none";
+      (<HTMLInputElement> document.getElementById("add_"+workerId)).style.display = "block";
+      M.toast({html: "Voluntario quitado"});
+    }, err => {
+      M.toast({html: "Error al quitar voluntario"});
+    });
+    /*if(icon.innerHTML == "add_circle"){
+
+      //console.log(workerId);
+      this.projectService.addVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+        icon.style.color = "#B71C1C"
+        icon.innerHTML = "remove_circle";
+        M.toast({html: "Voluntario añadido"});
+      }, err => {
+        M.toast({html: "Error al añadir voluntario"});
+      });
+      
+    }else if(icon.innerHTML == "remove_circle"){
+
+      this.projectService.removeVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+        icon.style.color = "#01579b";
+        icon.innerHTML = "add_circle";
+        M.toast({html: "Voluntario quitado"});
+      }, err => {
+        M.toast({html: "Error al quitar voluntario"});
+      });
+      
+    }*/
   }
 
   isProjectVolunteer(workerId: string): boolean {

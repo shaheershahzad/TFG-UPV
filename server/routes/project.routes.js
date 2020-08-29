@@ -10,6 +10,7 @@ const projectController = require("../controllers/project.controller");
     router.post("/", projectController.createProject);
     router.get("/:id", projectController.getProject);
     router.put("/:id", projectController.updateProject);
+    router.get("/:idProject/volunteers", projectController.getVolunteers);
     router.get("/:idProject/volunteers/:idVolunteer", projectController.checkVolunteer);
     router.put("/volunteer/add/:id", projectController.addVolunteer);
     router.put("/volunteer/remove/:id", projectController.removeVolunteer);

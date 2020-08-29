@@ -29,8 +29,12 @@ export class ProjectService {
     return this.httpClient.put(this.projectAPI + `/${project._id}`, project);
   }
 
+  getVolunteers(project: String){
+    return this.httpClient.get(this.projectAPI+ `/${project}/volunteers`);
+  }
+
   checkVolunteer(project: String, volunteer: String){
-    return this.httpClient.get(this.projectAPI+ `${project}/volunteers/${volunteer}`);
+    return this.httpClient.get(this.projectAPI+ `/${project}/volunteers/${volunteer}`);
   }
 
   addVolunteer(_id: String, volunteer){

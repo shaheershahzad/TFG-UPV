@@ -241,9 +241,9 @@
                 {{ worker.name }}
                 <br>
                 {{ worker.email }}
-                <a href="#!" class="secondary-content" onclick="return false;" (click)="addVolunteer($event)">
-                  <i class="material-icons" id="{{ worker._id }}">add_circle</i>
-                  <i class="material-icons" *ngIf="true">add_circle</i>
+                <a href="#!" class="secondary-content volunteerContainer" onclick="return false;">
+                  <i class="material-icons addVolunteer" id="add_{{ worker._id }}" (click)="addVolunteer($event)">add_circle</i>
+                  <i class="material-icons removeVolunteer" id="remove_{{ worker._id }}" style="color: #B71C1C;" (click)="removeVolunteer($event)">remove_circle</i>
                 </a>
               </div>
             </li>
