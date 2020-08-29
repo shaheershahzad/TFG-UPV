@@ -11,4 +11,5 @@ module.exports = (router) => {
     router.put("/reset-password", userController.resetPassword);
     router.get("/info", userController.getUser);
     router.get("/", userController.getUsers);
+    router.get("/workers", userController.getWorkers);
 };

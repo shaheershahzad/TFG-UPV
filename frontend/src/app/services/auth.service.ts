@@ -18,6 +18,7 @@ export class AuthService implements CanActivate {
   //AUTH_SERVER: string = "/";
   selectedUser: User;
   users: User[];
+  workers: User[];
   authSubject = new BehaviorSubject(false);
   private token: string;
   constructor(private httpClient: HttpClient, private router: Router, private userService: UserService, private newsletterService: NewsletterService) { }
@@ -63,6 +64,10 @@ export class AuthService implements CanActivate {
 
   getUsers() {
     return this.httpClient.get(this.AUTH_SERVER+ `/api/users`);
+  }
+
+  getWorkers() {
+    return this.httpClient.get(this.AUTH_SERVER+ `/api/users/workers`);
   }
 
   getProfileData(id: string) {

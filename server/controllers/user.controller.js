@@ -199,3 +199,19 @@ exports.getUsers = (req, res, next) => {
         }
     });
 }
+
+exports.getWorkers = (req, res, next) => {
+
+    userDAO.find({$or:[{role: "superadmin"},{role:"volunteer"}]}, (err, users) => {
+        if(err){
+            return res.status(500).send("Server error");
+        }
+
+        if(!users){
+            // Id doesn't exist
+            res.status(409).send("Something is wrong");
+        }else{
+            res.send(users);
+        }
+    });
+}

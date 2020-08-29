@@ -13,18 +13,24 @@ const projectSchema = new Schema({
     description: {
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     coordinates: {
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     location: {
         type: String,
         required: true,
-        trim: true,
-    }
+        trim: true
+    },
+    volunteers: [
+        {
+            type: String,
+            trim: true
+        } 
+    ] 
 },
 {
     timestamps: true

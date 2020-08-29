@@ -12,7 +12,8 @@ projectController.createProject = async (req, res) => {
             name: req.body.name,
             description: req.body.description,
             coordinates: req.body.coordinates,
-            location: req.body.location
+            location: req.body.location,
+            volunteers: []
         });
         let p = await project.save();
         res.json({
@@ -45,6 +46,33 @@ projectController.updateProject = async (req, res) => {
     await projectModel.findByIdAndUpdate(req.params.id, {$set: project}, { new: true });
     res.json({
         "status":"Project updated"
+    });
+};
+
+projectController.checkVolunteer = async (req, res) => {
+    const vol = await projectModel.find({ $and: [ { _id: req.params.idProject }, { volunteers: { $in: [ req.params.idVolunteer ] } } ] });
+    //console.log(req.params);
+    //const vol = await projectModel.find({ volunteers: { $in: [ req.params.idVolunteer ] } });
+    if(vol.length > 0){
+        res.json({
+            "status":"Volunteer found"
+        });
+    }else{
+        res.status(409).send("Not a volunteer for this project");
+    }
+};
+
+projectController.addVolunteer = async (req, res) => {
+    await projectModel.findByIdAndUpdate(req.params.id, { $addToSet: { volunteers: [req.body.volunteer] } });
+    res.json({
+        "status":"Volunteer added"
+    });
+};
+
+projectController.removeVolunteer = async (req, res) => {
+    await projectModel.findByIdAndUpdate(req.params.id, { $pull: { volunteers: { $in: [ req.body.volunteer ] } } });
+    res.json({
+        "status":"Volunteer removed"
     });
 };
 

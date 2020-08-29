@@ -10,7 +10,6 @@ import { FileService } from '../../../services/file.service';
 import { FileModel } from '../../../models/file';
 
 import { ObjectID } from 'bson';
-import { subscribeOn } from 'rxjs/operators';
 
 declare const M: any;
 declare const L: any;
@@ -53,24 +52,25 @@ export class ProjectManagementComponent implements OnInit {
       var instances = M.Collapsible.init(elems, options);
     });
 
-    this.getUsers();
-
     //Select
-    document.addEventListener('DOMContentLoaded', function() {
+    /*document.addEventListener('DOMContentLoaded', function() {
       var elems = document.querySelector('select');
       var instances = M.FormSelect.init(elems);
-    });
+    });*/
 
     this.getProjects();
-    
+    this.getWorkers();
   }
 
   getUsers(){
     this.authService.getUsers().subscribe( res => {
       this.authService.users = res as User[];
+    });
+  }
 
-      var elems = document.querySelector('select');
-      var instances = M.FormSelect.init(elems);
+  getWorkers() {
+    this.authService.getWorkers().subscribe( res => {
+      this.authService.workers = res as User[];
     });
   }
 
@@ -312,29 +312,48 @@ export class ProjectManagementComponent implements OnInit {
     console.log(this.uploadedFiles);
   }
 
-  addVolunteer() {
-    console.log("Añadir voluntarios ahora");
-    var elem = document.querySelectorAll('select');
-    var instance = M.FormSelect.init(elem);
-    //var instance = M.FormSelect.getInstance(elem);
-    //console.log(instance.getSelectedValues());
-    console.log(this.getSelectedValues(document.querySelectorAll('select option')));
+  setVolunteersModal(projectId: string) {
+    (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value = projectId;
   }
 
-  getSelectedValues(select) {
-    //console.log(select);
-    var result = [];
-    var opt;
-  
-    for (var i=0, iLen=select.length; i<iLen; i++) {
-      opt = select[i];
-  
-      if (opt.selected) {
-        result.push(opt.value || opt.text);
-      }
+  addVolunteer(event) {
+    let projectId = (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value;
+    let workerId = event.target.id;
+    let icon = (<HTMLInputElement> document.getElementById(workerId));
+    if(icon.innerHTML == "add_circle"){
+
+      //console.log(workerId);
+      this.projectService.addVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+        icon.style.color = "#B71C1C"
+        icon.innerHTML = "remove_circle";
+        M.toast({html: "Voluntario añadido"});
+      }, err => {
+        M.toast({html: "Error al añadir voluntario"});
+      });
+      
+    }else if(icon.innerHTML == "remove_circle"){
+
+      this.projectService.removeVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+        icon.style.color = "#01579b";
+        icon.innerHTML = "add_circle";
+        M.toast({html: "Voluntario quitado"});
+      }, err => {
+        M.toast({html: "Error al quitar voluntario"});
+      });
+      
     }
-    console.log(result);
-    return result;
+  }
+
+  isProjectVolunteer(workerId: string): boolean {
+    let isVolunteer = false;
+    let projectId = (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value;
+
+    this.projectService.checkVolunteer(projectId, workerId).subscribe(res => {
+      //console.log(res);
+      isVolunteer = true;
+    });
+
+    return isVolunteer;
   }
 
 }

@@ -31,7 +31,7 @@
           <td>{{ project.location }}</td>
           <td>
             <a class="modal-trigger" href="#projectDetailsForm"><i class="material-icons" (click)="viewProjectDetails(project)">remove_red_eye</i></a>
-            <a class="modal-trigger" href="#addVolunteerForm"><i class="material-icons">person_add</i></a>
+            <a class="modal-trigger" href="#addVolunteerForm"><i class="material-icons" (click)="setVolunteersModal(project._id)">person_add</i></a>
             <a class="modal-trigger" href="#editProjectForm"><i class="material-icons" (click)="editProject(frmEditProject, project)">edit</i></a>
             <a class="modal-trigger delete" href="#deleteProjectModal"><i class="material-icons" (click)="showDeleteProjectConfirmation(project._id, project.name)">delete</i></a>
           </td>
@@ -231,25 +231,26 @@
     <!-- Add Volunteer Form Modal -->
     <div id="addVolunteerForm" class="modal">
       <div class="modal-content">
-        <h4 class="main-heading">Voluntarios del proyecto</h4>
+        <h4 class="main-heading">Añadir voluntarios al proyecto</h4>
         <div class="row">
-          <form class="col s12" #frmAddVolunteer="ngForm">
-            <div class="row">
-              <label style="padding: 0 0.75rem;">Seleccione los voluntarios para este proyecto</label>
-              <div class="input-field col s12">
-                <select id="projectVolunteers" class="validate" name="projectVolunteers" required multiple>
-                  <!--<option value="A123">A</option>
-                  <option value="B456">B</option>
-                  <option value="C789">C</option>-->
-                  <option *ngFor="let user of authService.users" value="{{ user._id }}">{{ user.name }}</option>
-                </select>
+          <ul class="collection with-header">
+            <!--<li class="collection-header"><h4>First Names</h4></li>-->
+            <input type="hidden" id="projectIdVolunteers">
+            <li *ngFor="let worker of authService.workers" class="collection-item">
+              <div>
+                {{ worker.name }}
+                <br>
+                {{ worker.email }}
+                <a href="#!" class="secondary-content" onclick="return false;" (click)="addVolunteer($event)">
+                  <i class="material-icons" id="{{ worker._id }}">add_circle</i>
+                  <i class="material-icons" *ngIf="true">add_circle</i>
+                </a>
               </div>
-            </div>
-          </form>
+            </li>
+          </ul>
         </div>
         <div class="row">
-          <button id="closeAddVolunteerFormModal" style="margin-right: 0.2rem;" class="btn btn-neutral modal-close" (click)="clearForm(frmAddVolunteer)">Cancelar</button> 
-          <button id="addVolunteerForm" class="btn waves-effect waves-light light-blue darken-4 right modal-close" (click)="addVolunteer()" name="action">Añadir</button>
+          <button id="closeAddVolunteerModal" class="btn btn-neutral modal-close right">Cerrar</button>
         </div>
       </div>
     </div>
