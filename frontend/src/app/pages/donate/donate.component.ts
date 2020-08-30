@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project';
+import * as jsPDF from 'jspdf';
 
 declare const Stripe: any;
 declare const M: any;
@@ -303,6 +304,23 @@ export class DonateComponent implements OnInit {
     }else{
       M.toast({html: "Falta método de pago"});
     }
+  }
+
+  exportToPDF() {
+    let doc = new jsPDF('p', 'pt');
+
+
+    let handleElement = {
+      '#editor':function(element,renderer){
+        return true;
+      }
+    };
+    doc.fromHTML((<HTMLInputElement> document.getElementById("bankTransferData")).innerHTML,20,20,{
+      'width': 200,
+      'elementHandlers': handleElement
+    });
+
+    doc.save('Domiciliacion.pdf');
   }
 
 }

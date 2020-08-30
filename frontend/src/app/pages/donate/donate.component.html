@@ -76,11 +76,11 @@
     <!-- Bank Data Modal -->
     <div id="bankPaymentModal" class="modal">
         <div class="modal-content">
-            <div class="row">
+            <div class="row" id="bankTransferData">
                 <table> 
                     <tbody> 
                         <tr> 
-                            <td>Entidad bancaria:</td> 
+                            <td>Entidad:</td> 
                             <td id="bankName">Banco Santander</td> 
                         </tr> 
                         <tr> 
@@ -94,6 +94,7 @@
                     </tbody> 
                 </table>
             </div>
+            <i class="material-icons" title="Descargar en PDF" style="cursor: pointer;color: red;" (click)="exportToPDF()">picture_as_pdf</i>
             <div class="row">
                 <button class="btn btn-neutral modal-close right">Cerrar</button>
             </div>
