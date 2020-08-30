@@ -403,28 +403,6 @@ export class ProjectManagementComponent implements OnInit {
     }, err => {
       M.toast({html: "Error al quitar voluntario"});
     });
-    /*if(icon.innerHTML == "add_circle"){
-
-      //console.log(workerId);
-      this.projectService.addVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
-        icon.style.color = "#B71C1C"
-        icon.innerHTML = "remove_circle";
-        M.toast({html: "Voluntario añadido"});
-      }, err => {
-        M.toast({html: "Error al añadir voluntario"});
-      });
-      
-    }else if(icon.innerHTML == "remove_circle"){
-
-      this.projectService.removeVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
-        icon.style.color = "#01579b";
-        icon.innerHTML = "add_circle";
-        M.toast({html: "Voluntario quitado"});
-      }, err => {
-        M.toast({html: "Error al quitar voluntario"});
-      });
-      
-    }*/
   }
 
   isProjectVolunteer(workerId: string): boolean {

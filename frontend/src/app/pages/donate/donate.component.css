@@ -14,7 +14,7 @@ body {
 }
 form {
   /*width: 30vw;*/
-  margin: 0 10rem;
+  /*margin: 0 10rem;*/
   min-width: 500px;
   align-self: center;
   box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
@@ -63,7 +63,7 @@ input {
   margin-bottom: 32px;
 }
 /* Buttons and links */
-button {
+#payment-form button {
   background: #01579b;
   color: #ffffff;
   font-family: Arial, sans-serif;
@@ -78,10 +78,10 @@ button {
   box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
   width: 100%;
 }
-button:hover {
+#payment-form button:hover {
   filter: contrast(115%);
 }
-button:disabled {
+#payment-form button:disabled {
   opacity: 0.5;
   cursor: default;
 }
