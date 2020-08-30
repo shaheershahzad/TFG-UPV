@@ -290,6 +290,7 @@ export class DonateComponent implements OnInit {
 
   checkMethod() {
     let payment = (<HTMLInputElement> document.getElementById("paymentMethod")).value;
+    let donationFor = document.querySelector('#projectId option[value="' +(<HTMLInputElement> document.getElementById("projectId")).value +'"]').innerHTML;
     if(payment == "tarjeta"){
       //(<HTMLInputElement> document.getElementById("paymentContainer")).innerHTML = '<form id="payment-form"> <div id="card-element"></div> <button id="submit"> <div class="spinner hidden" id="spinner"></div> <span id="button-text">Donar</span> </button> <p id="card-error" role="alert"></p> <p class="result-message hidden"> Payment succeeded, see the result in your <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again. </p> </form>';
       //(<HTMLInputElement> document.getElementById("bankTransfer")).style.display = "none";
@@ -300,10 +301,15 @@ export class DonateComponent implements OnInit {
       //(<HTMLInputElement> document.getElementById("paymentContainer")).innerHTML = '<div class="row"> <table> <tbody> <tr> <td>Entidad bancaria:</td> <td id="bankName">Banco Santander</td> </tr> <tr> <td>Nº de cuenta:</td> <td id="accountNumber">ES6000491500051234567892</td> </tr> <tr> <td>Concepto:</td> <td id="transferConcept">Donación para el proyecto X</td> </tr> </tbody> </table> </div>';
       //(<HTMLInputElement> document.getElementById("cardPayment")).style.display = "none";
       //(<HTMLInputElement> document.getElementById("bankTransfer")).style.display = "block";
+      (<HTMLInputElement> document.getElementById("transferConcept")).innerHTML = "Donación para '" +donationFor +"'";
       (<HTMLInputElement> document.getElementById("openBankPaymentModal")).click();
     }else{
       M.toast({html: "Falta método de pago"});
     }
+  }
+
+  resetPaymentMethod() {
+    (<HTMLInputElement> document.getElementById("paymentMethod")).value = "";
   }
 
   exportToPDF() {

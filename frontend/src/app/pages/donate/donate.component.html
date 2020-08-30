@@ -35,8 +35,8 @@
                 <div class="input-field col s12">
                     <select id="paymentMethod" class="validate browser-default" name="paymentMethod" required (change)="checkMethod()">
                         <option value="" disabled selected>Elija una forma de pago</option>
-                        <option value="tarjeta">Tarjeta</option>
-                        <option value="domiciliacion">Domiciliación bancaria</option>
+                        <option value="tarjeta" (click)="checkMethod()">Tarjeta</option>
+                        <option value="domiciliacion" (click)="checkMethod()">Domiciliación bancaria</option>
                         <!--<option value="paypal">Paypal</option>-->
                     </select>
                 </div>
@@ -68,7 +68,7 @@
                 </form>
             </div>
             <div class="row">
-                <button class="btn btn-neutral modal-close right">Cerrar</button>
+                <button class="btn btn-neutral modal-close right" (click)="resetPaymentMethod()">Cerrar</button>
             </div>
         </div>
     </div>
@@ -96,7 +96,7 @@
             </div>
             <i class="material-icons" title="Descargar en PDF" style="cursor: pointer;color: red;" (click)="exportToPDF()">picture_as_pdf</i>
             <div class="row">
-                <button class="btn btn-neutral modal-close right">Cerrar</button>
+                <button class="btn btn-neutral modal-close right" (click)="resetPaymentMethod()">Cerrar</button>
             </div>
         </div>
     </div>
