@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
+import { DonationService } from '../../services/donation.service';
+import { Donation } from '../../models/donation';
 
 declare const M: any;
 
@@ -18,10 +20,21 @@ export class ProfileComponent implements OnInit {
     role: "User's role"
   }
 
-  constructor(public userService: UserService, private authService: AuthService) { }
+  public isDoner: boolean = false;
+  public hasDonations: boolean = false;
+
+  constructor(public userService: UserService, private authService: AuthService, public donationService: DonationService) { }
 
   ngOnInit(): void {
+
+    //Desplegable donaciones
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.collapsible');
+      var instances = M.Collapsible.init(elems);
+    });
+
     this.getUserInfo();
+    this.getUserDonations();
   }
 
   getUserInfo(){
@@ -34,6 +47,12 @@ export class ProfileComponent implements OnInit {
         email: res.email,
         birthday: res.birthday,
         role: res.role
+      }
+
+      if(this.user.role == "doner"){
+        this.isDoner = true;
+      }else{
+        this.isDoner = false;
       }
 
     }, err => {
@@ -51,6 +70,20 @@ export class ProfileComponent implements OnInit {
     }, err => {
       M.toast({html: "Usuario no encontrado"});
     });*/
+  }
+
+  getUserDonations(){
+    let userId = this.authService.getUID();
+
+    this.donationService.getUserDonations(userId).subscribe(res => {
+      this.donationService.donations = res as Donation[];
+      if(this.donationService.donations.length <= 0){
+        //(<HTMLInputElement> document.getElementById("donationsSegment")).style.display = "none";
+        this.hasDonations = false;
+      }else{
+        this.hasDonations = true;
+      }
+    });
   }
 
 }

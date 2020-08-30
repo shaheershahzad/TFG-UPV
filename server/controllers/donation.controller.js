@@ -7,7 +7,7 @@ donationController.getDonations = async (req, res) => {
 };
 
 donationController.getUserDonations = async (req, res) => {
-    const userDonations = await donationModel.find({ donerID: req.params.id });
+    const userDonations = await donationModel.find({ donerId: req.params.id });
     res.json(userDonations);
 };
 

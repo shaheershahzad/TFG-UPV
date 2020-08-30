@@ -3,6 +3,7 @@ import { ProjectService } from '../../../services/project.service';
 import { MailService } from '../../../services/mail.service';
 import { NewsletterService } from '../../../services/newsletter.service';
 import { Project } from '../../../models/project';
+import { User } from '../../../models/user';
 import { UploadService } from '../../../services/upload.service';
 import { AuthService } from '../../../services/auth.service';
 import { FileService } from '../../../services/file.service';
@@ -25,10 +26,11 @@ export class ProjectManagementComponent implements OnInit {
   public hasDocuments: boolean = false;
   public projectsAvailable: boolean = false;
   public projectLocation = "";
+  selectedVolunteers;
 
   constructor(public projectService: ProjectService, 
     public uploadService: UploadService, 
-    private authService: AuthService, 
+    public authService: AuthService, 
     public fileService: FileService,
     private newsletterService: NewsletterService,
     private mailService: MailService) { }
@@ -50,68 +52,26 @@ export class ProjectManagementComponent implements OnInit {
       var instances = M.Collapsible.init(elems, options);
     });
 
+    //Select
+    /*document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelector('select');
+      var instances = M.FormSelect.init(elems);
+    });*/
+
     this.getProjects();
+    this.getWorkers();
   }
 
-  loadEditMap(){   
-
-    var ubicacion = "Valencia";
-
-    var mymap = L.map('mapEdit', {
-      center: [39.46975, -0.37739],
-      zoom: 13
+  getUsers(){
+    this.authService.getUsers().subscribe( res => {
+      this.authService.users = res as User[];
     });
+  }
 
-    var marker = L.marker([39.46975, -0.37739], { title: "Valencia" }).addTo(mymap);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: ''
-    }).addTo(mymap);
-
-    mymap.invalidateSize();
-
-    // Este listener es para renderizar correctamente el mapa al abrir un modal
-    document.addEventListener("click", function(){
-      mymap.invalidateSize();
+  getWorkers() {
+    this.authService.getWorkers().subscribe( res => {
+      this.authService.workers = res as User[];
     });
-
-    mymap.on('click', function(e) {        
-      var popLocation= e.latlng;
-      (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML = popLocation.lat+","+popLocation.lng;
-      
-      mymap.removeLayer(marker);
-      marker = L.marker(popLocation).addTo(mymap);
-      
-      const Http = new XMLHttpRequest();
-      const url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+popLocation.lat+"&lon="+popLocation.lng;
-      Http.open("GET", url);
-      Http.send();
-
-      Http.onreadystatechange = (e) => {
-        if (Http.readyState == 4) {
-          let coordData = JSON.parse(Http.responseText);
-          if(coordData.address.village != undefined){
-              ubicacion = coordData.address.village;
-          }else if(coordData.address.county != undefined){
-              ubicacion = coordData.address.county;
-          }else if(coordData.address.city != undefined){
-              ubicacion = coordData.address.city;
-          }else if(coordData.address.country != undefined){
-              ubicacion = coordData.address.country;
-          }else{
-              ubicacion = "No localizable";
-          }
-
-          (<HTMLInputElement> document.querySelector("#location")).innerHTML = ubicacion;
-
-          var popup = L.popup()
-          .setLatLng(popLocation)
-          .setContent('<p>'+ ubicacion +'</p>')
-          .openOn(mymap);
-        }
-      }
-    });
-    
   }
 
   getProjects(){
@@ -147,6 +107,7 @@ export class ProjectManagementComponent implements OnInit {
     let location = (<HTMLInputElement> document.querySelector("#location")).innerHTML; 
     let project = new Project(_idProject, form.value.name, form.value.description, coordinates, location);
 
+    //console.log(project);
     this.projectService.addProject(project).subscribe( res => {
 
       if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
@@ -166,6 +127,9 @@ export class ProjectManagementComponent implements OnInit {
         this.getProjects();
 
       }
+
+      //Broadcast mail sender
+      this.sendProjectBroadcast();
 
     }, ( err => {
       console.log("Error al crear el proyecto.");
@@ -239,14 +203,14 @@ export class ProjectManagementComponent implements OnInit {
     this.setFormValues(form, project);
     /*(<HTMLInputElement> document.getElementsByTagName("app-map")[0]).remove();
     (<HTMLInputElement> document.getElementById("mapEdit")).innerHTML = "<app-map></app-map>";*/
-    this.loadEditMap();
+    //this.loadEditMap();
   }
 
   updateProject(form) {
 
     (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "block";
     console.log(form.value);
-    /*this.projectService.updateProject(form.value).subscribe( res => {
+    this.projectService.updateProject(form.value).subscribe( res => {
 
       if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
 
@@ -268,7 +232,7 @@ export class ProjectManagementComponent implements OnInit {
       
     }, ( err => {
       console.log("Error al actualizar los datos del proyecto.");
-    }));*/
+    }));
 
   }
 
@@ -332,7 +296,8 @@ export class ProjectManagementComponent implements OnInit {
     form.setValue({
       _id: project._id,
       name: project.name,
-      description: project.description
+      description: project.description,
+      location: project.location
     });
   }
 
@@ -345,6 +310,111 @@ export class ProjectManagementComponent implements OnInit {
   handleFileInput(e) {
     this.uploadedFiles = e.target.files;
     console.log(this.uploadedFiles);
+  }
+
+  setVolunteersModal(projectId: string) {
+    let volunteers = [];
+    (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value = projectId;
+
+    let addButtons = document.getElementsByClassName("addVolunteer");
+    for(let i=0; i<addButtons.length; i++){
+      (<HTMLInputElement> addButtons[i]).style.display = "block";
+    }
+
+    let removeButtons = document.getElementsByClassName("removeVolunteer");
+    for(let i=0; i<removeButtons.length; i++){
+      (<HTMLInputElement> removeButtons[i]).style.display = "none";
+    }
+
+    this.projectService.getVolunteers(projectId).subscribe((res:any) => {
+      volunteers = res;
+      //console.log(volunteers);
+      if(volunteers.length > 0){
+
+        for(let i=0; i<volunteers.length; i++){
+          let elem = (<HTMLInputElement> document.getElementById("add_"+volunteers[i]));
+
+          if(elem){
+            elem.style.display = "none";
+            (<HTMLInputElement> document.getElementById("remove_"+volunteers[i])).style.display = "block";
+          }
+        }
+
+        let volunteerButtons = document.getElementsByClassName("volunteerContainer");
+        for(let i=0; i<volunteerButtons.length; i++){
+          if(volunteerButtons[i].getElementsByTagName("i").length == 2){
+            if(volunteerButtons[i].getElementsByTagName("i")[0].style.display != "none"){
+              volunteerButtons[i].getElementsByTagName("i")[1].style.display = "none";
+            }
+          }
+        }
+
+      }
+    });
+  }
+
+  addVolunteer(event) {
+    let projectId = (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value;
+    let workerId = event.target.id.split("_")[1];
+    let icon = (<HTMLInputElement> document.getElementById("add_"+workerId));
+    this.projectService.addVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+      //icon.style.color = "#B71C1C"
+      //icon.innerHTML = "remove_circle";
+      icon.style.display = "none";
+      (<HTMLInputElement> document.getElementById("remove_"+workerId)).style.display = "block";
+      M.toast({html: "Voluntario añadido"});
+    }, err => {
+      M.toast({html: "Error al añadir voluntario"});
+    });
+    /*if(icon.innerHTML == "add_circle"){
+
+      //console.log(workerId);
+      this.projectService.addVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+        icon.style.color = "#B71C1C"
+        icon.innerHTML = "remove_circle";
+        M.toast({html: "Voluntario añadido"});
+      }, err => {
+        M.toast({html: "Error al añadir voluntario"});
+      });
+      
+    }else if(icon.innerHTML == "remove_circle"){
+
+      this.projectService.removeVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+        icon.style.color = "#01579b";
+        icon.innerHTML = "add_circle";
+        M.toast({html: "Voluntario quitado"});
+      }, err => {
+        M.toast({html: "Error al quitar voluntario"});
+      });
+      
+    }*/
+  }
+
+  removeVolunteer(event) {
+    let projectId = (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value;
+    let workerId = event.target.id.split("_")[1];
+    let icon = (<HTMLInputElement> document.getElementById("remove_"+workerId));
+    this.projectService.removeVolunteer(projectId, {volunteer: workerId}).subscribe(res => {
+      //icon.style.color = "#01579b";
+      //icon.innerHTML = "add_circle";
+      icon.style.display = "none";
+      (<HTMLInputElement> document.getElementById("add_"+workerId)).style.display = "block";
+      M.toast({html: "Voluntario quitado"});
+    }, err => {
+      M.toast({html: "Error al quitar voluntario"});
+    });
+  }
+
+  isProjectVolunteer(workerId: string): boolean {
+    let isVolunteer = false;
+    let projectId = (<HTMLInputElement>document.querySelector('#projectIdVolunteers')).value;
+
+    this.projectService.checkVolunteer(projectId, workerId).subscribe(res => {
+      //console.log(res);
+      isVolunteer = true;
+    });
+
+    return isVolunteer;
   }
 
 }

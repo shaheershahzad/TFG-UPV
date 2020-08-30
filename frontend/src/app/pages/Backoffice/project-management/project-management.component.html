@@ -31,6 +31,7 @@
           <td>{{ project.location }}</td>
           <td>
             <a class="modal-trigger" href="#projectDetailsForm"><i class="material-icons" (click)="viewProjectDetails(project)">remove_red_eye</i></a>
+            <a class="modal-trigger" href="#addVolunteerForm"><i class="material-icons" (click)="setVolunteersModal(project._id)">person_add</i></a>
             <a class="modal-trigger" href="#editProjectForm"><i class="material-icons" (click)="editProject(frmEditProject, project)">edit</i></a>
             <a class="modal-trigger delete" href="#deleteProjectModal"><i class="material-icons" (click)="showDeleteProjectConfirmation(project._id, project.name)">delete</i></a>
           </td>
@@ -58,7 +59,7 @@
               </div>
               <div class="row">
                 <ul class="collapsible">
-                  <li>
+                  <li class="active">
                     <div class="collapsible-header"><i class="material-icons">place</i>Ubicación<span id="coordenadas" class="hidden"></span><span id="location" class="hidden"></span></div>
                     <div class="collapsible-body">
                       <app-map></app-map>
@@ -132,7 +133,13 @@
                       <span id="locationEdit" class="hidden"></span>
                     </div>
                     <div class="collapsible-body">
-                      <div id="mapEdit"></div>
+                      <!--<div id="mapEdit"></div>-->
+                      <div class="row">
+                        <div class="input-field col s12">
+                            <input id="locationEdit" placeholder="Ubicación" type="text" class="validate" name="location" #location="ngModel" [(ngModel)]="projectService.selectedProject.location" required>
+                            <!--<label for="description">Descripción</label>-->
+                        </div>
+                      </div>
                     </div>
                   </li>
                 </ul>
@@ -196,7 +203,7 @@
                     <td id="placeDetail"></td>
                 </tr>
             </tbody>
-        </table>
+          </table>
         </div>
         <div class="row">
           <ul class="collapsible">
@@ -215,42 +222,35 @@
             </li>
           </ul>
         </div>
-          <!--<div class="row">
-            <form class="col s12" #frmProjectDetails="ngForm">
-              <input id="idDetail" name="_id" type="hidden" #_id="ngModel" [(ngModel)]="projectService.selectedProject._id">
-              <div class="row">
-                  <div class="input-field col s12">
-                    <input id="nameDetail" placeholder="Nombre" type="text" class="validate" name="name" #name="ngModel" [(ngModel)]="projectService.selectedProject.name" disabled>
-                    <label for="name">Nombre</label>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="input-field col s12">
-                      <input id="descriptionDetail" placeholder="Descripción" type="text" class="validate" name="description" #description="ngModel" [(ngModel)]="projectService.selectedProject.description" disabled>
-                      <label for="description">Descripción</label>
-                  </div>
-              </div>
-              <div class="row">
-                <ul class="collapsible">
-                  <li *ngIf="hasDocuments">
-                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
-                    <div class="collapsible-body" *ngFor="let file of fileService.files">
-                      <span><strong>Nombre:</strong> {{ file.name }}</span><br>
-                      <span><strong>Tamaño:</strong> {{ (file.size/1024).toFixed() }} KB</span><br>
-                      <span><strong>Tipo:</strong> {{ file.type }}</span>
-                    </div>
-                  </li>
-                  <li *ngIf="!hasDocuments">
-                    <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Documentos</div>
-                    <div class="collapsible-body"><i class="material-icons" style="vertical-align: bottom;margin-right: 1rem;">do_not_disturb_alt</i>No hay documentos subidos</div>
-                  </li>
-                </ul>
-              </div>
-              <button id="closeProjectDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
-          </form>
-        </div>-->
         <div class="row">
           <button id="closeProjectDetailsModal" class="btn btn-neutral modal-close right">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Volunteer Form Modal -->
+    <div id="addVolunteerForm" class="modal">
+      <div class="modal-content">
+        <h4 class="main-heading">Añadir voluntarios al proyecto</h4>
+        <div class="row">
+          <ul class="collection with-header">
+            <!--<li class="collection-header"><h4>First Names</h4></li>-->
+            <input type="hidden" id="projectIdVolunteers">
+            <li *ngFor="let worker of authService.workers" class="collection-item">
+              <div>
+                {{ worker.name }}
+                <br>
+                {{ worker.email }}
+                <a href="#!" class="secondary-content volunteerContainer" onclick="return false;">
+                  <i class="material-icons addVolunteer" id="add_{{ worker._id }}" (click)="addVolunteer($event)">add_circle</i>
+                  <i class="material-icons removeVolunteer" id="remove_{{ worker._id }}" style="color: #B71C1C;" (click)="removeVolunteer($event)">remove_circle</i>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <button id="closeAddVolunteerModal" class="btn btn-neutral modal-close right">Cerrar</button>
         </div>
       </div>
     </div>
