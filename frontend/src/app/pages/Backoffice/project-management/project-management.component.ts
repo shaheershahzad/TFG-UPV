@@ -98,42 +98,51 @@ export class ProjectManagementComponent implements OnInit {
 
   addProject(form): void{
 
-    (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "block";
-    this.projectLocation ="2";
+    let validationMessage = this.validateForm("Add");
+    if(validationMessage == "OK"){
 
-    let _idProject = new ObjectID().toString();
-    
-    let coordinates = (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML;
-    let location = (<HTMLInputElement> document.querySelector("#location")).innerHTML; 
-    let project = new Project(_idProject, form.value.name, form.value.description, coordinates, location);
+      (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "block";
+      this.projectLocation ="2";
 
-    //console.log(project);
-    this.projectService.addProject(project).subscribe( res => {
+      let _idProject = new ObjectID().toString();
+      
+      let coordinates = (<HTMLInputElement> document.querySelector("#coordenadas")).innerHTML;
+      let location = (<HTMLInputElement> document.querySelector("#location")).innerHTML; 
+      let project = new Project(_idProject, form.value.name, form.value.description, coordinates, location);
 
-      if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
+      //console.log(project);
+      this.projectService.addProject(project).subscribe( res => {
 
-        let savedProjectId = JSON.parse(JSON.stringify(res)).id;
-        let uid = this.authService.getUID();
-        this.uploadFilesToServer(savedProjectId, uid);
-        this.clearForm(form);
-        (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
-        M.toast({html: "Proyecto creado"});
+        if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
 
-      }else{
+          let savedProjectId = JSON.parse(JSON.stringify(res)).id;
+          let uid = this.authService.getUID();
+          this.uploadFilesToServer(savedProjectId, uid);
+          this.clearForm(form);
+          (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
+          M.toast({html: "Proyecto creado"});
 
-        this.clearForm(form);
-        (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
-        M.toast({html: "Proyecto creado"});
-        this.getProjects();
+        }else{
 
-      }
+          this.clearForm(form);
+          (<HTMLInputElement> document.getElementById("progressBarAdd")).style.display = "none";
+          M.toast({html: "Proyecto creado"});
+          this.getProjects();
 
-      //Broadcast mail sender
-      this.sendProjectBroadcast();
+        }
 
-    }, ( err => {
-      console.log("Error al crear el proyecto.");
-    }));
+        //Broadcast mail sender
+        this.sendProjectBroadcast();
+
+      }, ( err => {
+        console.log("Error al crear el proyecto.");
+      }));
+
+    }else{
+
+      M.toast({html: validationMessage});
+
+    }
 
   }
 
@@ -208,31 +217,40 @@ export class ProjectManagementComponent implements OnInit {
 
   updateProject(form) {
 
-    (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "block";
-    console.log(form.value);
-    this.projectService.updateProject(form.value).subscribe( res => {
+    let validationMessage = this.validateForm("Edit");
+    if(validationMessage == "OK"){
 
-      if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
+      (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "block";
+      console.log(form.value);
+      this.projectService.updateProject(form.value).subscribe( res => {
+  
+        if(this.uploadedFiles != undefined && this.uploadedFiles.length > 0){
+  
+          let updatedProjectId = form.value._id;
+          let uid = this.authService.getUID();
+          this.uploadFilesToServer(updatedProjectId, uid);
+          this.clearForm(form);
+          (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "none";
+          M.toast({html: "Proyecto actualizado"});
+  
+        }else{
+  
+          this.clearForm(form);
+          (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "none";
+          M.toast({html: "Proyecto actualizado"});
+          this.getProjects();
+  
+        }
+        
+      }, ( err => {
+        console.log("Error al actualizar los datos del proyecto.");
+      }));
 
-        let updatedProjectId = form.value._id;
-        let uid = this.authService.getUID();
-        this.uploadFilesToServer(updatedProjectId, uid);
-        this.clearForm(form);
-        (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "none";
-        M.toast({html: "Proyecto actualizado"});
+    }else{
 
-      }else{
+      M.toast({html: validationMessage});
 
-        this.clearForm(form);
-        (<HTMLInputElement> document.getElementById("progressBarEdit")).style.display = "none";
-        M.toast({html: "Proyecto actualizado"});
-        this.getProjects();
-
-      }
-      
-    }, ( err => {
-      console.log("Error al actualizar los datos del proyecto.");
-    }));
+    }
 
   }
 
@@ -415,6 +433,20 @@ export class ProjectManagementComponent implements OnInit {
     });
 
     return isVolunteer;
+  }
+
+  validateForm(formType: string): string{
+
+    let name = (<HTMLInputElement> document.getElementById("name"+formType)).value.trim();
+    let description = (<HTMLInputElement> document.getElementById("description"+formType)).value.trim();
+
+    if(name.length <= 1){
+      return "Nombre incorrecto";
+    }else if(description.length <= 1){
+      return "Falta la descripción";
+    }
+
+    return "OK";
   }
 
 }

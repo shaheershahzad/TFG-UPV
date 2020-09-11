@@ -45,7 +45,7 @@ mailController.sendRecoveryEmail = (mailtoEmail, userId) => {
   var mailOptions = {
       from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
       to: to,
-      subject: 'Password Recovery',
+      subject: 'Recuperación de contraseña',
       html: emailMsg
   };
 

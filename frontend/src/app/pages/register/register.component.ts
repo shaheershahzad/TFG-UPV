@@ -121,6 +121,11 @@ export class RegisterComponent implements OnInit {
         });
 
       }, err => {
+        if(err.status == 409){
+          M.toast({html: "El correo ya existe"});
+        }else if(err.status == 500){
+          M.toast({html: "Error de conexión con el servidor"});
+        }
         console.log("Error al registrar: ", err);
       });
 
