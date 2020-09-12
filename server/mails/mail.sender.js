@@ -20,7 +20,7 @@ mailController.sendWelcomeEmail = (mailtoName, mailtoEmail) => {
     let emailMsg = '<h1>Bienvenid@ ' + mailtoName + '</h1><p>Queremos darte las gracias por tu voluntad de ayudar junto con nuestra ONG!</p>';
 
     var mailOptions = {
-        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        from: `"ONG Vicente Berenguer" <${process.env.EMAIL}>`,
         to: to,
         subject: '¡Bienvenid@!',
         html: emailMsg
@@ -43,7 +43,7 @@ mailController.sendRecoveryEmail = (mailtoEmail, userId) => {
                   '<p>Si quieres resetear la contraseña, entra en el siguiente enlace: <a href="http://localhost:4200/recover-password/' +userId +'">Resetear mi contraseña</a></p>';
 
   var mailOptions = {
-      from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+      from: `"ONG Vicente Berenguer" <${process.env.EMAIL}>`,
       to: to,
       subject: 'Recuperación de contraseña',
       html: emailMsg

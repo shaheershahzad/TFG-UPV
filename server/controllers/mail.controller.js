@@ -58,7 +58,7 @@ mailController.sendWelcomeEmail = async (req, res) => {
     let emailMsg = '<h1>Bienvenid@ ' + mailData.name + '</h1><p>Queremos darte las gracias por tu voluntad de ayudar junto con nuestra ONG!</p>';
 
     var mailOptions = {
-        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        from: `"ONG Vicente Berenguer" <${process.env.EMAIL}>`,
         to: to,
         subject: '¡Bienvenid@!',
         html: emailMsg
@@ -94,7 +94,7 @@ mailController.sendSubscriptionEmail = async (req, res) => {
     let emailMsg = '<h1>Hola ' + mailData.name + '</h1><p>Has sido dado de alta en nuestro boletín de noticias. Recibirás todas las novedades de la ONG.</p>';
 
     var mailOptions = {
-        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        from: `"ONG Vicente Berenguer" <${process.env.EMAIL}>`,
         to: to,
         subject: 'Suscripción al boletín | ONG',
         html: emailMsg
@@ -142,7 +142,7 @@ mailController.sendProjectCreated = async (req, res) => {
     let emailMsg = '<h1>Hola!</h1><p>Hay un proyecto nuevo disponible en nuestra página web. Entre en el siguiente enlace para ver nuestros proyectos: http://localhost:4200/projects</p>';
 
     var mailOptions = {
-        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        from: `"ONG Vicente Berenguer" <${process.env.EMAIL}>`,
         to: receivers,
         subject: mailData.subject,
         html: emailMsg
@@ -190,7 +190,7 @@ mailController.sendEventCreated = async (req, res) => {
     let emailMsg = '<h1>Hola!</h1><p>Hay un evento nuevo disponible en nuestra página web. Entre en el siguiente enlace para ver los eventos programados: http://localhost:4200/events</p>';
 
     var mailOptions = {
-        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        from: `"ONG Vicente Berenguer" <${process.env.EMAIL}>`,
         to: receivers,
         subject: mailData.subject,
         html: emailMsg
@@ -238,7 +238,7 @@ mailController.sendNewsCreated = async (req, res) => {
     let emailMsg = '<h1>Hola!</h1><p>Hay una noticia nueva disponible en nuestra página web. Entre en el siguiente enlace para ver las noticias de la ONG: http://localhost:4200/news</p>';
 
     var mailOptions = {
-        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        from: `"ONG Vicente Berenguer" <${process.env.EMAIL}>`,
         to: receivers,
         subject: mailData.subject,
         html: emailMsg
@@ -286,7 +286,7 @@ mailController.sendBroadcast = async (req, res) => {
     let emailMsg = '<h1>Hola!</h1><p>Hay un evento nuevo disponible en nuestra página web. Entre en el siguiente enlace para ver los eventos programados: http://localhost:4200/events</p>';
 
     var mailOptions = {
-        from: `"ONG Vicente Berenger" <${process.env.EMAIL}>`,
+        from: `"ONG Vicente Berenguer" <${process.env.EMAIL}>`,
         to: receivers,
         subject: mailData.subject,
         html: emailMsg
